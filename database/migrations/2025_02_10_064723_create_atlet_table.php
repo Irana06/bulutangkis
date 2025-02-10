@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('athletes', function (Blueprint $table) {
+        Schema::create('atlet', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
             $table->enum('jenis_kelamin', ['LAKI_LAKI', 'PEREMPUAN']);
@@ -20,6 +20,7 @@ return new class extends Migration
             $table->uuid('kontingen_id');
             $table->foreign('kontingen_id')->references('id')->on('kontingen')->onDelete('cascade');
             $table->date('tanggal_lahir');
+            $table->integer('umur');
             $table->string('tempat_lahir');
             $table->decimal('berat_badan', 3, 2);
             $table->decimal('tinggi_badan', 3, 2);
@@ -33,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('athletes');
+        Schema::dropIfExists('atlet');
     }
 };
