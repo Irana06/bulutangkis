@@ -11,13 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->uuid('id');
+        Schema::create('kontingen', function (Blueprint $table) {
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('penanggung_jawab');
+            $table->string('no_hp_penanggung_jawab');
+            $table->enum('asal_kontingen', ['LUAR_NEGERI', 'DALAM_NEGERI']);
+            $table->enum('negara', [
+                'INDONESIA',
+                'SINGAPORE',
+            ]);
+            $table->text('alamat_lengkap');
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
