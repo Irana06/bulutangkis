@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('kelas');
             $table->string('berat_badan');
             $table->integer('kuota');
-            $table->boolean('kuota_penuh')->default('false');
             $table->softDeletes();
             $table->timestamps();
         });

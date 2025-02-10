@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreign('atlet_id')->references('id')->on('atlet')->onDelete('cascade');
             $table->uuid('kategori_tanding_id');
             $table->foreign('kategori_tanding_id')->references('id')->on('kategori_tanding')->onDelete('cascade');
+            $table->uuid('kontingen_id');
+            $table->foreign('kontingen_id')->references('id')->on('kontingen')->onDelete('cascade');
             $table->string('info');
             $table->softDeletes();
             $table->timestamps();
