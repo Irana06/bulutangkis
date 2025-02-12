@@ -11,21 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('atlet', function (Blueprint $table) {
+        Schema::create('kompetisi_tunggal', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name');
-            $table->enum('jenis_kelamin', ['LAKI_LAKI', 'PEREMPUAN']);
-            $table->unsignedBigInteger('nik');
-            $table->unsignedBigInteger('no_kk');
-            $table->date('tanggal_lahir');
-            $table->integer('umur');
-            $table->string('tempat_lahir');
-            $table->decimal('berat_badan', 3, 2);
-            $table->decimal('tinggi_badan', 3, 2);
-
+            $table->foreignUuid('atlet_id')->constrained('atlet')->onDelete('cascade');
+            $table->foreignUuid('kategori_tanding_tunggal_id')->constrained('kategori_tanding_tunggal')->onDelete('cascade');
             $table->foreignUuid('kontingen_id')->constrained('kontingen')->onDelete('cascade');
             $table->foreignUuid('event_id')->constrained('events')->onDelete('cascade');
-
             $table->softDeletes();
             $table->timestamps();
         });
@@ -36,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('atlet');
+        Schema::dropIfExists('kompetisi_tunggal');
     }
 };

@@ -11,13 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kategori_tanding', function (Blueprint $table) {
+        Schema::create('kategori_tanding_tunggal', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('tingkat');
             $table->string('jenis_kelamin');
             $table->string('kelas');
             $table->string('berat_badan');
-            $table->integer('kuota');
+            $table->softDeletes();
+            $table->timestamps();
+        });
+
+        Schema::create('kategori_tanding_ganda', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('tingkat');
+            $table->string('jenis_kelamin');
+            $table->string('kelas');
+            $table->string('berat_badan');
             $table->softDeletes();
             $table->timestamps();
         });

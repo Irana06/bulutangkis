@@ -20,11 +20,10 @@ return new class extends Migration
             $table->string('penanggung_jawab');
             $table->string('no_hp_penanggung_jawab');
             $table->enum('asal_kontingen', ['LUAR_NEGERI', 'DALAM_NEGERI']);
-            $table->enum('negara', [
-                'INDONESIA',
-                'SINGAPORE',
-            ]);
             $table->text('alamat_lengkap');
+
+            $table->foreignUuid('event_id')->constrained('events')->onDelete('cascade');
+
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();
