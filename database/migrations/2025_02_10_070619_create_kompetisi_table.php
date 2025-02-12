@@ -32,6 +32,17 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
+
+        Schema::create('kompetisi_campuran', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('atlet_id')->constrained('atlet')->onDelete('cascade');
+            $table->unique('atlet_id');
+            $table->foreignUuid('kategori_tanding_campuran_id')->constrained('kategori_tanding_campuran')->onDelete('cascade');
+            $table->foreignUuid('kontingen_id')->constrained('kontingen')->onDelete('cascade');
+            $table->foreignUuid('event_id')->constrained('events')->onDelete('cascade');
+            $table->softDeletes();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -40,5 +51,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('kompetisi_tunggal');
+        Schema::dropIfExists('kompetisi_ganda');
+        Schema::dropIfExists('kompetisi_campuran');
     }
 };

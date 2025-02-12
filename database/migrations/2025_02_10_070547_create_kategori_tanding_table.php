@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('tingkat');
             $table->string('jenis_kelamin');
             $table->string('kelas');
-            $table->string('berat_badan');
+            $table->string('umur');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -26,7 +26,17 @@ return new class extends Migration
             $table->string('tingkat');
             $table->string('jenis_kelamin');
             $table->string('kelas');
-            $table->string('berat_badan');
+            $table->string('umur');
+            $table->softDeletes();
+            $table->timestamps();
+        });
+
+        Schema::create('kategori_tanding_campuran', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('tingkat');
+            $table->string('jenis_kelamin');
+            $table->string('kelas');
+            $table->string('umur');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -37,6 +47,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kategori_tanding');
+        Schema::dropIfExists('kategori_tanding_tunggal');
+        Schema::dropIfExists('kategori_tanding_ganda');
+        Schema::dropIfExists('kategori_tanding_campuran');
     }
 };
