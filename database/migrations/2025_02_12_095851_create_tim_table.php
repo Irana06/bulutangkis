@@ -11,20 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tim_ganda', function (Blueprint $table) {
+        Schema::create('tim', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('atlet_1')->constrained('kompetisi_ganda')->onDelete('cascade');
-            $table->foreignUuid('atlet_2')->constrained('kompetisi_ganda')->onDelete('cascade');
-            $table->unique(['atlet_1', 'atlet_2']);
-            $table->softDeletes();
-            $table->timestamps();
-        });
-
-        Schema::create('tim_campuran', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignUuid('atlet_1')->constrained('kompetisi_campuran')->onDelete('cascade');
-            $table->foreignUuid('atlet_2')->constrained('kompetisi_campuran')->onDelete('cascade');
-            $table->unique(['atlet_1', 'atlet_2']);
+            $table->foreignUuid('kompetisi_1')->constrained('kompetisi')->onDelete('cascade');
+            $table->foreignUuid('kompetisi_2')->constrained('kompetisi')->onDelete('cascade');
+            $table->unique(['kompetisi_1', 'kompetisi_2']);
+            $table->enum('jenis', ['GANDA', 'CAMPURAN']);
+            $table->foreignUuid('event_id')->constrained('events')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -35,7 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tim_ganda');
-        Schema::dropIfExists('tim_campuran');
+        Schema::dropIfExists('tim');
     }
 };
