@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->integer('tahun');
+            $table->integer('sesi')->unique();
             $table->integer('kuota_tunggal');
             $table->integer('kuota_ganda');
             $table->string('lokasi');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
