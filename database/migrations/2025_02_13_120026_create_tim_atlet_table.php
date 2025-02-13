@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tim', function (Blueprint $table) {
+        Schema::create('tim_atlet', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('nama_tim');
-            $table->enum('jenis', ['GANDA', 'CAMPURAN']);
-            $table->foreignUuid('event_id')->constrained('events')->onDelete('cascade');
-            $table->foreignUuid('kontingen_id')->constrained('kontingen')->onDelete('cascade');
-            $table->softDeletes();
+            $table->foreignUuid('tim_id')->constrained('tim')->onDelete('cascade');
+            $table->foreignUuid('atlet_id')->constrained('atlet')->onDelete('cascade');
+            $table->unique(['tim_id', 'atlet_id']); // Mencegah duplikasi atlet dalam tim
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tim');
+        Schema::dropIfExists('tim_atlet');
     }
 };

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('kontingen', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name');
+            $table->string('nam');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

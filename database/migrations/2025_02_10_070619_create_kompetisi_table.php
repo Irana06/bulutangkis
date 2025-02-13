@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('kompetisi', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('atlet_id')->constrained('atlet')->onDelete('cascade');
             $table->foreignUuid('kategori_tanding_id')->constrained('kategori_tanding')->onDelete('cascade');
+            $table->foreignUuid('event_id')->constrained('events')->onDelete('cascade');
+
+            // Bisa berupa atlet (untuk Tunggal) atau tim (untuk Ganda/Campuran)
+            $table->foreignUuid('atlet_id')->nullable()->constrained('atlet')->onDelete('cascade');
             $table->foreignUuid('tim_id')->nullable()->constrained('tim')->onDelete('cascade');
+
             $table->softDeletes();
             $table->timestamps();
         });
