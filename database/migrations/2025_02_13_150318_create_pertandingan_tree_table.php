@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('scores', function (Blueprint $table) {
+        Schema::create('pertandingan_tree', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->enum('babak', ['AWAL', 'KEDUA', 'AKHIR'])->default('AWAL');
             $table->foreignUuid('pertandingan_id')->constrained('pertandingan')->onDelete('cascade');
-            $table->foreignUuid('pemenang_id')->nullable()->constrained('kompetisi')->onDelete('set null'); // Pemenang bisa atlet atau tim
-            $table->integer('skor_kompetisi_1');
-            $table->integer('skor_kompetisi_2');
+            $table->foreignUuid('pertandingan_sebelumnya_1')->nullable()->constrained('pertandingan')->onDelete('cascade');
+            $table->foreignUuid('pertandingan_sebelumnya_2')->nullable()->constrained('pertandingan')->onDelete('cascade');
+            $table->foreignUuid('pemenang_id')->nullable()->constrained('kompetisi')->onDelete('set null');
             $table->softDeletes();
             $table->timestamps();
         });
+
     }
 
     /**
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('scores');
+        Schema::dropIfExists('pertandingan_tree');
     }
 };

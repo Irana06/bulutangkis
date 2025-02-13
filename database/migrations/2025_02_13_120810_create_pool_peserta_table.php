@@ -15,7 +15,9 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('pool_id')->constrained('pools')->onDelete('cascade');
             $table->foreignUuid('kompetisi_id')->constrained('kompetisi')->onDelete('cascade'); // Bisa atlet atau tim
+            $table->foreignUuid('juara_pool_id')->nullable()->constrained('kompetisi')->onDelete('set null');
             $table->unique(['pool_id', 'kompetisi_id']); // Mencegah peserta masuk lebih dari sekali ke pool
+            $table->softDeletes();
             $table->timestamps();
         });
     }

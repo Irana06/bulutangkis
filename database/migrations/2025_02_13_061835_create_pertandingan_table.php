@@ -21,6 +21,8 @@ return new class extends Migration
             $table->foreignUuid('kontingen_2')->constrained('kontingen')->onDelete('cascade');
             $table->timestamp('waktu_pertandingan');
             $table->enum('status', ['TERJADWAL', 'SELESAI', 'DIBATALKAN']);
+            $table->enum('babak', ['AWAL', 'KEDUA', 'AKHIR'])->default('AWAL');
+            $table->foreignUuid('pemenang_id')->nullable()->constrained('kompetisi')->onDelete('set null');
             $table->softDeletes();
             $table->timestamps();
         });

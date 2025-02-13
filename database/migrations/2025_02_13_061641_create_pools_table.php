@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignUuid('event_id')->constrained('events')->onDelete('cascade');
             $table->integer('max_peserta')->default(4);
             $table->enum('status', ['BELUM_PENUH', 'PENUH'])->default('BELUM_PENUH'); // Menandakan pool siap digunakan
+            $table->softDeletes();
             $table->timestamps();
         });
     }

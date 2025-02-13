@@ -15,7 +15,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('kondisi'); // Contoh: "umur >= 7 AND umur <= 9"
             $table->string('kategori_tanding');
-            $table->string('level'); // "SD", "SMP", "SMA", "TUNGGAKAN"
+            $table->enum('level', ['SD', 'SMP', 'SMA', 'TUNGGAKAN']);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

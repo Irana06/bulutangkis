@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignUuid('tim_id')->constrained('tim')->onDelete('cascade');
             $table->foreignUuid('atlet_id')->constrained('atlet')->onDelete('cascade');
             $table->unique(['tim_id', 'atlet_id']); // Mencegah duplikasi atlet dalam tim
+            $table->softDeletes();
             $table->timestamps();
         });
     }
