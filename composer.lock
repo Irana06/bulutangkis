@@ -4,8 +4,54 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9c491b8531eec05ba41a11d9276a5749",
+    "content-hash": "04e555b1fb37577039015f4533046896",
     "packages": [
+        {
+            "name": "bradietilley/country-enums",
+            "version": "1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bradietilley/country-enums.git",
+                "reference": "712e6300251a6ef569d0b3ec8c6589ef92e3b6f7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bradietilley/country-enums/zipball/712e6300251a6ef569d0b3ec8c6589ef92e3b6f7",
+                "reference": "712e6300251a6ef569d0b3ec8c6589ef92e3b6f7",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.10",
+                "pestphp/pest": "^2.6",
+                "pestphp/pest-plugin-laravel": "^2.0",
+                "rector/rector": "^0.16.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CountryEnums\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bradie Tilley",
+                    "homepage": "https://github.com/bradietilley"
+                }
+            ],
+            "description": "All (or at least most) countries and their regions formatted as PHP enums",
+            "support": {
+                "issues": "https://github.com/bradietilley/country-enums/issues",
+                "source": "https://github.com/bradietilley/country-enums/tree/1.5.0"
+            },
+            "time": "2023-05-16T12:36:04+00:00"
+        },
         {
             "name": "brick/math",
             "version": "0.12.1",
