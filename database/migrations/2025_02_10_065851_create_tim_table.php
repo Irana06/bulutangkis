@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('tim', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('kompetisi_1')->constrained('kompetisi')->onDelete('cascade');
-            $table->foreignUuid('kompetisi_2')->constrained('kompetisi')->onDelete('cascade');
-            $table->unique(['kompetisi_1', 'kompetisi_2']);
             $table->enum('jenis', ['GANDA', 'CAMPURAN']);
             $table->foreignUuid('event_id')->constrained('events')->onDelete('cascade');
+            $table->foreignUuid('kontingen_id')->constrained('kontingen')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

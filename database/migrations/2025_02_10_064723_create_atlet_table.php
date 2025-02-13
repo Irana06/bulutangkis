@@ -15,17 +15,14 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->enum('jenis_kelamin', ['LAKI_LAKI', 'PEREMPUAN']);
-            $table->unsignedBigInteger('nik');
-            $table->unsignedBigInteger('no_kk');
+            $table->unsignedBigInteger('nik')->unique();
+            $table->unsignedBigInteger('no_kk')->unique();
             $table->date('tanggal_lahir');
             $table->integer('umur');
             $table->string('tempat_lahir');
             $table->decimal('berat_badan', 3, 2);
             $table->decimal('tinggi_badan', 3, 2);
-
             $table->foreignUuid('kontingen_id')->constrained('kontingen')->onDelete('cascade');
-            $table->foreignUuid('event_id')->constrained('events')->onDelete('cascade');
-
             $table->softDeletes();
             $table->timestamps();
         });
