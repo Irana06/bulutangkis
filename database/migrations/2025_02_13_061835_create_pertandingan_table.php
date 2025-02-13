@@ -15,10 +15,13 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('pool_id')->nullable()->constrained('pools')->onDelete('cascade');
             $table->foreignUuid('event_id')->constrained('events')->onDelete('cascade');
+            $table->foreignUuid('kompetisi_1')->constrained('kompetisi')->onDelete('cascade');
+            $table->foreignUuid('kompetisi_2')->constrained('kompetisi')->onDelete('cascade');
             $table->foreignUuid('kontingen_1')->constrained('kontingen')->onDelete('cascade');
             $table->foreignUuid('kontingen_2')->constrained('kontingen')->onDelete('cascade');
             $table->timestamp('waktu_pertandingan');
             $table->enum('status', ['TERJADWAL', 'SELESAI', 'DIBATALKAN']);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
