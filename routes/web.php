@@ -18,5 +18,8 @@ Route::get('/', function () {
     return view('pages.home');
 });
 Route::get('/login', function () {
-    return view('layouts.login');
+    return Inertia::render('Auth/Login');
+});
+Route::get('/home', function () {
+    return inertia('Home');
 });
