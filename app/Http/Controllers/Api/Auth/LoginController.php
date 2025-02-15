@@ -28,6 +28,7 @@ class LoginController extends Controller
                     'access_token' => $user->createToken('MyApp')->plainTextToken,
                     'token_type' => 'Bearer',
                     'expires_in' => 3600,
+                    'user' => $user,
                 ],
                 200
             );
@@ -36,6 +37,7 @@ class LoginController extends Controller
                 [
                     'status' => 'invalid_grant',
                     'message' => 'Invalid User credentials',
+                    'user' => $credentials,
                 ],
                 401
             );
@@ -44,14 +46,10 @@ class LoginController extends Controller
 
     private function getCredentials(Request $request): array
     {
-        $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'no_hp_penanggung_jawab';
-
-        Log::info($fieldType);
         return [
-            $fieldType => $request->username,
+            'email' => $request->username,
             'password' => $request->password,
             'deleted_at' => null,
         ];
-
     }
 }
