@@ -45,16 +45,12 @@ class KontingenController extends Controller
     }
 
     #[Route(fullUri: 'auth/user/my', method: 'GET', middleware: ['auth:sanctum'])]
-    public function my(Request $request)
+    public function my()
     {
-        $user = Auth::guard('sanctum')->user();
+        // Dapatkan user yang login
+        $user = Auth::user();
 
-        if (!$user) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Unauthorized',
-            ], 401);
-        }
+        abort_unless($user, 401, 'Unauthorized');
 
         return response()->json([
             'status' => 'success',

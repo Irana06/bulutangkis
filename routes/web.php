@@ -18,12 +18,12 @@ Route::get('/', function () {
     return view('pages.home');
 });
 Route::get('/login', function () {
-    return Inertia::render('Auth/Login');
+    return Inertia::render('Pages/Auth/Login');
 });
 Route::get('/home', function () {
-    return inertia('Main');
+    return inertia('Pages/Main');
 });
 
 Route::fallback(function () {
-    return Inertia::render('Services/NotFound');
+    return Inertia::render('Pages/Services/NotFound');
 });
