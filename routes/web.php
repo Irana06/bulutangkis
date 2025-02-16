@@ -21,5 +21,9 @@ Route::get('/login', function () {
     return Inertia::render('Auth/Login');
 });
 Route::get('/home', function () {
-    return inertia('Layout');
+    return inertia('Main');
+});
+
+Route::fallback(function () {
+    return Inertia::render('Services/NotFound');
 });

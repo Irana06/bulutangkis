@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Layout() {
+export default function Layout({ children}) {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleDropdown = () => {
@@ -267,7 +267,9 @@ export default function Layout() {
                 </div>
             </div>
             {/* View Content */}
-            <div className="col-span-6 bg-white"></div>
+            <div className="col-span-6 bg-white">
+                {children}
+            </div>
         </div>
     );
 }
