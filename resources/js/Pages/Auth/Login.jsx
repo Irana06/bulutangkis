@@ -1,37 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { router } from "@inertiajs/react"; // Import router dari Inertia.js
 
 export default function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Menghentikan form default submit
-
-    const requestBody = {
-      username: username,  // Mengirim email di 'username'
-      password: password,
-    };
+    event.preventDefault(); // Mencegah form reload
 
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody), // Mengirim body dalam format JSON
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        // Sukses login, arahkan ke halaman lain
-        console.log('Login berhasil:', data);
+        console.log("Login berhasil:", data);
+        router.visit("/home"); // Arahkan ke halaman /home setelah login sukses
       } else {
-        // Gagal login
-        console.error('Login gagal:', data);
+        console.error("Login gagal:", data);
       }
     } catch (error) {
-      console.error('Terjadi kesalahan:', error);
+      console.error("Terjadi kesalahan:", error);
     }
   };
 
@@ -84,5 +77,4 @@ export default function Login() {
       </div>
     </div>
   );
-};
-
+}

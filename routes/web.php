@@ -21,5 +21,5 @@ Route::get('/login', function () {
     return Inertia::render('Auth/Login');
 });
 Route::get('/home', function () {
-    return inertia('Home');
+    return inertia('Layout');
 });
