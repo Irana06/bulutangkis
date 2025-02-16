@@ -1,11 +1,9 @@
 import React from 'react';
 
-const Home = () => {
+export default function Home(){
     return (
         <div>
-            <h1>Selamat datang di halaman Home menggunakan React dan Inertia.js!</h1>
+            <h1>test</h1>
         </div>
     );
 };
-
-export default Home;

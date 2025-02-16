@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const history = useHistory(); // Untuk navigasi setelah login berhasil
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Menghentikan form default submit
@@ -28,7 +26,6 @@ export default function Login() {
       if (response.ok) {
         // Sukses login, arahkan ke halaman lain
         console.log('Login berhasil:', data);
-        history.push('/dashboard');  // Arahkan pengguna ke halaman dashboard (atau halaman lain)
       } else {
         // Gagal login
         console.error('Login gagal:', data);

@@ -10,13 +10,10 @@
         'resources/css/app.css',
         'resources/js/app.jsx',
     ])
-
-    @inertiaHead()
-    @viteReactRefresh
 </head>
 <body>
-    {{-- <div id="app" data-page="{{ json_encode($page) }}"></div> --}}
-    @inertia
+    <div id="app" data-page="{{ json_encode($page) }}"></div>
 
+    @viteReactRefresh
 </body>
 </html>
