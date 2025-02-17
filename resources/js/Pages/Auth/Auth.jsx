@@ -3,8 +3,8 @@ import { Link, useForm } from "@inertiajs/react";
 import { motion } from "framer-motion";
 import InputError from "@/Components/InputError";
 
-export default function Auth({ status, canResetPassword }) {
-    const [isRegister, setIsRegister] = useState(false);
+export default function Auth({ status, canResetPassword, isRegister: initialIsRegister }) {
+    const [isRegister, setIsRegister] = useState(initialIsRegister);
     const { data, setData, post, processing, errors, reset } = useForm({
         email: "",
         password: "",
