@@ -37,12 +37,11 @@ class RegisteredUserController extends Controller
         $request->validate([
             'namaKontingen' => 'required|string|max:255',
             'emailKontingen' => 'required|string|lowercase|email|max:255|unique:kontingen,email',
-            'password' => ['required', Rules\Password::defaults()],
+            'password' => 'required|string|min:6',
             'retypePassword' => 'required|same:password', // Validasi manual
             'penanggungJawab' => 'required|string|max:255',
             'noTelepon' => 'required|string|max:15',
             'asalKontingen' => 'required|string',
-            'negara' => 'required|string',
             'alamat' => 'required|string|max:500',
         ]);
 
@@ -54,7 +53,6 @@ class RegisteredUserController extends Controller
             'penanggung_jawab' => $request->penanggungJawab,
             'no_hp_penanggung_jawab' => $request->noTelepon,
             'asal_kontingen' => $request->asalKontingen,
-            'negara' => $request->negara,
             'alamat_lengkap' => $request->alamat,
         ]);
 

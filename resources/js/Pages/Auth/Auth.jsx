@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { Link, useForm } from "@inertiajs/react";
 import { motion } from "framer-motion";
 import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import TextInput from "@/Components/TextInput";
+import PrimaryButton from "@/Components/PrimaryButton";
 
 export default function Auth({
     status,
@@ -15,8 +18,15 @@ export default function Auth({
         email: "",
         password: "",
         remember: false,
-        name: "", // Only used for registration
-        password_confirmation: "", // Only used for registration
+        name: "",
+        password_confirmation: "",
+        namaKontingen: "",
+        emailKontingen: "",
+        retypePassword: "",
+        penanggungJawab: "",
+        noTelepon: "",
+        asalKontingen: "DALAM_NEGERI",
+        alamat: "",
     });
 
     const [showPassword, setShowPassword] = useState(false);
@@ -45,7 +55,7 @@ export default function Auth({
                 transition={{ duration: 0.5, ease: "easeInOut" }}
                 className="hidden lg:block lg:w-1/2 bg-cover bg-center absolute top-0 left-0 h-full"
                 style={{
-                    backgroundImage: `url('https://plus.unsplash.com/premium_photo-1677543938193-6050960bef16?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
+                    backgroundImage: `url('https://images.unsplash.com/photo-1625480862383-7f6593ade292?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
                 }}
             >
                 <div className="h-full bg-black bg-opacity-50 flex items-center justify-center">
@@ -115,44 +125,151 @@ export default function Auth({
 
                         <form onSubmit={submit}>
                             {isRegister && (
-                                <div className="mb-6">
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                                        Name
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={data.name}
-                                        onChange={(e) =>
-                                            setData("name", e.target.value)
-                                        }
-                                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-transparent"
-                                        placeholder="Your Name"
-                                    />
-                                    <InputError
-                                        message={errors.name}
-                                        className="mt-2"
-                                    />
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                    <div>
+                                        <InputLabel
+                                            htmlFor="namaKontingen"
+                                            value="Nama Kontingen"
+                                        />
+                                        <TextInput
+                                            id="namaKontingen"
+                                            name="namaKontingen"
+                                            value={data.namaKontingen}
+                                            className="w-full"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "namaKontingen",
+                                                    e.target.value
+                                                )
+                                            }
+                                            required
+                                        />
+                                        <InputError
+                                            message={errors.namaKontingen}
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <InputLabel
+                                            htmlFor="emailKontingen"
+                                            value="Email Kontingen"
+                                        />
+                                        <TextInput
+                                            id="emailKontingen"
+                                            type="email"
+                                            name="emailKontingen"
+                                            value={data.emailKontingen}
+                                            className="w-full"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "emailKontingen",
+                                                    e.target.value
+                                                )
+                                            }
+                                            required
+                                        />
+                                        <InputError
+                                            message={errors.emailKontingen}
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <InputLabel
+                                            htmlFor="penanggungJawab"
+                                            value="Nama Penanggung Jawab"
+                                        />
+                                        <TextInput
+                                            id="penanggungJawab"
+                                            name="penanggungJawab"
+                                            value={data.penanggungJawab}
+                                            className="w-full"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "penanggungJawab",
+                                                    e.target.value
+                                                )
+                                            }
+                                            required
+                                        />
+                                        <InputError
+                                            message={errors.penanggungJawab}
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <InputLabel
+                                            htmlFor="noTelepon"
+                                            value="No. Telp Penanggung Jawab"
+                                        />
+                                        <TextInput
+                                            id="noTelepon"
+                                            name="noTelepon"
+                                            value={data.noTelepon}
+                                            className="w-full"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "noTelepon",
+                                                    e.target.value
+                                                )
+                                            }
+                                            required
+                                        />
+                                        <InputError
+                                            message={errors.noTelepon}
+                                        />
+                                    </div>
+
+                                    <div className="col-span-1 md:col-span-2">
+                                        <InputLabel
+                                            htmlFor="asalKontingen"
+                                            value="Asal Kontingen"
+                                        />
+                                        <select
+                                            id="asalKontingen"
+                                            name="asalKontingen"
+                                            value={data.asalKontingen}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "asalKontingen",
+                                                    e.target.value
+                                                )
+                                            }
+                                        >
+                                            <option value="DALAM_NEGERI">
+                                                Dalam Negeri
+                                            </option>
+                                            <option value="LUAR_NEGERI">
+                                                Luar Negeri
+                                            </option>
+                                        </select>
+                                        <InputError
+                                            message={errors.asalKontingen}
+                                        />
+                                    </div>
+
+                                    <div className="col-span-1 md:col-span-2">
+                                        <InputLabel
+                                            htmlFor="alamat"
+                                            value="Alamat Lengkap"
+                                        />
+                                        <TextInput
+                                            id="alamat"
+                                            name="alamat"
+                                            value={data.alamat}
+                                            className="w-full"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "alamat",
+                                                    e.target.value
+                                                )
+                                            }
+                                            required
+                                        />
+                                        <InputError message={errors.alamat} />
+                                    </div>
                                 </div>
                             )}
-
-                            <div className="mb-6">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Email Address
-                                </label>
-                                <input
-                                    type="email"
-                                    value={data.email}
-                                    onChange={(e) =>
-                                        setData("email", e.target.value)
-                                    }
-                                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-transparent"
-                                    placeholder="you@example.com"
-                                />
-                                <InputError
-                                    message={errors.email}
-                                    className="mt-2"
-                                />
-                            </div>
 
                             <div className="mb-6">
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -192,8 +309,35 @@ export default function Auth({
                                 />
                             </div>
 
+                            {isRegister && (
+                                <div className="mb-6">
+                                    <InputLabel
+                                        htmlFor="retypePassword"
+                                        value="Retype Password"
+                                    />
+                                    <TextInput
+                                        id="retypePassword"
+                                        type="password"
+                                        name="retypePassword"
+                                        value={data.retypePassword}
+                                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                                        onChange={(e) =>
+                                            setData(
+                                                "retypePassword",
+                                                e.target.value
+                                            )
+                                        }
+                                        placeholder="••••••••"
+                                        required
+                                    />
+                                    <InputError
+                                        message={errors.retypePassword}
+                                    />
+                                </div>
+                            )}
+
                             <button
-                                className="mt-6 w-full bg-red-500 p-2 hover:bg-gray-100 duration-300 rounded-md text-white font-semibold"
+                                className="mt-6 w-full bg-red-500 p-2 hover:bg-red-100 hover:shadow-lg hover:shadow-red-300 rounded-md text-white hover:text-red-500 font-semibold duration-300"
                                 disabled={processing}
                             >
                                 {isRegister ? "Sign Up" : "Sign In"}
@@ -205,7 +349,7 @@ export default function Auth({
                                 ? "Already have an account? "
                                 : "Don't have an account? "}
                             <button
-                                className="text-red-600 hover:text-red-700 font-semibold"
+                                className="text-red-300 hover:text-red-500 duration-300 font-semibold"
                                 onClick={() => setIsRegister(!isRegister)}
                             >
                                 {isRegister ? "Sign in" : "Sign up"}
