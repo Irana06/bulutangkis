@@ -1,6 +1,6 @@
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
 import { useContext, createContext, useState } from "react";
-import NavLink from '@/Components/NavLink';
+import { Link } from '@inertiajs/react';
 
 const SidebarContext = createContext();
 
@@ -29,7 +29,7 @@ export default function Sidebar({ children, userData }) {
             ),
         },
         {
-            href: "javascript:void(0)",
+            href: "/settings",
             name: "Settings",
             icon: (
                 <svg
@@ -102,7 +102,7 @@ export default function Sidebar({ children, userData }) {
                     {navsFooter.map((item, idx) => (
                         <li key={idx} className="relative group">
                             {item.name === "Logout" ? (
-                                <NavLink
+                                <Link
                                     href={route("logout")}
                                     method="post"
                                     as="button"
@@ -125,9 +125,9 @@ export default function Sidebar({ children, userData }) {
                                             {item.name}
                                         </div>
                                     )}
-                                </NavLink>
+                                </Link>
                             ) : (
-                                <button
+                                <Link
                                     href={item.href}
                                     className="relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group hover:bg-indigo-50 text-gray-600"
                                 >
@@ -148,7 +148,7 @@ export default function Sidebar({ children, userData }) {
                                             {item.name}
                                         </div>
                                     )}
-                                </button>
+                                </Link>
                             )}
                         </li>
                     ))}

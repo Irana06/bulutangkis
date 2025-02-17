@@ -20,6 +20,10 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 });
 
+Route::fallback(function(){
+    return Inertia::render('Services/NotFound');
+});
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
