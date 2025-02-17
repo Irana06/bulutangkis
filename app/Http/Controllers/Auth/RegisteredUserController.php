@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Kontingen;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -31,21 +31,35 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // Perbaikan validasi password (tidak perlu 'confirmed')
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'namaKontingen' => 'required|string|max:255',
+            'emailKontingen' => 'required|string|lowercase|email|max:255|unique:kontingen,email',
+            'password' => ['required', Rules\Password::defaults()],
+            'retypePassword' => 'required|same:password', // Validasi manual
+            'penanggungJawab' => 'required|string|max:255',
+            'noTelepon' => 'required|string|max:15',
+            'asalKontingen' => 'required|string',
+            'negara' => 'required|string',
+            'alamat' => 'required|string|max:500',
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+        // Buat user baru di tabel `kontingen`
+        $kontingen = Kontingen::create([
+            'name' => $request->namaKontingen,
+            'email' => $request->emailKontingen,
             'password' => Hash::make($request->password),
+            'penanggung_jawab' => $request->penanggungJawab,
+            'no_hp_penanggung_jawab' => $request->noTelepon,
+            'asal_kontingen' => $request->asalKontingen,
+            'negara' => $request->negara,
+            'alamat_lengkap' => $request->alamat,
         ]);
 
-        event(new Registered($user));
+        event(new Registered($kontingen));
 
-        Auth::login($user);
+        // Perbaikan: Pastikan model Kontingen bisa di-autentikasi
+        Auth::guard('web')->login($kontingen);
 
         return redirect(RouteServiceProvider::HOME);
     }
