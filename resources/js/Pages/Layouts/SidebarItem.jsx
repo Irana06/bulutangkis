@@ -1,5 +1,6 @@
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
 import { useContext, createContext, useState } from "react";
+import NavLink from '@/Components/NavLink';
 
 const SidebarContext = createContext();
 
@@ -101,34 +102,30 @@ export default function Sidebar({ children, userData }) {
                     {navsFooter.map((item, idx) => (
                         <li key={idx} className="relative group">
                             {item.name === "Logout" ? (
-                                <form
-                                    action={item.href}
-                                    method="POST"
-                                    className="w-full"
+                                <NavLink
+                                    href={route("logout")}
+                                    method="post"
+                                    as="button"
+                                    className="relative flex w-full items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group text-red-400 hover:bg-red-50"
                                 >
-                                    <button
-                                        type="submit"
-                                        className="relative flex w-full items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group text-red-400 hover:bg-red-50"
+                                    {item.icon}
+                                    <span
+                                        className={`overflow-hidden transition-all ${
+                                            expanded ? "w-52 ml-3" : "w-0"
+                                        }`}
                                     >
-                                        {item.icon}
-                                        <span
-                                            className={`overflow-hidden transition-all ${
-                                                expanded ? "w-52 ml-3" : "w-0"
-                                            }`}
-                                        >
-                                            {item.name}
-                                        </span>
-                                        {!expanded && (
-                                            <div
-                                                className="absolute left-full rounded-md px-2 py-1 ml-6 bg-red-100 text-red-400 text-sm
+                                        {item.name}
+                                    </span>
+                                    {!expanded && (
+                                        <div
+                                            className="absolute left-full rounded-md px-2 py-1 ml-6 bg-red-100 text-red-400 text-sm
                                             invisible opacity-0 -translate-x-3 transition-all
                                             group-hover:visible group-hover:opacity-100 group-hover:translate-x-0"
-                                            >
-                                                {item.name}
-                                            </div>
-                                        )}
-                                    </button>
-                                </form>
+                                        >
+                                            {item.name}
+                                        </div>
+                                    )}
+                                </NavLink>
                             ) : (
                                 <button
                                     href={item.href}
