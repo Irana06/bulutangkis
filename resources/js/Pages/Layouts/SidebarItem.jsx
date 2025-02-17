@@ -1,6 +1,8 @@
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
 import { useContext, createContext, useState } from "react";
-import { Link } from '@inertiajs/react';
+import { Link } from "@inertiajs/react";
+import avatar from "@/Storage/Img/avatardefault.png";
+import logo from "@/Storage/Img/logo.png";
 
 const SidebarContext = createContext();
 
@@ -80,12 +82,19 @@ export default function Sidebar({ children, userData }) {
             <nav className="h-full flex flex-col bg-white border-r shadow-sm">
                 <div className="p-4 pb-2 flex justify-between items-center">
                     <img
-                        src="https://img.logoipsum.com/243.svg"
+                        src={logo}
                         className={`overflow-hidden transition-all py-4 ${
-                            expanded ? "w-32" : "w-0"
+                            expanded ? "w-12" : "w-0"
                         }`}
-                        alt=""
+                        alt="logo"
                     />
+                    <span
+                        className={`overflow-hidden transition-all font-semibold text-2xl text-indigo-900 ${
+                            expanded ? "w-52 ml-3" : "w-0"
+                        }`}
+                    >
+                        Bulutangkis
+                    </span>
                     <button
                         onClick={() => setExpanded((curr) => !curr)}
                         className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
@@ -106,7 +115,7 @@ export default function Sidebar({ children, userData }) {
                                     href={route("logout")}
                                     method="post"
                                     as="button"
-                                    className="relative flex w-full items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group text-red-400 hover:bg-red-50"
+                                    className="mt-24 relative flex w-full items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group text-red-400 hover:bg-red-50"
                                 >
                                     {item.icon}
                                     <span
@@ -156,8 +165,8 @@ export default function Sidebar({ children, userData }) {
 
                 <div className="border-t flex p-3">
                     <img
-                        src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
-                        alt=""
+                        src={avatar}
+                        alt="avatar"
                         className="w-10 h-10 rounded-md"
                     />
                     <div

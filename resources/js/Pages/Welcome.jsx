@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Menu, X, ChevronDown, ChevronUp } from "lucide-react";
+import logo from "@/Storage/Img/logo.png";
 
 export default function Welcome() {
     const [isOpen, setIsOpen] = useState(false);
@@ -47,8 +48,8 @@ export default function Welcome() {
                                         ? "h-0 opacity-0"
                                         : "h-12 w-auto opacity-100"
                                 }`}
-                                src="https://smkmuhpakem.sch.id/wp-content/uploads/2023/02/logo.png"
-                                alt="smkmupa"
+                                src={logo}
+                                alt="logo"
                             />
                             <p className="sr-only">Website Title</p>
                         </a>
@@ -76,13 +77,13 @@ export default function Welcome() {
                     >
                         <a
                             className="rounded-lg px-2 py-1 text-sm font-medium text-gray-900 hover:bg-gray-100"
-                            href="#"
+                            href="/home"
                         >
                             Home
                         </a>
                         <a
                             className="rounded-lg px-2 py-1 text-sm font-medium text-gray-900 hover:bg-gray-100"
-                            href="#"
+                            href="/cek-data"
                         >
                             Cek Data
                         </a>
@@ -135,19 +136,19 @@ export default function Welcome() {
                         <div className="flex flex-col items-center gap-3 bg-white shadow-lg py-4 mt-2 rounded-lg">
                             <a
                                 className="block px-4 py-2 text-gray-900 hover:bg-gray-100 w-full text-center"
-                                href="#"
+                                href="/home"
                             >
                                 Home
                             </a>
                             <a
                                 className="block px-4 py-2 text-gray-900 hover:bg-gray-100 w-full text-center"
-                                href="#"
+                                href="/cek-data"
                             >
                                 Cek Data
                             </a>
                             <a
                                 className="block px-4 py-2 text-blue-600 font-semibold hover:bg-gray-100 w-full text-center"
-                                href="/login"
+                                href="/register"
                             >
                                 Registrasi
                             </a>
@@ -182,6 +183,12 @@ export default function Welcome() {
                                 Molestias assumenda provident doloribus quos
                                 officiis.
                             </p>
+                            <a
+                                href="/register"
+                                className="bg-yellow-400 text-gray-900 hover:bg-yellow-300 py-2 px-6 rounded-full text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
+                            >
+                                Daftar Sekarang!
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -189,18 +196,18 @@ export default function Welcome() {
 
             <footer class="bg-white/80 py-4 text-center w-full">
                 <a
-                    href="https://smkmuhpakem.sch.id/"
+                    href="https://pdmsleman.or.id/"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="flex flex-col sm:flex-row items-center justify-center mb-3 text-lg sm:text-xl font-semibold text-gray-900"
                 >
                     <img
-                        src="https://smkmuhpakem.sch.id/wp-content/uploads/2023/02/logo.png"
+                        src={logo}
                         class="h-10 sm:h-8 mr-0 sm:mr-3"
                         alt="smkmupa"
                     />
                     <span class="text-sm sm:text-base">
-                        SMK Muhammadiyah Pakem
+                        Pimpinan Daerah Muhammadiyah
                     </span>
                 </a>
 
