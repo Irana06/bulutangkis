@@ -15,8 +15,6 @@ use Spatie\RouteDiscovery\Discovery\Discover;
 |
 */
 
-Discover::controllers()->in(app_path('Http/Controllers/Api'));
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
