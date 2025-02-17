@@ -3,8 +3,14 @@ import { Link, useForm } from "@inertiajs/react";
 import { motion } from "framer-motion";
 import InputError from "@/Components/InputError";
 
-export default function Auth({ status, canResetPassword, isRegister: initialIsRegister }) {
+export default function Auth({
+    status,
+    canResetPassword,
+    isRegister: initialIsRegister,
+}) {
     const [isRegister, setIsRegister] = useState(initialIsRegister);
+    const [ready, setReady] = useState(false);
+
     const { data, setData, post, processing, errors, reset } = useForm({
         email: "",
         password: "",
@@ -14,6 +20,10 @@ export default function Auth({ status, canResetPassword, isRegister: initialIsRe
     });
 
     const [showPassword, setShowPassword] = useState(false);
+
+    useEffect(() => {
+        setReady(true);
+    }, []);
 
     useEffect(() => {
         return () => {
@@ -30,7 +40,7 @@ export default function Auth({ status, canResetPassword, isRegister: initialIsRe
         <div className="min-h-screen flex overflow-hidden relative">
             {/* Background Section */}
             <motion.div
-                initial={{ x: isRegister ? "0%" : "100%" }}
+                initial={ready ? { x: isRegister ? "0%" : "100%" } : false}
                 animate={{ x: isRegister ? "-100%" : "0%" }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
                 className="hidden lg:block lg:w-1/2 bg-cover bg-center absolute top-0 left-0 h-full"
@@ -49,7 +59,7 @@ export default function Auth({ status, canResetPassword, isRegister: initialIsRe
                 </div>
             </motion.div>
             <motion.div
-                initial={{ x: isRegister ? "-200%" : "0%" }}
+                initial={ready ? { x: isRegister ? "-200%" : "0%" } : false}
                 animate={{ x: isRegister ? "100%" : "200%" }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
                 className="hidden lg:block lg:w-1/2 bg-cover bg-center absolute top-0 left-0 h-full"
@@ -70,7 +80,7 @@ export default function Auth({ status, canResetPassword, isRegister: initialIsRe
 
             {/* Form Section */}
             <motion.div
-                initial={{ x: isRegister ? "-100%" : "0%" }}
+                initial={ready ? { x: isRegister ? "-100%" : "0%" } : false}
                 animate={{ x: isRegister ? "0%" : "100%" }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
                 className="w-full lg:w-1/2 flex items-center justify-center p-8 relative z-10"
