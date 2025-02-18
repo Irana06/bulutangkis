@@ -15,10 +15,8 @@ export default function Auth({
     const [ready, setReady] = useState(false);
 
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: "",
         password: "",
         remember: false,
-        name: "",
         password_confirmation: "",
         namaKontingen: "",
         emailKontingen: "",
@@ -270,7 +268,26 @@ export default function Auth({
                                     </div>
                                 </div>
                             )}
-
+                            {!isRegister && (
+                                <>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Email Kontingen
+                                    </label>
+                                    <input
+                                        type="email"
+                                        value={data.email}
+                                        onChange={(e) =>
+                                            setData("email", e.target.value)
+                                        }
+                                        className="w-full px-4 py-3 mb-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                                        placeholder="you@example.com"
+                                    />
+                                    <InputError
+                                        message={errors.email}
+                                        className="mt-2"
+                                    />
+                                </>
+                            )}
                             <div className="mb-6">
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
                                     Password
