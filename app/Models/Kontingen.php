@@ -19,10 +19,19 @@ class Kontingen extends Authenticatable
      *
      * @var array<int, string>
      */
+
+     protected $keyType = 'string';
+     protected $table = 'kontingen';
+
     protected $fillable = [
         'name',
         'email',
         'password',
+        'penanggung_jawab',
+        'no_hp_penanggung_jawab',
+        'asal_kontingen',
+        'alamat_lengkap',
+        'event_id',
     ];
 
     /**

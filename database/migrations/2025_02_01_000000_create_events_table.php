@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('kuota_ganda');
             $table->integer('kuota_campuran');
             $table->string('lokasi');
+            $table->boolean('dibuka');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('kontingen', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('nam');
+            $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->enum('asal_kontingen', ['LUAR_NEGERI', 'DALAM_NEGERI']);
             $table->text('alamat_lengkap');
 
-            $table->foreignUuid('event_id')->constrained('events')->onDelete('cascade');
+            $table->foreignUuid('event_id')->nullable()->constrained('events')->onDelete('cascade');
 
             $table->rememberToken();
             $table->softDeletes();
