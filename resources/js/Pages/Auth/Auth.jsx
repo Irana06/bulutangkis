@@ -55,7 +55,11 @@ export default function Auth({
                     className="absolute inset-0 w-full h-full"
                 >
                     <img
-                        src={` ${isRegister ? "https://images.unsplash.com/photo-1625480862383-7f6593ade292?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" : "https://images.unsplash.com/photo-1626326880051-9320471299c0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" } `}
+                        src={` ${
+                            isRegister
+                                ? "https://images.unsplash.com/photo-1625480862383-7f6593ade292?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                : "https://images.unsplash.com/photo-1626326880051-9320471299c0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        } `}
                         alt="Background"
                         className="object-cover w-full h-full transition-all"
                     />
@@ -71,7 +75,7 @@ export default function Auth({
                         initial={{ opacity: 0, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 50 }}
-                        className="w-full max-w-sm bg-white rounded-2xl shadow-xl p-6 absolute items-center"
+                        className={`w-full bg-white rounded-2xl shadow-xl p-6 absolute items-center ${isRegister ? "max-w-xs  xl:max-w-xl" : "max-w-sm"}`}
                     >
                         <div className="text-center mb-6">
                             <div className="inline-flex items-center justify-center w-12 h-12 bg-red-100 rounded-full mb-3">
@@ -82,7 +86,9 @@ export default function Auth({
                                 )}
                             </div>
                             <h2 className="text-xl font-bold text-gray-800">
-                                {isRegister ? "Create an Account" : "Welcome Back!"}
+                                {isRegister
+                                    ? "Create an Account"
+                                    : "Welcome Back!"}
                             </h2>
                             <p className="text-gray-600 mt-1">
                                 {isRegister
@@ -99,7 +105,7 @@ export default function Auth({
 
                         <form onSubmit={submit}>
                             {isRegister && (
-                                <div className="grid grid-cols-1 gap-4 mb-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                     <div>
                                         <InputLabel
                                             htmlFor="namaKontingen"
@@ -181,11 +187,16 @@ export default function Auth({
                                             value={data.noTelepon}
                                             className="mt-1 block w-full"
                                             onChange={(e) =>
-                                                setData("noTelepon", e.target.value)
+                                                setData(
+                                                    "noTelepon",
+                                                    e.target.value
+                                                )
                                             }
                                             required
                                         />
-                                        <InputError message={errors.noTelepon} />
+                                        <InputError
+                                            message={errors.noTelepon}
+                                        />
                                     </div>
 
                                     <div>
@@ -228,7 +239,10 @@ export default function Auth({
                                             value={data.alamat}
                                             className="mt-1 block w-full"
                                             onChange={(e) =>
-                                                setData("alamat", e.target.value)
+                                                setData(
+                                                    "alamat",
+                                                    e.target.value
+                                                )
                                             }
                                             required
                                         />
@@ -256,68 +270,77 @@ export default function Auth({
                                     />
                                 </>
                             )}
-                            <div className="mb-4">
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Password
-                                </label>
-                                <div className="relative">
-                                    <input
-                                        type={showPassword ? "text" : "password"}
-                                        value={data.password}
-                                        onChange={(e) =>
-                                            setData("password", e.target.value)
-                                        }
-                                        className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-transparent"
-                                        placeholder="••••••••"
-                                    />
-                                    <button
-                                        type="button"
-                                        className="absolute right-3 top-2 text-gray-400 hover:text-gray-600"
-                                        onClick={() =>
-                                            setShowPassword(!showPassword)
-                                        }
-                                    >
-                                        <i
-                                            className={
+                            <div className={`${isRegister ? "grid grid-cols-1 md:grid-cols-2 gap-4" : ""}`}>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        Password
+                                    </label>
+                                    <div className="relative">
+                                        <input
+                                            type={
                                                 showPassword
-                                                    ? "fas fa-eye-slash"
-                                                    : "fas fa-eye"
+                                                    ? "text"
+                                                    : "password"
                                             }
-                                        ></i>
-                                    </button>
-                                </div>
-                                <InputError
-                                    message={errors.password}
-                                    className="mt-1"
-                                />
-                            </div>
-
-                            {isRegister && (
-                                <div className="mb-4">
-                                    <InputLabel
-                                        htmlFor="retypePassword"
-                                        value="Retype Password"
-                                    />
-                                    <TextInput
-                                        id="retypePassword"
-                                        type="password"
-                                        name="retypePassword"
-                                        value={data.retypePassword}
-                                        className="mt-1 block w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-transparent"
-                                        onChange={(e) =>
-                                            setData(
-                                                "retypePassword",
-                                                e.target.value
-                                            )
-                                        }
-                                        placeholder="••••••••"
-                                        required
-                                    />
+                                            value={data.password}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "password",
+                                                    e.target.value
+                                                )
+                                            }
+                                            className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                                            placeholder="••••••••"
+                                        />
+                                        <button
+                                            type="button"
+                                            className="absolute right-3 top-2 text-gray-400 hover:text-gray-600"
+                                            onClick={() =>
+                                                setShowPassword(!showPassword)
+                                            }
+                                        >
+                                            <i
+                                                className={
+                                                    showPassword
+                                                        ? "fas fa-eye-slash"
+                                                        : "fas fa-eye"
+                                                }
+                                            ></i>
+                                        </button>
+                                    </div>
                                     <InputError
-                                        message={errors.retypePassword}
+                                        message={errors.password}
+                                        className="mt-1"
                                     />
                                 </div>
-                            )}
+
+                                {isRegister && (
+                                    <div className="mb-4">
+                                        <InputLabel
+                                            htmlFor="retypePassword"
+                                            value="Retype Password"
+                                        />
+                                        <TextInput
+                                            id="retypePassword"
+                                            type="password"
+                                            name="retypePassword"
+                                            value={data.retypePassword}
+                                            className="mt-1 block w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "retypePassword",
+                                                    e.target.value
+                                                )
+                                            }
+                                            placeholder="••••••••"
+                                            required
+                                        />
+                                        <InputError
+                                            message={errors.retypePassword}
+                                        />
+                                    </div>
+                                )}
+                            </div>
 
                             <button
                                 className="mt-4 w-full bg-red-500 p-2 hover:bg-red-100 hover:shadow-lg hover:shadow-red-300 rounded-md text-white hover:text-red-500 font-semibold duration-300"
