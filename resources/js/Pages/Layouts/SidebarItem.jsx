@@ -81,6 +81,7 @@ export default function Sidebar({ children, userData }) {
         <aside className="h-screen">
             <nav className="h-full flex flex-col bg-white border-r shadow-sm">
                 <div className="p-4 pb-2 flex justify-between items-center">
+                    {/* Logo */}
                     <img
                         src={logo}
                         className={`overflow-hidden transition-all py-4 ${
@@ -88,18 +89,35 @@ export default function Sidebar({ children, userData }) {
                         }`}
                         alt="logo"
                     />
-                    <span
-                        className={`overflow-hidden transition-all font-semibold text-2xl text-indigo-900 ${
-                            expanded ? "w-52 ml-3" : "w-0"
-                        }`}
-                    >
-                        Bulutangkis
-                    </span>
+
+                    {/* Judul Sidebar */}
+                    <div className="flex flex-col text-center">
+                        <span
+                            className={`overflow-hidden transition-all text-lg font-extrabold text-green-400 tracking-wide drop-shadow-lg ${
+                                expanded ? "" : "w-0"
+                            }`}
+                        >
+                            Tournament
+                        </span>
+                        <span
+                            className={`overflow-hidden transition-all text-sm text-gray-400 font-medium tracking-wide ${
+                                expanded ? "" : "w-0"
+                            }`}
+                        >
+                            Bulutangkis 2025
+                        </span>
+                    </div>
+
+                    {/* Tombol Toggle */}
                     <button
                         onClick={() => setExpanded((curr) => !curr)}
-                        className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
+                        className="p-2 rounded-lg bg-gray-300 hover:bg-gray-400 text-white transition duration-300"
                     >
-                        {expanded ? <ChevronFirst /> : <ChevronLast />}
+                        {expanded ? (
+                            <ChevronFirst size={18} />
+                        ) : (
+                            <ChevronLast size={18} />
+                        )}
                     </button>
                 </div>
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Menu, X, ChevronDown, ChevronUp } from "lucide-react";
 import logo from "@/Storage/Img/logo.png";
+import background from "@/Storage/Img/bg2.avif";
 
 export default function Welcome() {
     const [isOpen, setIsOpen] = useState(false);
@@ -51,7 +52,7 @@ export default function Welcome() {
                                 src={logo}
                                 alt="logo"
                             />
-                            <p className="sr-only">Website Title</p>
+                            <span className="ml-2 font-extrabold text-2xl  text-green-500 transition-colors">LPO PDM Sleman</span>
                         </a>
                     </div>
 
@@ -168,11 +169,11 @@ export default function Welcome() {
                 <div className="flex-1 bg-black text-white flex items-center justify-center pb-6">
                     <div className="video-docker absolute top-0 left-0 w-full h-full overflow-hidden">
                         <img
-                            src="https://img.okezone.com/content/2022/09/12/40/2666130/5-pemain-bulutangkis-asing-yang-sering-menyabet-gelar-juara-di-indonesia-open-nomor-1-rival-abadi-taufik-hidayat-WV1yUxcLi3.jpg"
+                            src={background}
                             alt="Background Image"
                             className="object-cover object-center w-full h-full"
                         />
-                        <div className="absolute inset-0 bg-black opacity-60"></div>
+                        <div className="absolute inset-0 bg-black opacity-40"></div>
                     </div>
                     <div className="video-overlay absolute top-0 left-0 w-full flex-1 h-full text-center">
                         <div className="video-content space-y-2 relative z-10 flex flex-col justify-center items-center h-full text-center">
@@ -207,12 +208,12 @@ export default function Welcome() {
                         alt="smkmupa"
                     />
                     <span class="text-sm sm:text-base">
-                        Pimpinan Daerah Muhammadiyah
+                        LPO PDM Sleman
                     </span>
                 </a>
 
                 <span class="text-xs sm:text-sm text-gray-600">
-                    © 2025 PDM Sleman. All rights reserved.
+                    © 2025 LPO PDM Sleman. All rights reserved.
                 </span>
             </footer>
         </div>
