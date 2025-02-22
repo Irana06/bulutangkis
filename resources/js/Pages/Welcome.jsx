@@ -52,7 +52,7 @@ export default function Welcome() {
                                 src={logo}
                                 alt="logo"
                             />
-                            <span className="ml-2 font-enigma text-2xl  text-green-500 transition-colors">LPO PDM Sleman</span>
+                            <span className="ml-2 font-extrabold text-2xl  text-green-500 transition-colors">LPO PDM Sleman</span>
                         </a>
                     </div>
 
@@ -213,7 +213,7 @@ export default function Welcome() {
                 </a>
 
                 <span class="text-xs sm:text-sm text-gray-600">
-                    © 2025 PDM Sleman. All rights reserved.
+                    © 2025 LPO PDM Sleman. All rights reserved.
                 </span>
             </footer>
         </div>
