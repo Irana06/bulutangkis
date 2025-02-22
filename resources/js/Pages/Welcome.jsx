@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Menu, X, ChevronDown, ChevronUp } from "lucide-react";
+import { Link, useForm } from "@inertiajs/react";
 import logo from "@/Storage/Img/logo.png";
 import background from "@/Storage/Img/bg2.avif";
 
-export default function Welcome() {
+export default function Welcome({ auth }) {
     const [isOpen, setIsOpen] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(false);
+    const { post } = useForm();
 
     // Fungsi untuk menutup menu dropdown mobile saat collapse navbar ditekan
     const handleCollapseToggle = () => {
@@ -13,6 +15,10 @@ export default function Welcome() {
         if (isOpen) {
             setIsOpen(false);
         }
+    };
+
+    const handleLogout = () => {
+        post(route("logout"));
     };
 
     return (
@@ -52,7 +58,9 @@ export default function Welcome() {
                                 src={logo}
                                 alt="logo"
                             />
-                            <span className="ml-2 font-extrabold text-2xl  text-green-500 transition-colors">LPO PDM Sleman</span>
+                            <span className="ml-2 font-extrabold text-2xl  text-green-500 transition-colors">
+                                LPO PDM Sleman
+                            </span>
                         </a>
                     </div>
 
@@ -90,7 +98,7 @@ export default function Welcome() {
                         </a>
                     </div>
 
-                    {/* Tombol Login & Registrasi */}
+                    {/* Tombol Login & Registrasi atau Logout */}
                     <div
                         className={`hidden md:flex items-center gap-3 transition-all duration-300 ${
                             isCollapsed
@@ -98,18 +106,32 @@ export default function Welcome() {
                                 : "opacity-100 scale-100"
                         }`}
                     >
-                        <a
-                            className="hidden sm:inline-flex items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-gray-300 hover:bg-gray-200"
-                            href="/register"
-                        >
-                            Registrasi
-                        </a>
-                        <a
-                            className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500"
-                            href="/login"
-                        >
-                            Masuk
-                        </a>
+                        {auth.user ? (
+                            <Link
+                                href={route("logout")}
+                                method="post"
+                                as="button"
+                                className="inline-flex items-center justify-center rounded-xl px-3 py-2 text-sm font-semibold text-red-400 hover:text-white hover:bg-red-400 duration-300"
+                            >
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                <span className="ml-2">Logout</span>
+                            </Link>
+                        ) : (
+                            <>
+                                <a
+                                    className="hidden sm:inline-flex items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-gray-300 hover:bg-gray-200"
+                                    href="/register"
+                                >
+                                    Registrasi
+                                </a>
+                                <a
+                                    className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500"
+                                    href="/login"
+                                >
+                                    Masuk
+                                </a>
+                            </>
+                        )}
                     </div>
                 </div>
 
@@ -147,18 +169,32 @@ export default function Welcome() {
                             >
                                 Cek Data
                             </a>
-                            <a
-                                className="block px-4 py-2 text-blue-600 font-semibold hover:bg-gray-100 w-full text-center"
-                                href="/register"
-                            >
-                                Registrasi
-                            </a>
-                            <a
-                                className="block px-4 py-2 bg-blue-600 text-white font-semibold rounded-md w-4/5 text-center hover:bg-blue-500"
-                                href="/login"
-                            >
-                                Masuk
-                            </a>
+                            {auth.user ? (
+                                <Link
+                                    href={route("logout")}
+                                    method="post"
+                                    as="button"
+                                    className="inline-flex items-center justify-center rounded-xl px-3 py-2 text-sm font-semibold text-red-400 hover:text-white hover:bg-red-400 duration-300"
+                                >
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                    <span className="ml-2">Logout</span>
+                                </Link>
+                            ) : (
+                                <>
+                                    <a
+                                        className="block px-4 py-2 text-blue-600 font-semibold hover:bg-gray-100 w-full text-center"
+                                        href="/register"
+                                    >
+                                        Registrasi
+                                    </a>
+                                    <a
+                                        className="block px-4 py-2 bg-blue-600 text-white font-semibold rounded-md w-4/5 text-center hover:bg-blue-500"
+                                        href="/login"
+                                    >
+                                        Masuk
+                                    </a>
+                                </>
+                            )}
                         </div>
                     )}
                 </div>
@@ -184,12 +220,21 @@ export default function Welcome() {
                                 Molestias assumenda provident doloribus quos
                                 officiis.
                             </p>
-                            <a
-                                href="/register"
-                                className="bg-yellow-400 text-gray-900 hover:bg-yellow-300 py-2 px-6 rounded-full text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
-                            >
-                                Daftar Sekarang!
-                            </a>
+                            {auth.user ? (
+                                <a
+                                    href="/dashboard"
+                                    className="bg-yellow-400 text-gray-900 hover:bg-yellow-300 py-2 px-6 rounded-full text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
+                                >
+                                    Cek Dashboard
+                                </a>
+                            ) : (
+                                <a
+                                    href="/register"
+                                    className="bg-yellow-400 text-gray-900 hover:bg-yellow-300 py-2 px-6 rounded-full text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
+                                >
+                                    Daftar Sekarang!
+                                </a>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -207,9 +252,7 @@ export default function Welcome() {
                         class="h-10 sm:h-8 mr-0 sm:mr-3"
                         alt="smkmupa"
                     />
-                    <span class="text-sm sm:text-base">
-                        LPO PDM Sleman
-                    </span>
+                    <span class="text-sm sm:text-base">LPO PDM Sleman</span>
                 </a>
 
                 <span class="text-xs sm:text-sm text-gray-600">
