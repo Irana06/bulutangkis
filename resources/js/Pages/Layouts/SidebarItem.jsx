@@ -1,5 +1,5 @@
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
-import { useContext, createContext, useState } from "react";
+import { useContext, createContext, useState, useEffect } from "react";
 import { Link } from "@inertiajs/react";
 import avatar from "@/Storage/Img/avatardefault.png";
 import logo from "@/Storage/Img/logo.png";
@@ -8,6 +8,28 @@ const SidebarContext = createContext();
 
 export default function Sidebar({ children, userData }) {
     const [expanded, setExpanded] = useState(true);
+
+    // Handle screen size changes
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth <= 768) {
+                setExpanded(false);
+            } else {
+                setExpanded(true);
+            }
+        };
+
+        // Set initial state based on screen size
+        handleResize();
+
+        // Add event listener for window resize
+        window.addEventListener("resize", handleResize);
+
+        // Cleanup event listener on component unmount
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
 
     const navsFooter = [
         {
