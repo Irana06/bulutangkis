@@ -16,6 +16,8 @@ class Event extends Model
         'tahun', 'kuota_tunggal', 'kuota_ganda', 'lokasi'
     ];
 
+    protected $keyType = 'string';
+
     protected static function boot()
     {
         parent::boot();

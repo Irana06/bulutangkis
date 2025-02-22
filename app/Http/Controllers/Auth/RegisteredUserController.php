@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\EventController;
 use App\Models\Kontingen;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -19,6 +20,7 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
+
     public function create(): Response
     {
         return Inertia::render('Auth/Auth', [
@@ -33,6 +35,13 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $eventController = new EventController();
+        $eventId = $eventController->getOpenEvent();
+
+        if (!$eventId || !preg_match('/^[a-f0-9\-]{36}$/', $eventId)) {
+            return back()->withErrors(['event_id' => 'Event tidak valid atau tidak ditemukan.']);
+        }
+        
         // Perbaikan validasi password (tidak perlu 'confirmed')
         $request->validate([
             'namaKontingen' => 'required|string|max:255',
@@ -54,6 +63,7 @@ class RegisteredUserController extends Controller
             'no_hp_penanggung_jawab' => $request->noTelepon,
             'asal_kontingen' => $request->asalKontingen,
             'alamat_lengkap' => $request->alamat,
+            'event_id' => $eventId,
         ]);
 
         event(new Registered($kontingen));
