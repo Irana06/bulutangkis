@@ -22,10 +22,15 @@ export default function Dashboard({ auth, children }) {
             </Sidebar>
             <div className="flex-grow">
                 {/* Header Sidebar */}
-                <div className="text-left p-12 py-5 border-b border-gray-300">
-                    <span className="text-2xl font-extrabold text-green-400 tracking-wide drop-shadow-lg">
-                        LPO PDM Sleman
-                    </span>
+                <div className="flex flex-col text-center">
+                    <div className="text-left p-6 py-5 border-b border-gray-300">
+                        <span className="text-2xl font-extrabold text-green-400 tracking-wide drop-shadow-lg">
+                            Tournament
+                        </span>
+                        <span className=" p-3 text-2xl text-gray-400 font-medium tracking-wide drop-shadow-lg">
+                            Bulutangkis 2025
+                        </span>
+                    </div>
                 </div>
                 {/* Content */}
                 <div className="p-12">{children}</div>

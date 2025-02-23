@@ -119,14 +119,7 @@ export default function Sidebar({ children, userData }) {
                                 expanded ? "" : "w-0"
                             }`}
                         >
-                            Tournament
-                        </span>
-                        <span
-                            className={`overflow-hidden transition-all text-sm text-gray-400 font-medium tracking-wide ${
-                                expanded ? "" : "w-0"
-                            }`}
-                        >
-                            Bulutangkis 2025
+                            LPO PDM Sleman
                         </span>
                     </div>
 
