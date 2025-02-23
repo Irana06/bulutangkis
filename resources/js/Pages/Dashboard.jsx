@@ -1,5 +1,6 @@
 import Sidebar, { SidebarItem } from "@/Pages/Layouts/SidebarItem";
 import { LayoutDashboard, Users } from "lucide-react";
+import TableItems from "./Layouts/Table";
 
 export default function Dashboard({ auth, children }) {
     return (
@@ -33,7 +34,9 @@ export default function Dashboard({ auth, children }) {
                     </div>
                 </div>
                 {/* Content */}
-                <div className="p-12">{children}</div>
+                <div className="mt-4">
+                    <TableItems />
+                </div>
             </div>
         </main>
     );
