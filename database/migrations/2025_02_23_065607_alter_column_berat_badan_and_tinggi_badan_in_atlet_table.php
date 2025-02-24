@@ -12,8 +12,9 @@ return new class extends Migration
     public function up()
     {
         Schema::table('atlet', function (Blueprint $table) {
-            $table->decimal('berat_badan', 4, 2)->change();
-            $table->decimal('tinggi_badan', 5, 2)->change();
+            $table->decimal('berat_badan', 4, 2)->nullable()->change();
+            $table->decimal('tinggi_badan', 5, 2)->nullable()->change();
+            $table->integer('umur')->nullable()->change();
         });
     }
 
@@ -21,7 +22,8 @@ return new class extends Migration
     {
         Schema::table('atlet', function (Blueprint $table) {
             $table->decimal('berat_badan', 3, 2)->change(); // Sesuaikan dengan tipe awal
-            $table->decimal('tinggi_badan', 3, 2)->change(); // Sesuaikan dengan tipe awal
+            $table->decimal('tinggi_badan', 3, 2)->change();
+            $table->integer('umur');
         });
     }
 
