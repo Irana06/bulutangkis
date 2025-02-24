@@ -1,5 +1,6 @@
 import { Menu, X } from "lucide-react";
 import { Link } from "@inertiajs/react";
+import { useState } from "react";
 
 export default function TableItems({
     title = "Data",
@@ -7,10 +8,23 @@ export default function TableItems({
     columns = [],
     dropdownOpenIndex,
     setDropdownOpenIndex,
+    itemsPerPage = 10, // Jumlah item per halaman
 }) {
+    const [currentPage, setCurrentPage] = useState(1);
+    const totalPages = Math.ceil(data.length / itemsPerPage);
+
     const toggleDropdown = (index) => {
         setDropdownOpenIndex(dropdownOpenIndex === index ? null : index);
     };
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    const paginatedData = data.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    );
 
     return (
         <div className="max-w-screen mx-auto px-4 md:px-8">
@@ -50,7 +64,7 @@ export default function TableItems({
                         </tr>
                     </thead>
                     <tbody className="text-gray-600 divide-y">
-                        {data.map((item, idx) => (
+                        {paginatedData.map((item, idx) => (
                             <tr key={idx}>
                                 {columns.map((col, index) => (
                                     <td
@@ -101,6 +115,74 @@ export default function TableItems({
                         ))}
                     </tbody>
                 </table>
+            </div>
+            <div className="max-w-screen-xl mx-auto mt-6 px-4 text-gray-600 md:px-8">
+                <div className="hidden items-center justify-between sm:flex" aria-label="Pagination">
+                    <a
+                        href="javascript:void(0)"
+                        className={`hover:text-indigo-600 flex items-center gap-x-2 ${
+                            currentPage === 1 ? "pointer-events-none text-gray-400" : ""
+                        }`}
+                        onClick={() => handlePageChange(currentPage - 1)}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                            <path fillRule="evenodd" d="M18 10a.75.75 0 01-.75.75H4.66l2.1 1.95a.75.75 0 11-1.02 1.1l-3.5-3.25a.75.75 0 010-1.1l3.5-3.25a.75.75 0 111.02 1.1l-2.1 1.95h12.59A.75.75 0 0118 10z" clipRule="evenodd" />
+                        </svg>
+                        Halaman Sebelumnya
+                    </a>
+                    <ul className="flex items-center gap-1">
+                        {Array.from({ length: totalPages }, (_, idx) => idx + 1).map((item) => (
+                            <li key={item} className="text-sm">
+                                <a
+                                    href="javascript:void(0)"
+                                    aria-current={currentPage === item ? "page" : false}
+                                    className={`px-3 py-2 rounded-lg duration-150 hover:text-indigo-600 hover:bg-indigo-50 ${
+                                        currentPage === item ? "bg-indigo-50 text-indigo-600 font-medium" : ""
+                                    }`}
+                                    onClick={() => handlePageChange(item)}
+                                >
+                                    {item}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                    <a
+                        href="javascript:void(0)"
+                        className={`hover:text-indigo-600 flex items-center gap-x-2 ${
+                            currentPage === totalPages ? "pointer-events-none text-gray-400" : ""
+                        }`}
+                        onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                        Halaman Selanjutnya
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                            <path fillRule="evenodd" d="M2 10a.75.75 0 01.75-.75h12.59l-2.1-1.95a.75.75 0 111.02-1.1l3.5 3.25a.75.75 0 010 1.1l-3.5 3.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z" clipRule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+                {/* On mobile version */}
+                <div className="flex items-center justify-between text-sm text-gray-600 font-medium sm:hidden">
+                    <a
+                        href="javascript:void(0)"
+                        className={`px-4 py-2 border rounded-lg duration-150 hover:bg-gray-50 ${
+                            currentPage === 1 ? "pointer-events-none text-gray-400" : ""
+                        }`}
+                        onClick={() => handlePageChange(currentPage - 1)}
+                    >
+                        Sebelumnya
+                    </a>
+                    <div className="font-medium">
+                        Page {currentPage} of {totalPages}
+                    </div>
+                    <a
+                        href="javascript:void(0)"
+                        className={`px-4 py-2 border rounded-lg duration-150 hover:bg-gray-50 ${
+                            currentPage === totalPages ? "pointer-events-none text-gray-400" : ""
+                        }`}
+                        onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                        Selanjutnya
+                    </a>
+                </div>
             </div>
         </div>
     );
