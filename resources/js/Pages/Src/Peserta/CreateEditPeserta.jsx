@@ -24,7 +24,7 @@ export default function CreateEditPeserta() {
         avatar: atlet?.foto_profile_url || null,
     });
 
-    const handleSubmit = (formData) => {
+    const handleSubmit = () => {
         if (
             !data.name ||
             !data.jenis_kelamin ||
@@ -41,50 +41,63 @@ export default function CreateEditPeserta() {
             return;
         }
 
-        // Gunakan FormData untuk mengirim file
-        const formDataObject = new FormData();
-        formDataObject.append("name", data.name);
-        formDataObject.append("jenis_kelamin", data.jenis_kelamin);
-        formDataObject.append("nik", data.nik);
-        formDataObject.append("no_kk", data.no_kk);
-        formDataObject.append("tanggal_lahir", data.tanggal_lahir);
-        formDataObject.append("tempat_lahir", data.tempat_lahir);
+        Swal.fire({
+            title: "Apakah Anda yakin?",
+            text: "Anda akan menyimpan data Peserta ini.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, simpan!",
+            cancelButtonText: "Batal",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Gunakan FormData untuk mengirim file
+                const formDataObject = new FormData();
+                formDataObject.append("name", data.name);
+                formDataObject.append("jenis_kelamin", data.jenis_kelamin);
+                formDataObject.append("nik", data.nik);
+                formDataObject.append("no_kk", data.no_kk);
+                formDataObject.append("tanggal_lahir", data.tanggal_lahir);
+                formDataObject.append("tempat_lahir", data.tempat_lahir);
 
-        if (data.berat_badan) {
-            formDataObject.append("berat_badan", data.berat_badan);
-        }
-        if (data.tinggi_badan) {
-            formDataObject.append("tinggi_badan", data.tinggi_badan);
-        }
+                if (data.berat_badan) {
+                    formDataObject.append("berat_badan", data.berat_badan);
+                }
+                if (data.tinggi_badan) {
+                    formDataObject.append("tinggi_badan", data.tinggi_badan);
+                }
 
-        // Tambahkan file hanya jika ada perubahan
-        if (data.foto_profile) {
-            formDataObject.append("foto_profile", data.foto_profile);
-        }
+                // Tambahkan file hanya jika ada perubahan
+                if (data.foto_profile) {
+                    formDataObject.append("foto_profile", data.foto_profile);
+                }
 
-        const submitAction = atlet ? put : post;
-        const routeName = atlet ? "peserta.update" : "peserta.store";
+                const submitAction = atlet ? put : post;
+                const routeName = atlet ? "peserta.update" : "peserta.store";
 
-        submitAction(route(routeName, atlet?.id), {
-            data: formDataObject,
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-            onSuccess: () => {
-                Swal.fire({
-                    icon: "success",
-                    title: "Berhasil",
-                    text: "Data atlet berhasil disimpan.",
+                submitAction(route(routeName, atlet?.id), {
+                    data: formDataObject,
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                    onSuccess: () => {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Berhasil",
+                            text: "Data atlet berhasil disimpan.",
+                        });
+                    },
+                    onError: (errors) => {
+                        const errorMessages = Object.values(errors).flat().join('<br>');
+                        Swal.fire({
+                            icon: "error",
+                            title: "Kesalahan Validasi",
+                            html: errorMessages,
+                        });
+                    },
                 });
-            },
-            onError: (errors) => {
-                const errorMessages = Object.values(errors).flat().join('<br>');
-                Swal.fire({
-                    icon: "error",
-                    title: "Kesalahan Validasi",
-                    html: errorMessages,
-                });
-            },
+            }
         });
     };
 
