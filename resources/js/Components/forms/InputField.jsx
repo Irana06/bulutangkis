@@ -1,4 +1,5 @@
 import React from "react";
+import { CloudUpload } from "lucide-react";
 
 const FormInput = ({
     label,
@@ -35,11 +36,37 @@ const FormInput = ({
                         {placeholder || "Pilih opsi"}
                     </option>
                     {options.map((option) => (
-                        <option key={option.value} value={option.value} className="">
+                        <option key={option.value} value={option.value}>
                             {option.label}
                         </option>
                     ))}
                 </select>
+            ) : type === "file" ? (
+                <div className="relative">
+                    <label
+                        title="Click to upload"
+                        htmlFor={name}
+                        className="cursor-pointer flex items-center gap-4 px-6 py-4 before:border-gray-400/60 hover:before:border-gray-300 group before:bg-gray-100 before:absolute before:inset-0 before:rounded-3xl before:border before:border-dashed before:transition-transform before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 hover:text-blue-500 duration-300"
+                    >
+                        <div className="w-max relative">
+                            <CloudUpload className="w-12" size={40}/>
+                        </div>
+                        <div className="relative">
+                            <span className="block text-base font-semibold text-blue-900 group-hover:text-blue-500 duration-300">
+                                Upload a file
+                            </span>
+                            <span className="mt-0.5 block text-sm text-gray-500">Max 2 MB</span>
+                        </div>
+                    </label>
+                    <input
+                        hidden
+                        type="file"
+                        name={name}
+                        id={name}
+                        onChange={onChange}
+                        required={required}
+                    />
+                </div>
             ) : (
                 <input
                     type={type}

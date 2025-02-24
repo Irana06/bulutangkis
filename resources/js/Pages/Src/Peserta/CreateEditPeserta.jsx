@@ -13,7 +13,7 @@ export default function CreateEditPeserta() {
     const form = useForm();
 
     // Inertia useForm untuk data form
-    const { data, setData, post, put, processing, errors } = useInertiaForm({
+    const { data, setData, post, processing, errors } = useInertiaForm({
         name: atlet?.name || "",
         jenis_kelamin: atlet?.jenis_kelamin || "",
         nik: atlet?.nik || "",
@@ -74,7 +74,7 @@ export default function CreateEditPeserta() {
                     formDataObject.append("foto_profile", data.foto_profile);
                 }
 
-                const submitAction = atlet ? put : post;
+                const submitAction = post;
                 const routeName = atlet ? "peserta.update" : "peserta.store";
 
                 submitAction(route(routeName, atlet?.id), {
