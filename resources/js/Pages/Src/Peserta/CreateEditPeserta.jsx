@@ -4,21 +4,24 @@ import { Section } from "@/Components/forms/Section";
 import { useForm as useInertiaForm } from "@inertiajs/react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import { usePage } from "@inertiajs/react";
 
 export default function CreateEditPeserta() {
+    const { atlet } = usePage().props;
+
     const form = useForm();
 
     // Inertia useForm untuk data form
-    const { data, setData, post, processing, errors } = useInertiaForm({
-        name: "",
-        jenis_kelamin: "",
-        nik: "",
-        no_kk: "",
-        tanggal_lahir: "",
-        tempat_lahir: "",
-        berat_badan: "",
-        tinggi_badan: "",
-        avatar: null,
+    const { data, setData, post, put, processing, errors } = useInertiaForm({
+        name: atlet?.name || "",
+        jenis_kelamin: atlet?.jenis_kelamin || "",
+        nik: atlet?.nik || "",
+        no_kk: atlet?.no_kk || "",
+        tanggal_lahir: atlet?.tanggal_lahir || "",
+        tempat_lahir: atlet?.tempat_lahir || "",
+        berat_badan: atlet?.berat_badan || "",
+        tinggi_badan: atlet?.tinggi_badan || "",
+        avatar: atlet?.foto_profile_url || null,
     });
 
     const handleSubmit = (formData) => {
@@ -48,24 +51,48 @@ export default function CreateEditPeserta() {
             delete submitData.tinggi_badan;
         }
 
-        post(route("peserta.store"), {
-            data: submitData,
-            onError: (errors) => {
-                // Tangkap pesan error dari backend dan tampilkan menggunakan SweetAlert2
-                const errorMessages = Object.values(errors).flat().join('<br>');
-                Swal.fire({
-                    icon: "error",
-                    title: "Kesalahan Validasi",
-                    html: errorMessages,
-                });
-            },
-        });
+        if (atlet) {
+            put(route("peserta.update", atlet.id), {
+                data: submitData,
+                onError: (errors) => {
+                    // Tangkap pesan error dari backend dan tampilkan menggunakan SweetAlert2
+                    const errorMessages = Object.values(errors).flat().join('<br>');
+                    Swal.fire({
+                        icon: "error",
+                        title: "Kesalahan Validasi",
+                        html: errorMessages,
+                    });
+                },
+            });
+        } else {
+            post(route("peserta.store"), {
+                data: submitData,
+                onError: (errors) => {
+                    // Tangkap pesan error dari backend dan tampilkan menggunakan SweetAlert2
+                    const errorMessages = Object.values(errors).flat().join('<br>');
+                    Swal.fire({
+                        icon: "error",
+                        title: "Kesalahan Validasi",
+                        html: errorMessages,
+                    });
+                },
+            });
+        }
     };
 
     return (
-        <Section title="Tambah Atlet">
+        <Section title={atlet ? "Edit Atlet" : "Tambah Atlet"}>
             <FormContainer form={form} onSubmit={handleSubmit} className="p-4">
                 {/* Wrapper untuk grid layout */}
+                {atlet?.foto_profile_url ? (
+                    <div className="mb-4">
+                        <img
+                            src={atlet.foto_profile_url}
+                            alt="Foto Profile"
+                            className="w-24 h-24 rounded-full"
+                        />
+                    </div>
+                ) : null}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <InputField
                         label="Nama"
