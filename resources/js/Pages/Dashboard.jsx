@@ -2,12 +2,15 @@ import Sidebar, { SidebarItem } from "@/Pages/Layouts/SidebarItem";
 import { LayoutDashboard, Users } from "lucide-react";
 import { Link } from "@inertiajs/react";
 import ListPeserta from "@/Pages/Src/Peserta/ListPeserta";
+import CreateEditPeserta from "@/Pages/Src/Peserta/CreateEditPeserta";
 
 // Mapping string ke komponen
 const getChildComponent = (child) => {
     switch (child) {
         case "Peserta/ListPeserta":
             return <ListPeserta />;
+        case "Peserta/CreateEditPeserta":
+            return <CreateEditPeserta />;
         default:
             return null;
     }

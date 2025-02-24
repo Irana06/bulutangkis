@@ -14,6 +14,18 @@ class Atlet extends Model
 
     protected $table = 'atlet';
 
+    protected $fillable = [
+        'name',
+        'jenis_kelamin',
+        'nik',
+        'no_kk',
+        'tanggal_lahir',
+        'tempat_lahir',
+        'berat_badan',
+        'tinggi_badan',
+        'kontingen_id',
+    ];
+
     public function kontingen()
     {
         return $this->belongsTo(Kontingen::class);

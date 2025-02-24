@@ -18,10 +18,10 @@ export const FormContainer = ({ children, form, onSubmit, className = '' }) => {
   };
 
   return (
-    <FormProvider {...form}>
+    <FormProvider {...(form || {})}>
       <form
         className={className}
-        onSubmit={onSubmit ? form.handleSubmit(onSubmit, onError) : () => {}}
+        onSubmit={onSubmit ? (form ? form.handleSubmit(onSubmit, onError) : onSubmit) : () => {}}
       >
         {children}
       </form>

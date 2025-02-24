@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
 
     // Peserta
     Route::get('/peserta', [AtletController::class, 'index'])->name('peserta.index');
+    Route::post('/peserta', [AtletController::class, 'store'])->name('peserta.store');
 
     Route::get('/peserta/create', function () {
         return Inertia::render('Dashboard', [
