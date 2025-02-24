@@ -3,6 +3,7 @@ import { LayoutDashboard, Users } from "lucide-react";
 import { Link } from "@inertiajs/react";
 import ListPeserta from "@/Pages/Src/Peserta/ListPeserta";
 import CreateEditPeserta from "@/Pages/Src/Peserta/CreateEditPeserta";
+import DetailPeserta from "./Src/Peserta/DetailPeserta";
 
 // Mapping string ke komponen
 const getChildComponent = (child) => {
@@ -11,6 +12,8 @@ const getChildComponent = (child) => {
             return <ListPeserta />;
         case "Peserta/CreateEditPeserta":
             return <CreateEditPeserta />;
+        case "Peserta/DetailPeserta":
+            return <DetailPeserta />;
         default:
             return null;
     }

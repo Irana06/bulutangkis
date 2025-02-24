@@ -15,7 +15,7 @@ class AtletController extends Controller
         $user = auth()->user();
         $kontingenId = $user->id;
 
-        $atlet = Atlet::with('kontingen')->where('kontingen_id', $kontingenId)->get();
+        $atlet = Atlet::where('kontingen_id', $kontingenId)->get();
 
         return Inertia::render('Dashboard', [
             'child' => 'Peserta/ListPeserta',
@@ -46,6 +46,15 @@ class AtletController extends Controller
 
         return Inertia::render('Dashboard', [
             'child' => 'Peserta/CreateEditPeserta',
+            'atlet' => $atlet,
+        ]);
+    }
+    public function show($id)
+    {
+        $atlet = Atlet::findOrFail($id);
+
+        return Inertia::render('Dashboard', [
+            'child' => 'Peserta/DetailPeserta',
             'atlet' => $atlet,
         ]);
     }
