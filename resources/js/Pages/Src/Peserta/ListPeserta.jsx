@@ -1,10 +1,11 @@
 import TableItems from "@/Pages/Layouts/Table";
 import { usePage, Link } from "@inertiajs/react";
+import { useState } from "react";
 
 export default function ListPeserta() {
     const { atlet } = usePage().props;
+    const [dropdownOpenIndex, setDropdownOpenIndex] = useState(null);
 
-    // Ubah format jenis_kelamin menjadi "Laki-Laki" / "Perempuan"
     const formattedAtlet = atlet.map((item) => ({
         ...item,
         jenis_kelamin:
@@ -37,15 +38,15 @@ export default function ListPeserta() {
         {
             key: "aksi",
             label: "Aksi",
-            render: (value, item) => (
-                <div className="flex flex-col text-left whitespace-nowrap">
-                    <Link href={`/peserta/${item.id}`} className="py-2 leading-none px-3 font-medium text-green-600 bg-green-500/20 hover:text-green-500 duration-150 hover:bg-gray-50 rounded-lg">
+            render: (value, item, index) => (
+                <div className={`${dropdownOpenIndex === index ? "flex flex-col" : ""} text-left  whitespace-nowrap`}>
+                    <Link href={`/peserta/${item.id}`} className={`py-2 leading-none px-3 font-medium text-green-600 bg-green-500/20 hover:text-green-500 duration-150 hover:bg-gray-50 rounded-lg ${dropdownOpenIndex === index ? "" : "ml-2"} `}>
                         Detail
                     </Link>
-                    <Link href={`/peserta/${item.id}/edit`} className="py-2 leading-none mt-2 px-3 font-medium text-indigo-600 bg-indigo-500/20 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg">
+                    <Link href={`/peserta/${item.id}/edit`} className={`py-2 leading-none mt-2 px-3 font-medium text-indigo-600 bg-indigo-500/20 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg ${dropdownOpenIndex === index ? "" : "ml-2"} `}>
                         Edit
                     </Link>
-                    <Link href={`/peserta/${item.id}/delete`} className="py-2 leading-none mt-2 px-3 font-medium text-red-600 bg-red-500/20 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg">
+                    <Link href={`/peserta/${item.id}/delete`} className={`py-2 leading-none mt-2 px-3 font-medium text-red-600 bg-red-500/20 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg ${dropdownOpenIndex === index ? "" : "ml-2"} `}>
                         Delete
                     </Link>
                 </div>
@@ -55,6 +56,12 @@ export default function ListPeserta() {
     ];
 
     return (
-        <TableItems title="Peserta" data={formattedAtlet} columns={columns} />
+        <TableItems
+            title="Peserta"
+            data={formattedAtlet}
+            columns={columns}
+            dropdownOpenIndex={dropdownOpenIndex}
+            setDropdownOpenIndex={setDropdownOpenIndex}
+        />
     );
 }
