@@ -3,6 +3,7 @@ import InputField from "@/Components/forms/InputField";
 import { Section } from "@/Components/forms/Section";
 import { useForm as useInertiaForm } from "@inertiajs/react";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 export default function CreateEditPeserta() {
     const form = useForm();
@@ -20,7 +21,44 @@ export default function CreateEditPeserta() {
     });
 
     const handleSubmit = (formData) => {
-        post(route("peserta.store"));
+        // Validasi form kosong kecuali berat badan dan tinggi badan
+        if (
+            !data.name ||
+            !data.jenis_kelamin ||
+            !data.nik ||
+            !data.no_kk ||
+            !data.tanggal_lahir ||
+            !data.tempat_lahir
+        ) {
+            Swal.fire({
+                icon: "error",
+                title: "Form Tidak Lengkap",
+                text: "Harap isi semua field yang wajib (*) sebelum menyimpan.",
+            });
+            return;
+        }
+
+        // Hapus field berat_badan dan tinggi_badan jika kosong
+        const submitData = { ...data };
+        if (!submitData.berat_badan) {
+            delete submitData.berat_badan;
+        }
+        if (!submitData.tinggi_badan) {
+            delete submitData.tinggi_badan;
+        }
+
+        post(route("peserta.store"), {
+            data: submitData,
+            onError: (errors) => {
+                // Tangkap pesan error dari backend dan tampilkan menggunakan SweetAlert2
+                const errorMessages = Object.values(errors).flat().join('<br>');
+                Swal.fire({
+                    icon: "error",
+                    title: "Kesalahan Validasi",
+                    html: errorMessages,
+                });
+            },
+        });
     };
 
     return (
@@ -35,6 +73,7 @@ export default function CreateEditPeserta() {
                         value={data.name}
                         onChange={(e) => setData("name", e.target.value)}
                         error={errors.name}
+                        required
                     />
                     <InputField
                         label="Jenis Kelamin"
@@ -48,6 +87,7 @@ export default function CreateEditPeserta() {
                         value={data.jenis_kelamin}
                         onChange={(e) => setData("jenis_kelamin", e.target.value)}
                         error={errors.jenis_kelamin}
+                        required
                     />
                     <InputField
                         label="NIK"
@@ -56,6 +96,7 @@ export default function CreateEditPeserta() {
                         value={data.nik}
                         onChange={(e) => setData("nik", e.target.value)}
                         error={errors.nik}
+                        required
                     />
                     <InputField
                         label="No KK"
@@ -64,6 +105,7 @@ export default function CreateEditPeserta() {
                         value={data.no_kk}
                         onChange={(e) => setData("no_kk", e.target.value)}
                         error={errors.no_kk}
+                        required
                     />
                     <InputField
                         label="Tanggal Lahir"
@@ -72,6 +114,7 @@ export default function CreateEditPeserta() {
                         value={data.tanggal_lahir}
                         onChange={(e) => setData("tanggal_lahir", e.target.value)}
                         error={errors.tanggal_lahir}
+                        required
                     />
                     <InputField
                         label="Tempat Lahir"
@@ -80,6 +123,7 @@ export default function CreateEditPeserta() {
                         value={data.tempat_lahir}
                         onChange={(e) => setData("tempat_lahir", e.target.value)}
                         error={errors.tempat_lahir}
+                        required
                     />
                     <InputField
                         label="Berat Badan (kg)"
