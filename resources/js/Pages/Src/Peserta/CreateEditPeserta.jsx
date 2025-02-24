@@ -25,7 +25,6 @@ export default function CreateEditPeserta() {
     });
 
     const handleSubmit = (formData) => {
-        // Validasi form kosong kecuali berat badan dan tinggi badan
         if (
             !data.name ||
             !data.jenis_kelamin ||
@@ -42,20 +41,34 @@ export default function CreateEditPeserta() {
             return;
         }
 
-        // Hapus field berat_badan dan tinggi_badan jika kosong
-        const submitData = { ...data };
-        if (!submitData.berat_badan) {
-            delete submitData.berat_badan;
+        // Gunakan FormData untuk mengirim file
+        const formDataObject = new FormData();
+        formDataObject.append("name", data.name);
+        formDataObject.append("jenis_kelamin", data.jenis_kelamin);
+        formDataObject.append("nik", data.nik);
+        formDataObject.append("no_kk", data.no_kk);
+        formDataObject.append("tanggal_lahir", data.tanggal_lahir);
+        formDataObject.append("tempat_lahir", data.tempat_lahir);
+
+        if (data.berat_badan) {
+            formDataObject.append("berat_badan", data.berat_badan);
         }
-        if (!submitData.tinggi_badan) {
-            delete submitData.tinggi_badan;
+        if (data.tinggi_badan) {
+            formDataObject.append("tinggi_badan", data.tinggi_badan);
+        }
+
+        // Tambahkan file hanya jika ada perubahan
+        if (data.foto_profile) {
+            formDataObject.append("foto_profile", data.foto_profile);
         }
 
         if (atlet) {
-            put(route("peserta.update", atlet.id), {
-                data: submitData,
+            post(route("peserta.update", atlet.id), {
+                data: formDataObject,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
                 onError: (errors) => {
-                    // Tangkap pesan error dari backend dan tampilkan menggunakan SweetAlert2
                     const errorMessages = Object.values(errors).flat().join('<br>');
                     Swal.fire({
                         icon: "error",
@@ -66,9 +79,11 @@ export default function CreateEditPeserta() {
             });
         } else {
             post(route("peserta.store"), {
-                data: submitData,
+                data: formDataObject,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
                 onError: (errors) => {
-                    // Tangkap pesan error dari backend dan tampilkan menggunakan SweetAlert2
                     const errorMessages = Object.values(errors).flat().join('<br>');
                     Swal.fire({
                         icon: "error",
