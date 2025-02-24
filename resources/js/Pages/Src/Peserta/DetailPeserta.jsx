@@ -5,7 +5,9 @@ import Field from "@/Components/forms/Field";
 
 export default function DetailPeserta() {
     const { atlet } = usePage().props;
-    const formattedDate = moment(atlet.tanggal_lahir).locale("id").format("dddd, D MMMM YYYY");
+    const formattedDate = moment(atlet.tanggal_lahir)
+        .locale("id")
+        .format("dddd, D MMMM YYYY");
 
     return (
         <div className="max-w-3xl mx-auto p-2 text-gray-800">
@@ -41,10 +43,25 @@ export default function DetailPeserta() {
                     value={moment(atlet.tanggal_lahir).format("D MMM YYYY")}
                 />
                 <Field label="Tempat Lahir" value={atlet.tempat_lahir} />
-                <Field label="Berat Badan" value={`${atlet.berat_badan} kg`} />
-                <Field label="Tinggi Badan" value={`${atlet.tinggi_badan ?? "-"} cm`} />
+                <Field
+                    label="Berat Badan"
+                    value={
+                        atlet.berat_badan
+                            ? `${atlet.berat_badan} kg`
+                            : "data tidak ada"
+                    }
+                    className={`${atlet.berat_badan ? "" : "text-yellow-600 italic"}`}
+                />
+                <Field
+                    label="Tinggi Badan"
+                    value={
+                        atlet.tinggi_badan
+                            ? `${atlet.tinggi_badan} cm`
+                            : "data tidak ada"
+                    }
+                    className={`${atlet.tinggi_badan ? "" : "text-yellow-600 italic"}`}
+                />
             </div>
         </div>
     );
 }
-
