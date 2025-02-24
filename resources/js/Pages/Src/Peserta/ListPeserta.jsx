@@ -28,28 +28,29 @@ export default function ListPeserta() {
             ),
         },
         { key: "name", label: "Nama" },
-        { key: "jenis_kelamin", label: "Jenis Kelamin" },
-        { key: "tanggal_lahir", label: "Tanggal Lahir" },
-        { key: "nik", label: "NIK" },
-        { key: "no_kk", label: "KK" },
-        { key: "berat_badan", label: "Berat Badan (kg)" },
-        { key: "tinggi_badan", label: "Tinggi Badan (cm)" },
+        { key: "jenis_kelamin", label: "Jenis Kelamin", hidden: true },
+        { key: "tanggal_lahir", label: "Tanggal Lahir", hidden: true },
+        { key: "nik", label: "NIK", hidden: true },
+        { key: "no_kk", label: "KK", hidden: true },
+        { key: "berat_badan", label: "Berat Badan (kg)", hidden: true },
+        { key: "tinggi_badan", label: "Tinggi Badan (cm)", hidden: true },
         {
             key: "aksi",
             label: "Aksi",
             render: (value, item) => (
-                <div className="text-left whitespace-nowrap">
+                <div className="flex flex-col text-left whitespace-nowrap">
                     <Link href={`/peserta/${item.id}`} className="py-2 leading-none px-3 font-medium text-green-600 bg-green-500/20 hover:text-green-500 duration-150 hover:bg-gray-50 rounded-lg">
                         Detail
                     </Link>
-                    <Link href={`/peserta/${item.id}/edit`} className="py-2 leading-none ml-2 px-3 font-medium text-indigo-600 bg-indigo-500/20 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg">
+                    <Link href={`/peserta/${item.id}/edit`} className="py-2 leading-none mt-2 px-3 font-medium text-indigo-600 bg-indigo-500/20 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg">
                         Edit
                     </Link>
-                    <Link href={`/peserta/${item.id}/delete`} className="py-2 leading-none ml-2 px-3 font-medium text-red-600 bg-red-500/20 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg">
+                    <Link href={`/peserta/${item.id}/delete`} className="py-2 leading-none mt-2 px-3 font-medium text-red-600 bg-red-500/20 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg">
                         Delete
                     </Link>
                 </div>
             ),
+            hidden: true,
         },
     ];
 
