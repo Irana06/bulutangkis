@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AtletController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -24,9 +25,20 @@ Route::fallback(function(){
     return Inertia::render('Services/NotFound');
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+
+    // Peserta
+    Route::get('/dashboard/peserta', [AtletController::class, 'index'])->name('peserta.index');
+
+    Route::get('/dashboard/peserta/create', function () {
+        return Inertia::render('Dashboard', [
+            'child' => 'Peserta/CreateEditPeserta'
+        ]);
+    })->name('peserta.create');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
