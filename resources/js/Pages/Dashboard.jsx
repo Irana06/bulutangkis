@@ -18,8 +18,8 @@ const getChildComponent = (child) => {
 
 export default function Dashboard({ auth, child }) {
     return (
-        <main className="app flex">
-            <Sidebar userData={auth} className="w-64">
+        <main className="app flex h-screen overflow-hidden">
+            <Sidebar userData={auth} className="w-64 fixed h-full">
                 <hr className="my-3 py-1" />
                 <Link href="/peserta">
                     <SidebarItem icon={<Users size={20} />} text="Peserta" />
@@ -31,7 +31,7 @@ export default function Dashboard({ auth, child }) {
                     />
                 </Link>
             </Sidebar>
-            <div className="flex-grow">
+            <div className="flex-grow overflow-auto">
                 <div className="flex flex-col text-center">
                     <div className="text-left p-6 py-5 border-b border-gray-300">
                         <span className="text-2xl font-extrabold text-green-400 tracking-wide drop-shadow-lg">
@@ -43,7 +43,7 @@ export default function Dashboard({ auth, child }) {
                     </div>
                 </div>
                 {/* Content */}
-                <div className="mt-4">
+                <div className="mt-4 p-4">
                     {getChildComponent(child) || <p>Loading...</p>}
                 </div>
             </div>

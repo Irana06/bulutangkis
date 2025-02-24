@@ -106,7 +106,7 @@ export default function CreateEditPeserta() {
                 <div className="mt-6">
                     <button
                         type="submit"
-                        className="px-4 py-2 text-white bg-blue-600 rounded-md"
+                        className="px-4 py-2 text-white font-semibold bg-cyan-500/60 hover:bg-cyan-500 duration-200 rounded-md"
                         disabled={processing}
                     >
                         {processing ? "Menyimpan..." : "Simpan"}
