@@ -1,11 +1,37 @@
 import TableItems from "@/Pages/Layouts/Table";
-import { usePage, Link } from "@inertiajs/react";
+import { usePage, Link, useForm } from "@inertiajs/react";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 export default function ListPeserta() {
     const { atlet } = usePage().props;
-    console.log(atlet);
     const [dropdownOpenIndex, setDropdownOpenIndex] = useState(null);
+    const { delete: destroy } = useForm();
+
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: "Apakah Anda yakin?",
+            text: "Data ini akan dihapus secara permanen!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Ya, hapus!",
+            cancelButtonText: "Batal",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                destroy(route("peserta.destroy", id), {
+                    onSuccess: () => {
+                        Swal.fire(
+                            "Terhapus!",
+                            "Data atlet telah dihapus.",
+                            "success"
+                        );
+                    },
+                });
+            }
+        });
+    };
 
     const formattedAtlet = atlet.map((item) => ({
         ...item,
@@ -47,7 +73,7 @@ export default function ListPeserta() {
                     <Link href={`/peserta/${item.id}/edit`} className={`py-2 leading-none mt-2 px-3 font-medium text-indigo-600 bg-indigo-500/20 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg ${dropdownOpenIndex === index ? "" : "ml-2"} `}>
                         Edit
                     </Link>
-                    <Link href={`/peserta/${item.id}/delete`} className={`py-2 leading-none mt-2 px-3 font-medium text-red-600 bg-red-500/20 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg ${dropdownOpenIndex === index ? "" : "ml-2"} `}>
+                    <Link onClick={() => handleDelete(item.id)} className={`py-2 leading-none mt-2 px-3 font-medium text-red-600 bg-red-500/20 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg ${dropdownOpenIndex === index ? "" : "ml-2"} `}>
                         Delete
                     </Link>
                 </div>

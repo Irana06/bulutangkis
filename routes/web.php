@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/peserta', [AtletController::class, 'index'])->name('peserta.index');
     Route::post('/peserta', [AtletController::class, 'store'])->name('peserta.store');
     Route::post('/peserta/{id}', [AtletController::class, 'update'])->name('peserta.update');
+    Route::delete('/peserta/{id}', [AtletController::class, 'destroy'])->name('peserta.destroy');
 
     Route::get('/peserta/create', function () {
         return Inertia::render('Dashboard', [

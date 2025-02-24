@@ -66,4 +66,12 @@ class AtletController extends Controller
 
         return redirect()->route('peserta.index')->with('success', 'Atlet berhasil diperbarui');
     }
+
+    public function destroy($id)
+    {
+        $atlet = Atlet::findOrFail($id);
+        $atlet->delete();
+
+        return redirect()->route('peserta.index')->with('success', 'Atlet berhasil dihapus');
+    }
 }
