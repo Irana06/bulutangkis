@@ -18,10 +18,10 @@ export default function Dashboard({ auth, child }) {
         <main className="app flex">
             <Sidebar userData={auth} className="w-64">
                 <hr className="my-3 py-1" />
-                <Link href="/dashboard/peserta">
+                <Link href="/peserta">
                     <SidebarItem icon={<Users size={20} />} text="Peserta" />
                 </Link>
-                <Link href="/dashboard/tanding">
+                <Link href="/tanding">
                     <SidebarItem
                         icon={<LayoutDashboard size={20} />}
                         text="Tanding"

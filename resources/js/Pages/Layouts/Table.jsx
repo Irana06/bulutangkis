@@ -22,7 +22,6 @@ export default function TableItems({ title = "Data", data = [], columns = [] }) 
                             {columns.map((col, index) => (
                                 <th key={index} className="py-3 px-6">{col.label}</th>
                             ))}
-                            <th className="py-3 px-6">Aksi</th>
                         </tr>
                     </thead>
                     <tbody className="text-gray-600 divide-y">
@@ -33,17 +32,6 @@ export default function TableItems({ title = "Data", data = [], columns = [] }) 
                                         {col.render ? col.render(item[col.key], item) : item[col.key]}
                                     </td>
                                 ))}
-                                <td className="text-left whitespace-nowrap">
-                                    <button className="py-2 leading-none px-3 font-medium text-green-600 bg-green-500/20 hover:text-green-500 duration-150 hover:bg-gray-50 rounded-lg">
-                                        Detail
-                                    </button>
-                                    <button className="py-2 leading-none ml-2 px-3 font-medium text-indigo-600 bg-indigo-500/20 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg">
-                                        Edit
-                                    </button>
-                                    <button className="py-2 leading-none ml-2 px-3 font-medium text-red-600 bg-red-500/20 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg">
-                                        Delete
-                                    </button>
-                                </td>
                             </tr>
                         ))}
                     </tbody>

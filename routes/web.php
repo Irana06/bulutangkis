@@ -31,9 +31,9 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 
     // Peserta
-    Route::get('/dashboard/peserta', [AtletController::class, 'index'])->name('peserta.index');
+    Route::get('/peserta', [AtletController::class, 'index'])->name('peserta.index');
 
-    Route::get('/dashboard/peserta/create', function () {
+    Route::get('/peserta/create', function () {
         return Inertia::render('Dashboard', [
             'child' => 'Peserta/CreateEditPeserta'
         ]);
