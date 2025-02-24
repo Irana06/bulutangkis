@@ -2,6 +2,7 @@ import React from "react";
 import { usePage } from "@inertiajs/react";
 import moment from "moment";
 import Field from "@/Components/Forms/Field";
+import BackButton from "@/Components/Buttons/BackButton";
 
 export default function DetailPeserta() {
     const { atlet } = usePage().props;
@@ -50,7 +51,9 @@ export default function DetailPeserta() {
                             ? `${atlet.berat_badan} kg`
                             : "data tidak ada"
                     }
-                    className={`${atlet.berat_badan ? "" : "text-yellow-600 italic"}`}
+                    className={`${
+                        atlet.berat_badan ? "" : "text-yellow-600 italic"
+                    }`}
                 />
                 <Field
                     label="Tinggi Badan"
@@ -59,8 +62,15 @@ export default function DetailPeserta() {
                             ? `${atlet.tinggi_badan} cm`
                             : "data tidak ada"
                     }
-                    className={`${atlet.tinggi_badan ? "" : "text-yellow-600 italic"}`}
+                    className={`${
+                        atlet.tinggi_badan ? "" : "text-yellow-600 italic"
+                    }`}
                 />
+            </div>
+
+            {/* Button Kembali */}
+            <div className="mt-10">
+                <BackButton />
             </div>
         </div>
     );

@@ -45,7 +45,7 @@ export default function CreateEditPeserta() {
         Swal.fire({
             title: "Apakah Anda yakin?",
             text: "Anda akan menyimpan data Peserta ini.",
-            icon: "warning",
+            icon: "question",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
