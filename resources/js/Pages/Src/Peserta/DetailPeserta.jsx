@@ -1,7 +1,7 @@
 import React from "react";
 import { usePage } from "@inertiajs/react";
 import moment from "moment";
-import Field from "@/Components/forms/Field";
+import Field from "@/Components/Forms/Field";
 
 export default function DetailPeserta() {
     const { atlet } = usePage().props;

@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function () {
     // Peserta
     Route::get('/peserta', [AtletController::class, 'index'])->name('peserta.index');
     Route::post('/peserta', [AtletController::class, 'store'])->name('peserta.store');
-    Route::get('/peserta/{id}', [AtletController::class, 'show'])->name('peserta.show');
+    Route::get('/peserta/{id}/detail', [AtletController::class, 'show'])->name('peserta.show');
     Route::post('/peserta/{id}', [AtletController::class, 'update'])->name('peserta.update');
     Route::delete('/peserta/{id}', [AtletController::class, 'destroy'])->name('peserta.destroy');
 

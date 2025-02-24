@@ -1,10 +1,11 @@
-import { FormContainer } from "@/Components/forms/FormContainer";
-import InputField from "@/Components/forms/InputField";
-import { Section } from "@/Components/forms/Section";
+import { FormContainer } from "@/Components/Forms/FormContainer";
+import InputField from "@/Components/Forms/InputField";
+import { Section } from "@/Components/Forms/Section";
 import { useForm as useInertiaForm } from "@inertiajs/react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { usePage } from "@inertiajs/react";
+import BackButton from "@/Components/Buttons/BackButton";
 
 export default function CreateEditPeserta() {
     const { atlet } = usePage().props;
@@ -203,14 +204,15 @@ export default function CreateEditPeserta() {
                     />
                 </div>
                 {/* Tombol submit di bawah form */}
-                <div className="mt-6">
+                <div className="mt-6 flex justify-between">
                     <button
                         type="submit"
-                        className="px-4 py-2 text-white font-semibold bg-cyan-500/60 hover:bg-cyan-500 duration-200 rounded-md"
+                        className="px-4 py-2 text-white font-semibold bg-green-500/60 hover:bg-green-500 duration-200 rounded-md"
                         disabled={processing}
                     >
                         {processing ? "Menyimpan..." : "Simpan"}
                     </button>
+                    <BackButton />
                 </div>
             </FormContainer>
         </Section>
