@@ -12,7 +12,7 @@ export default function NotFound() {
                         Halaman ini masih dalam tahap pengembangan.
                     </p>
                     <a
-                        href="/dashboard"
+                        href="/home"
                         className="px-6 py-3 bg-white font-semibold rounded-full hover:bg-purple-100 transition duration-300 ease-in-out"
                     >
                         Go Home

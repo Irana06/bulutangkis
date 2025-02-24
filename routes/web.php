@@ -26,9 +26,11 @@ Route::fallback(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('/home', function () {
+        return Inertia::render('Dashboard', [
+            'child' => 'Home'
+        ]);
+    })->name('home');
 
     // Peserta
     Route::get('/peserta', [AtletController::class, 'index'])->name('peserta.index');

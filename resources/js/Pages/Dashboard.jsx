@@ -4,22 +4,25 @@ import { Link } from "@inertiajs/react";
 import ListPeserta from "@/Pages/Src/Peserta/ListPeserta";
 import CreateEditPeserta from "@/Pages/Src/Peserta/CreateEditPeserta";
 import DetailPeserta from "./Src/Peserta/DetailPeserta";
+import Home from "./Home";
 
 // Mapping string ke komponen
-const getChildComponent = (child) => {
-    switch (child) {
-        case "Peserta/ListPeserta":
-            return <ListPeserta />;
-        case "Peserta/CreateEditPeserta":
-            return <CreateEditPeserta />;
-        case "Peserta/DetailPeserta":
-            return <DetailPeserta />;
-        default:
-            return null;
-    }
-};
 
 export default function Dashboard({ auth, child }) {
+    const getChildComponent = (child) => {
+        switch (child) {
+            case "Peserta/ListPeserta":
+                return <ListPeserta />;
+            case "Peserta/CreateEditPeserta":
+                return <CreateEditPeserta />;
+            case "Peserta/DetailPeserta":
+                return <DetailPeserta />;
+            case "Home":
+                return <Home userData={auth} />;
+            default:
+                return null;
+        }
+    };
     return (
         <main className="app flex h-screen overflow-hidden">
             <Sidebar userData={auth} className="w-64 fixed h-full">

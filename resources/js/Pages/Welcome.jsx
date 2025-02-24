@@ -7,7 +7,6 @@ import background from "@/Storage/Img/bg2.avif";
 export default function Welcome({ auth }) {
     const [isOpen, setIsOpen] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const { post } = useForm();
 
     // Fungsi untuk menutup menu dropdown mobile saat collapse navbar ditekan
     const handleCollapseToggle = () => {
@@ -15,10 +14,6 @@ export default function Welcome({ auth }) {
         if (isOpen) {
             setIsOpen(false);
         }
-    };
-
-    const handleLogout = () => {
-        post(route("logout"));
     };
 
     return (
@@ -222,7 +217,7 @@ export default function Welcome({ auth }) {
                             </p>
                             {auth.user ? (
                                 <a
-                                    href="/dashboard"
+                                    href="/home"
                                     className="bg-yellow-400 text-gray-900 hover:bg-yellow-300 py-2 px-6 rounded-full text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
                                 >
                                     Cek Dashboard
