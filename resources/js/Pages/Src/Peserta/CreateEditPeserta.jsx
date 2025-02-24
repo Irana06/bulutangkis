@@ -18,6 +18,7 @@ export default function CreateEditPeserta() {
         tempat_lahir: "",
         berat_badan: "",
         tinggi_badan: "",
+        avatar: null,
     });
 
     const handleSubmit = (formData) => {
@@ -144,6 +145,13 @@ export default function CreateEditPeserta() {
                         value={data.tinggi_badan}
                         onChange={(e) => setData("tinggi_badan", e.target.value)}
                         error={errors.tinggi_badan}
+                    />
+                    <InputField
+                        label="Foto Profile"
+                        name="foto_profile"
+                        type="file"
+                        onChange={(e) => setData("foto_profile", e.target.files[0])}
+                        error={errors.foto_profile}
                     />
                 </div>
                 {/* Tombol submit di bawah form */}

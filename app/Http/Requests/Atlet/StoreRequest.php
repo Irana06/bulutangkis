@@ -28,6 +28,7 @@ class StoreRequest extends FormRequest
             'tempat_lahir' => 'required|string|max:255',
             'berat_badan' => 'nullable|numeric|min:1|max:999.99',
             'tinggi_badan' => 'nullable|numeric|min:1|max:999.99',
+            'foto_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 
@@ -57,6 +58,9 @@ class StoreRequest extends FormRequest
             'tinggi_badan.numeric' => 'Tinggi badan harus berupa angka.',
             'tinggi_badan.min' => 'Tinggi badan minimal 1.',
             'tinggi_badan.max' => 'Tinggi badan maksimal 999.99.',
+            'foto_profile.image' => 'Foto Profile harus berupa gambar.',
+            'foto_profile.mimes' => 'Foto Profile harus berupa file dengan tipe: jpeg, png, jpg, gif, svg.',
+            'foto_profile.max' => 'Foto Profile maksimal berukuran 2MB.',
         ];
     }
 }

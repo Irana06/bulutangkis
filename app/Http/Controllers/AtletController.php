@@ -26,13 +26,15 @@ class AtletController extends Controller
     {
         $validatedData = $request->validated();
 
-        // Hitung umur berdasarkan tanggal lahir
-        // $validatedData['umur'] = now()->diffInYears($validatedData['tanggal_lahir']);
-
         // Tambahkan kontingen_id dari user yang sedang login
         $validatedData['kontingen_id'] = auth()->id();
 
-        Atlet::create($validatedData);
+        $atlet = Atlet::create($validatedData);
+
+        // Simpan avatar jika ada
+        if ($request->hasFile('foto_profile')) {
+            $atlet->addMediaFromRequest('foto_profile')->toMediaCollection('foto_profile');
+        }
 
         return redirect()->route('peserta.index')->with('success', 'Atlet berhasil ditambahkan');
     }

@@ -5,10 +5,15 @@ namespace App\Models;
 use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Atlet extends Model
+/**
+ * @property-read string|null $foto_profile_url
+ */
+class Atlet extends Model implements HasMedia
 {
-    use HasFactory, HasUuid;
+    use HasFactory, HasUuid, InteractsWithMedia;
 
     protected $keyType = 'string';
 
@@ -26,8 +31,20 @@ class Atlet extends Model
         'kontingen_id',
     ];
 
+    protected $appends = ['foto_profile_url'];
+
+    public function getFotoProfileUrlAttribute(): ?string
+    {
+        return $this->getFirstMediaUrl('foto_profile') ?: null;
+    }
+
     public function kontingen()
     {
         return $this->belongsTo(Kontingen::class);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('foto_profile')->singleFile();
     }
 }

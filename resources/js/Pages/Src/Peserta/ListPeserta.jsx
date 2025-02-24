@@ -4,6 +4,7 @@ import { useState } from "react";
 
 export default function ListPeserta() {
     const { atlet } = usePage().props;
+    console.log(atlet);
     const [dropdownOpenIndex, setDropdownOpenIndex] = useState(null);
 
     const formattedAtlet = atlet.map((item) => ({
@@ -18,11 +19,11 @@ export default function ListPeserta() {
 
     const columns = [
         {
-            key: "avatar",
+            key: "foto_profile",
             label: "Avatar",
             render: (value, item) => (
                 <img
-                    src={item.avatar || `https://ui-avatars.com/api/?name=${item.name}`}
+                    src={item.foto_profile_url || `https://ui-avatars.com/api/?name=${item.name}`}
                     alt={item.name}
                     className="w-10 h-10 rounded-full"
                 />
