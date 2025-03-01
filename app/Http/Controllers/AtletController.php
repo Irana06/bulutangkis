@@ -30,6 +30,9 @@ class AtletController extends Controller
         // Tambahkan kontingen_id dari user yang sedang login
         $validatedData['kontingen_id'] = auth()->id();
 
+        // Hitung umur berdasarkan tanggal_lahir
+        $validatedData['umur'] = now()->diffInYears($validatedData['tanggal_lahir']);
+
         $atlet = Atlet::create($validatedData);
 
         // Simpan avatar jika ada
