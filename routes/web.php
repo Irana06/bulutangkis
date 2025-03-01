@@ -34,8 +34,9 @@ Route::middleware('auth')->group(function () {
     })->name('home');
 
     // Peserta
-    Route::resource('peserta', AtletController::class)->except(['show']);
+    Route::resource('peserta', AtletController::class)->except(['show', 'update']);
     Route::get('/peserta/{id}/detail', [AtletController::class, 'show'])->name('peserta.show');
+    Route::post('/peserta/{id}', [AtletController::class, 'update'])->name('peserta.update');
 
     // Tanding
     Route::resource('tanding', TandingController::class)->except(['show']);
