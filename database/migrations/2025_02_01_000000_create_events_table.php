@@ -15,9 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->integer('tahun');
             $table->integer('sesi')->unique();
-            $table->integer('kuota_tunggal');
-            $table->integer('kuota_ganda');
-            $table->integer('kuota_campuran');
+            $table->integer('kuota_peserta');
             $table->string('lokasi');
             $table->boolean('dibuka');
             $table->softDeletes();

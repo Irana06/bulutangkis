@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('pool_peserta', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('pool_id')->constrained('pools')->onDelete('cascade');
-            $table->foreignUuid('kompetisi_id')->constrained('kompetisi')->onDelete('cascade'); // Bisa atlet atau tim
-            $table->foreignUuid('juara_pool_id')->nullable()->constrained('kompetisi')->onDelete('set null');
-            $table->unique(['pool_id', 'kompetisi_id']); // Mencegah peserta masuk lebih dari sekali ke pool
+            $table->foreignUuid('tanding_id')->constrained('tanding')->onDelete('cascade'); // Bisa atlet atau tim
+            $table->foreignUuid('juara_pool_id')->nullable()->constrained('tanding')->onDelete('set null');
+            $table->unique(['pool_id', 'tanding_id']); // Mencegah peserta masuk lebih dari sekali ke pool
             $table->softDeletes();
             $table->timestamps();
         });

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignUuid('pertandingan_id')->constrained('pertandingan')->onDelete('cascade');
             $table->foreignUuid('pertandingan_sebelumnya_1')->nullable()->constrained('pertandingan')->onDelete('cascade');
             $table->foreignUuid('pertandingan_sebelumnya_2')->nullable()->constrained('pertandingan')->onDelete('cascade');
-            $table->foreignUuid('pemenang_id')->nullable()->constrained('kompetisi')->onDelete('set null');
+            $table->foreignUuid('pemenang_id')->nullable()->constrained('tanding')->onDelete('set null');
             $table->softDeletes();
             $table->timestamps();
         });

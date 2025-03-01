@@ -15,14 +15,14 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('pool_id')->nullable()->constrained('pools')->onDelete('cascade');
             $table->foreignUuid('event_id')->constrained('events')->onDelete('cascade');
-            $table->foreignUuid('kompetisi_1')->constrained('kompetisi')->onDelete('cascade');
-            $table->foreignUuid('kompetisi_2')->constrained('kompetisi')->onDelete('cascade');
+            $table->foreignUuid('tanding_1')->constrained('tanding')->onDelete('cascade');
+            $table->foreignUuid('tanding_2')->constrained('tanding')->onDelete('cascade');
             $table->foreignUuid('kontingen_1')->constrained('kontingen')->onDelete('cascade');
             $table->foreignUuid('kontingen_2')->constrained('kontingen')->onDelete('cascade');
             $table->timestamp('waktu_pertandingan');
             $table->enum('status', ['TERJADWAL', 'SELESAI', 'DIBATALKAN']);
             $table->enum('babak', ['AWAL', 'KEDUA', 'AKHIR'])->default('AWAL');
-            $table->foreignUuid('pemenang_id')->nullable()->constrained('kompetisi')->onDelete('set null');
+            $table->foreignUuid('pemenang_id')->nullable()->constrained('tanding')->onDelete('set null');
             $table->softDeletes();
             $table->timestamps();
         });

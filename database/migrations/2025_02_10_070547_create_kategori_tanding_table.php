@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('kategori_tanding', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->enum('jenis', ['TUNGGAL_PUTRA', 'TUNGGAL_PUTRI', 'GANDA_PUTRA', 'GANDA_PUTRI', 'CAMPURAN', 'TUNGGAKAN']);
-            $table->enum('tingkat', ['SD', 'SMP', 'SMA', 'TUNGGAKAN']);
+            $table->enum('jenis', ['TUNGGAL_PUTRA', 'TUNGGAL_PUTRI', 'GANDA_PUTRA', 'GANDA_PUTRI', 'CAMPURAN', 'TARUNA']);
+            $table->enum('tingkat', ['SD', 'SMP', 'SMA/SMK', 'TARUNA']);
             $table->string('kelompok_umur'); // Misal: '7-9', '10-12'
             $table->integer('min_umur');
             $table->integer('max_umur');
