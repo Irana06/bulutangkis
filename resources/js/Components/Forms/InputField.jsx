@@ -14,7 +14,6 @@ const FormInput = ({
 }) => {
     const [file, setFile] = useState(null);
     const [preview, setPreview] = useState(null);
-    console.log("file", preview);
 
     const handleFileChange = (e) => {
         const uploadedFile = e.target.files[0];

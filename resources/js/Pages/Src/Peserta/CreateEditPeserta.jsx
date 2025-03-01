@@ -13,7 +13,7 @@ export default function CreateEditPeserta() {
     const form = useForm();
 
     // Inertia useForm untuk data form
-    const { data, setData, post, processing, errors } = useInertiaForm({
+    const { data, setData, post, put, processing, errors } = useInertiaForm({
         name: atlet?.name || "",
         jenis_kelamin: atlet?.jenis_kelamin || "",
         nik: atlet?.nik || "",
@@ -53,7 +53,6 @@ export default function CreateEditPeserta() {
             cancelButtonText: "Batal",
         }).then((result) => {
             if (result.isConfirmed) {
-                // Gunakan FormData untuk mengirim file
                 const formDataObject = new FormData();
                 formDataObject.append("name", data.name);
                 formDataObject.append("jenis_kelamin", data.jenis_kelamin);
@@ -69,35 +68,53 @@ export default function CreateEditPeserta() {
                     formDataObject.append("tinggi_badan", data.tinggi_badan);
                 }
 
-                // Tambahkan file hanya jika ada perubahan
+                // Tambahkan file jika ada
                 if (data.foto_profile) {
                     formDataObject.append("foto_profile", data.foto_profile);
                 }
 
-                const submitAction = post;
-                const routeName = atlet ? "peserta.update" : "peserta.store";
-
-                submitAction(route(routeName, atlet?.id), {
-                    data: formDataObject,
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                    onSuccess: () => {
-                        Swal.fire({
-                            icon: "success",
-                            title: "Berhasil",
-                            text: "Data atlet berhasil disimpan.",
-                        });
-                    },
-                    onError: (errors) => {
-                        const errorMessages = Object.values(errors).flat().join('<br>');
-                        Swal.fire({
-                            icon: "error",
-                            title: "Kesalahan Validasi",
-                            html: errorMessages,
-                        });
-                    },
-                });
+                // Tentukan metode (POST untuk tambah, PUT untuk update)
+                if (atlet) {
+                    put(route("peserta.update", atlet.id), {
+                        data: formDataObject,
+                        headers: { "Content-Type": "multipart/form-data" },
+                        onSuccess: () => {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Berhasil",
+                                text: "Data atlet berhasil diperbarui.",
+                            });
+                        },
+                        onError: (errors) => {
+                            const errorMessages = Object.values(errors).flat().join('<br>');
+                            Swal.fire({
+                                icon: "error",
+                                title: "Kesalahan Validasi",
+                                html: errorMessages,
+                            });
+                        },
+                    });
+                } else {
+                    post(route("peserta.store"), {
+                        data: formDataObject,
+                        headers: { "Content-Type": "multipart/form-data" },
+                        onSuccess: () => {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Berhasil",
+                                text: "Data atlet berhasil ditambahkan.",
+                            });
+                        },
+                        onError: (errors) => {
+                            const errorMessages = Object.values(errors).flat().join('<br>');
+                            Swal.fire({
+                                icon: "error",
+                                title: "Kesalahan Validasi",
+                                html: errorMessages,
+                            });
+                        },
+                    });
+                }
             }
         });
     };

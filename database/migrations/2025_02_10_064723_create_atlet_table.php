@@ -16,12 +16,12 @@ return new class extends Migration
             $table->string('name');
             $table->enum('jenis_kelamin', ['LAKI_LAKI', 'PEREMPUAN']);
             $table->unsignedBigInteger('nik')->unique();
-            $table->unsignedBigInteger('no_kk')->unique();
+            $table->unsignedBigInteger('no_kk');
             $table->date('tanggal_lahir');
             $table->integer('umur');
             $table->string('tempat_lahir');
-            $table->decimal('berat_badan', 3, 2);
-            $table->decimal('tinggi_badan', 3, 2);
+            $table->decimal('berat_badan', 4, 2)->nullable();
+            $table->decimal('tinggi_badan', 5, 2)->nullable();
             $table->foreignUuid('kontingen_id')->constrained('kontingen')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();

@@ -15,9 +15,9 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->enum('babak', ['AWAL', 'KEDUA', 'AKHIR'])->default('AWAL');
             $table->foreignUuid('pertandingan_id')->constrained('pertandingan')->onDelete('cascade');
-            $table->foreignUuid('pemenang_id')->nullable()->constrained('kompetisi')->onDelete('set null'); // Pemenang bisa atlet atau tim
-            $table->integer('skor_kompetisi_1');
-            $table->integer('skor_kompetisi_2');
+            $table->foreignUuid('pemenang_id')->nullable()->constrained('tanding')->onDelete('set null'); // Pemenang bisa atlet atau tim
+            $table->integer('skor_tanding_1');
+            $table->integer('skor_tanding_2');
             $table->softDeletes();
             $table->timestamps();
         });

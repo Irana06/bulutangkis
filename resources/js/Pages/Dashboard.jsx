@@ -1,10 +1,12 @@
 import Sidebar, { SidebarItem } from "@/Pages/Layouts/SidebarItem";
-import { LayoutDashboard, Users } from "lucide-react";
+import { Dot, LayoutDashboard, Users } from "lucide-react";
 import { Link } from "@inertiajs/react";
 import ListPeserta from "@/Pages/Src/Peserta/ListPeserta";
 import CreateEditPeserta from "@/Pages/Src/Peserta/CreateEditPeserta";
-import DetailPeserta from "./Src/Peserta/DetailPeserta";
-import Home from "./Home";
+import DetailPeserta from "@/Pages/Src/Peserta/DetailPeserta";
+import Home from "@/Pages/Home";
+import ListTanding from "@/Pages/Src/Tanding/ListTanding";
+import DetailTanding from "@/Pages/Src/Tanding/DetailTanding";
 
 // Mapping string ke komponen
 
@@ -19,6 +21,10 @@ export default function Dashboard({ auth, child }) {
                 return <DetailPeserta />;
             case "Home":
                 return <Home userData={auth} />;
+            case "Tanding/ListTanding":
+                return <ListTanding />;
+            case "Tanding/DetailTanding":
+                return <DetailTanding />;
             default:
                 return null;
         }
@@ -30,12 +36,28 @@ export default function Dashboard({ auth, child }) {
                 <Link href="/peserta">
                     <SidebarItem icon={<Users size={20} />} text="Peserta" />
                 </Link>
-                <Link href="/tanding">
-                    <SidebarItem
-                        icon={<LayoutDashboard size={20} />}
-                        text="Tanding"
-                    />
-                </Link>
+                <SidebarItem
+                    icon={<LayoutDashboard size={20} />}
+                    text="Tanding"
+                    child={[
+                        {
+                            icon: <Dot size={20} />,
+                            text: "Tunggal",
+                            link: "/tanding?tunggal=true",
+                        },
+                        {
+                            icon: <Dot size={20} />,
+                            text: "Ganda",
+                            link: "/tanding?ganda=true",
+                        },
+                        {
+                            icon: <Dot size={20} />,
+                            text: "Campuran",
+                            link: "/tanding?campuran=true",
+                        },
+                    ]}
+                />
+                <SidebarItem icon={<Users size={20} />} text="Live Jadwal" />
             </Sidebar>
             <div className="flex-grow overflow-auto">
                 <div className="sticky top-0 bg-white z-10">

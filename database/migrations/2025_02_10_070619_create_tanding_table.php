@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kompetisi', function (Blueprint $table) {
+        Schema::create('tanding', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('kategori_tanding_id')->constrained('kategori_tanding')->onDelete('cascade');
             $table->foreignUuid('event_id')->constrained('events')->onDelete('cascade');

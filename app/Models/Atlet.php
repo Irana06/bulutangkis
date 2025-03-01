@@ -26,6 +26,7 @@ class Atlet extends Model implements HasMedia
         'nik',
         'no_kk',
         'tanggal_lahir',
+        'umur',
         'tempat_lahir',
         'berat_badan',
         'tinggi_badan',

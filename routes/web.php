@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AtletController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TandingController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,19 +34,12 @@ Route::middleware('auth')->group(function () {
     })->name('home');
 
     // Peserta
-    Route::get('/peserta', [AtletController::class, 'index'])->name('peserta.index');
-    Route::post('/peserta', [AtletController::class, 'store'])->name('peserta.store');
+    Route::resource('peserta', AtletController::class)->except(['show']);
     Route::get('/peserta/{id}/detail', [AtletController::class, 'show'])->name('peserta.show');
-    Route::post('/peserta/{id}', [AtletController::class, 'update'])->name('peserta.update');
-    Route::delete('/peserta/{id}', [AtletController::class, 'destroy'])->name('peserta.destroy');
 
-    Route::get('/peserta/create', function () {
-        return Inertia::render('Dashboard', [
-            'child' => 'Peserta/CreateEditPeserta'
-        ]);
-    })->name('peserta.create');
-
-    Route::get('/peserta/{id}/edit', [AtletController::class, 'edit'])->name('peserta.edit');
+    // Tanding
+    Route::resource('tanding', TandingController::class)->except(['show']);
+    Route::get('/tanding/{id}/detail', [TandingController::class, 'show'])->name('tanding.show');
 });
 
 Route::middleware('auth')->group(function () {
