@@ -19,11 +19,6 @@ return new class extends Migration
                 'GANDA_PUTRA',
                 'GANDA_PUTRI',
                 'CAMPURAN',
-                'TARUNA_TUNGGAL_PUTRA',
-                'TARUNA_TUNGGAL_PUTRI',
-                'TARUNA_GANDA_PUTRA',
-                'TARUNA_GANDA_PUTRI',
-                'TARUNA_CAMPURAN',
             ]);
             $table->enum('tingkat', ['SD', 'SMP', 'SMA/SMK', 'TARUNA']);
             $table->string('kelompok_umur'); // Misal: '7-9', '10-12'

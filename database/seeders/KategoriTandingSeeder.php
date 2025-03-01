@@ -39,11 +39,11 @@ class KategoriTandingSeeder extends Seeder
             ['jenis' => 'CAMPURAN', 'tingkat' => 'SMA/SMK', 'kelompok_umur' => 'Remaja', 'min_umur' => 16, 'max_umur' => 18],
 
             // TARUNA
-            ['jenis' => 'TARUNA_TUNGGAL_PUTRA', 'tingkat' => 'TARUNA', 'kelompok_umur' => 'Dewasa', 'min_umur' => 19, 'max_umur' => 25],
-            ['jenis' => 'TARUNA_TUNGGAL_PUTRI', 'tingkat' => 'TARUNA', 'kelompok_umur' => 'Dewasa', 'min_umur' => 19, 'max_umur' => 25],
-            ['jenis' => 'TARUNA_GANDA_PUTRA', 'tingkat' => 'TARUNA', 'kelompok_umur' => 'Dewasa', 'min_umur' => 19, 'max_umur' => 25],
-            ['jenis' => 'TARUNA_GANDA_PUTRI', 'tingkat' => 'TARUNA', 'kelompok_umur' => 'Dewasa', 'min_umur' => 19, 'max_umur' => 25],
-            ['jenis' => 'TARUNA_CAMPURAN', 'tingkat' => 'TARUNA', 'kelompok_umur' => 'Dewasa', 'min_umur' => 19, 'max_umur' => 25],
+            ['jenis' => 'TUNGGAL_PUTRA', 'tingkat' => 'TARUNA', 'kelompok_umur' => 'Dewasa', 'min_umur' => 19, 'max_umur' => 25],
+            ['jenis' => 'TUNGGAL_PUTRI', 'tingkat' => 'TARUNA', 'kelompok_umur' => 'Dewasa', 'min_umur' => 19, 'max_umur' => 25],
+            ['jenis' => 'GANDA_PUTRA', 'tingkat' => 'TARUNA', 'kelompok_umur' => 'Dewasa', 'min_umur' => 19, 'max_umur' => 25],
+            ['jenis' => 'GANDA_PUTRI', 'tingkat' => 'TARUNA', 'kelompok_umur' => 'Dewasa', 'min_umur' => 19, 'max_umur' => 25],
+            ['jenis' => 'CAMPURAN', 'tingkat' => 'TARUNA', 'kelompok_umur' => 'Dewasa', 'min_umur' => 19, 'max_umur' => 25],
         ];
 
         foreach ($kategoriTanding as $kategori) {
