@@ -2,16 +2,53 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tanding;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class TandingController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user = auth()->user();
+        $kontingenId = $user->id;
+
+        // Ambil query parameters dari frontend
+        $filterTunggal = $request->query('tunggal');
+        $filterGanda = $request->query('ganda');
+        $filterCampuran = $request->query('campuran');
+
+        // Query dasar dengan filter berdasarkan kontingen
+        $tanding = Tanding::whereHas('atlet', function ($query) use ($kontingenId) {
+            $query->where('kontingen_id', $kontingenId);
+        });
+
+        // Filter berdasarkan jenis kategori tanding
+        if ($filterTunggal) {
+            $tanding->whereHas('kategoriTanding', function ($query) {
+                $query->whereIn('jenis', ['TUNGGAL_PUTRA', 'TUNGGAL_PUTRI']);
+            });
+        }
+
+        if ($filterGanda) {
+            $tanding->whereHas('kategoriTanding', function ($query) {
+                $query->whereIn('jenis', ['GANDA_PUTRA', 'GANDA_PUTRI']);
+            });
+        }
+
+        if ($filterCampuran) {
+            $tanding->whereHas('kategoriTanding', function ($query) {
+                $query->where('jenis', 'CAMPURAN');
+            });
+        }
+
+        return Inertia::render('Dashboard', [
+            'child' => 'Tanding/ListTanding',
+            'tanding' => $tanding->get(),
+        ]);
     }
 
     /**

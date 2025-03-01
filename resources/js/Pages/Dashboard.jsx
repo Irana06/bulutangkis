@@ -1,10 +1,11 @@
 import Sidebar, { SidebarItem } from "@/Pages/Layouts/SidebarItem";
-import { LayoutDashboard, Users } from "lucide-react";
+import { Dot, LayoutDashboard, Users } from "lucide-react";
 import { Link } from "@inertiajs/react";
 import ListPeserta from "@/Pages/Src/Peserta/ListPeserta";
 import CreateEditPeserta from "@/Pages/Src/Peserta/CreateEditPeserta";
 import DetailPeserta from "./Src/Peserta/DetailPeserta";
 import Home from "./Home";
+import ListTanding from "./Src/Tanding/ListTanding";
 
 // Mapping string ke komponen
 
@@ -19,6 +20,8 @@ export default function Dashboard({ auth, child }) {
                 return <DetailPeserta />;
             case "Home":
                 return <Home userData={auth} />;
+            case "Tanding/ListTanding":
+                return <ListTanding />;
             default:
                 return null;
         }
@@ -35,14 +38,19 @@ export default function Dashboard({ auth, child }) {
                     text="Tanding"
                     child={[
                         {
-                            icon: <Users size={20} />,
-                            text: "Peserta",
-                            link: "/peserta",
+                            icon: <Dot size={20} />,
+                            text: "Tunggal",
+                            link: "/tanding?tunggal=true",
                         },
                         {
-                            icon: <Users size={20} />,
-                            text: "Wasit",
-                            link: "/wasit",
+                            icon: <Dot size={20} />,
+                            text: "Ganda",
+                            link: "/tanding?ganda=true",
+                        },
+                        {
+                            icon: <Dot size={20} />,
+                            text: "Campuran",
+                            link: "/tanding?campuran=true",
                         },
                     ]}
                 />
