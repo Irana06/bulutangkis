@@ -30,12 +30,23 @@ export default function Dashboard({ auth, child }) {
                 <Link href="/peserta">
                     <SidebarItem icon={<Users size={20} />} text="Peserta" />
                 </Link>
-                <Link href="/tanding">
-                    <SidebarItem
-                        icon={<LayoutDashboard size={20} />}
-                        text="Tanding"
-                    />
-                </Link>
+                <SidebarItem
+                    icon={<LayoutDashboard size={20} />}
+                    text="Tanding"
+                    child={[
+                        {
+                            icon: <Users size={20} />,
+                            text: "Peserta",
+                            link: "/peserta",
+                        },
+                        {
+                            icon: <Users size={20} />,
+                            text: "Wasit",
+                            link: "/wasit",
+                        },
+                    ]}
+                />
+                <SidebarItem icon={<Users size={20} />} text="Live Jadwal" />
             </Sidebar>
             <div className="flex-grow overflow-auto">
                 <div className="sticky top-0 bg-white z-10">

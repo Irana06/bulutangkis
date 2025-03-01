@@ -223,50 +223,104 @@ export default function Sidebar({ children, userData }) {
     );
 }
 
-export function SidebarItem({ icon, text, active, alert }) {
+export function SidebarItem({ icon, text, active, alert, child }) {
     const { expanded } = useContext(SidebarContext);
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
 
     return (
-        <li
-            className={`
-        relative flex items-center py-2 px-3 my-1
-        font-medium rounded-md cursor-pointer
-        transition-colors group
-        ${
-            active
-                ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
-                : "hover:bg-indigo-50 text-gray-600"
-        }
-    `}
-        >
-            {icon}
-            <span
-                className={`overflow-hidden transition-all ${
-                    expanded ? "w-52 ml-3" : "w-0"
-                }`}
+        <li className="relative">
+            <div
+                className={`
+                    flex items-center py-2 px-3 my-1
+                    font-medium rounded-md cursor-pointer
+                    transition-colors group
+                    ${
+                        active
+                            ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
+                            : "hover:bg-indigo-50 text-gray-600"
+                    }
+                `}
+                onClick={toggleDropdown}
             >
-                {text}
-            </span>
-            {alert && (
-                <div
-                    className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${
-                        expanded ? "" : "top-2"
+                {icon}
+                <span
+                    className={`overflow-hidden transition-all ${
+                        expanded ? "w-52 ml-3" : "w-0"
                     }`}
-                />
-            )}
-
-            {!expanded && (
-                <div
-                    className={`
-          absolute left-full rounded-md px-2 py-1 ml-6
-          bg-indigo-100 text-indigo-800 text-sm
-          invisible opacity-20 -translate-x-3 transition-all
-          group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
-      `}
                 >
                     {text}
-                </div>
-            )}
+                </span>
+                {alert && (
+                    <div
+                        className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${
+                            expanded ? "" : "top-2"
+                        }`}
+                    />
+                )}
+                {child && (
+                    <MoreVertical
+                        className={`ml-auto transition-transform ${
+                            isOpen ? "rotate-90" : ""
+                        }`}
+                    />
+                )}
+                {!expanded && (
+                    <div
+                        className={`absolute left-full rounded-md px-2 py-1 ml-6
+                            bg-indigo-100 text-indigo-800 text-sm
+                            invisible opacity-20 -translate-x-3 transition-all
+                            group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
+                        `}
+                    >
+                        {text}
+                    </div>
+                )}
+            </div>
+
+            {/* Child menu handling based on expanded state */}
+            {child && isOpen ? (
+                !expanded ? (
+                    // If expanded, show only icons and text on hover
+                    <ul className="ml-6 mt-2 space-y-1">
+                        {child.map((item, index) => (
+                            <li key={index} className="relative group">
+                                <Link
+                                    href={item.link}
+                                    className="flex items-center py-2 px-3 font-medium rounded-md cursor-pointer transition-colors hover:bg-indigo-50 text-gray-600"
+                                >
+                                    {item.icon}
+                                </Link>
+                                <div
+                                    className={`absolute left-full ml-2 px-2 py-1 text-sm rounded-md bg-indigo-100 text-indigo-800
+                                        invisible opacity-0 transition-all group-hover:visible group-hover:opacity-100
+                                    `}
+                                >
+                                    {item.text}
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    // If not expanded, show normal child menu
+                    <ul className="ml-6 mt-2 space-y-1">
+                        {child.map((item, index) => (
+                            <li key={index}>
+                                <Link
+                                    href={item.link}
+                                    className="flex items-center py-2 px-3 font-medium rounded-md cursor-pointer transition-colors group hover:bg-indigo-50 text-gray-600"
+                                >
+                                    {item.icon}
+                                    <span className="ml-3">{item.text}</span>
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                )
+            ) : null}
         </li>
     );
 }
