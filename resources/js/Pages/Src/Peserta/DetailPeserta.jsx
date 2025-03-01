@@ -6,9 +6,6 @@ import BackButton from "@/Components/Buttons/BackButton";
 
 export default function DetailPeserta() {
     const { atlet } = usePage().props;
-    const formattedDate = moment(atlet.tanggal_lahir)
-        .locale("id")
-        .format("dddd, D MMMM YYYY");
 
     return (
         <div className="max-w-3xl mx-auto p-2 text-gray-800">

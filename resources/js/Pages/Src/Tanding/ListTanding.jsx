@@ -32,7 +32,7 @@ export default function ListTanding() {
                     } text-left  whitespace-nowrap`}
                 >
                     <Link
-                        href={`/peserta/${item.id}/detail`}
+                        href={`/tanding/${item.id}/detail`}
                         className={`py-2 leading-none px-3 font-medium text-green-600 bg-green-500/20 hover:text-green-500 duration-150 hover:bg-gray-50 rounded-lg ${
                             dropdownOpenIndex === index ? "" : "ml-2"
                         } `}
@@ -40,7 +40,7 @@ export default function ListTanding() {
                         Detail
                     </Link>
                     <Link
-                        href={`/peserta/${item.id}/edit`}
+                        href={`/tanding/${item.id}/edit`}
                         className={`py-2 leading-none mt-2 px-3 font-medium text-indigo-600 bg-indigo-500/20 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg ${
                             dropdownOpenIndex === index ? "" : "ml-2"
                         } `}

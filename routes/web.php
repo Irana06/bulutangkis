@@ -38,7 +38,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/peserta/{id}/detail', [AtletController::class, 'show'])->name('peserta.show');
 
     // Tanding
-    Route::resource('tanding', TandingController::class);
+    Route::resource('tanding', TandingController::class)->except(['show']);
+    Route::get('/tanding/{id}/detail', [TandingController::class, 'show'])->name('tanding.show');
 });
 
 Route::middleware('auth')->group(function () {

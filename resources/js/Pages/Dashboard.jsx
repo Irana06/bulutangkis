@@ -3,9 +3,10 @@ import { Dot, LayoutDashboard, Users } from "lucide-react";
 import { Link } from "@inertiajs/react";
 import ListPeserta from "@/Pages/Src/Peserta/ListPeserta";
 import CreateEditPeserta from "@/Pages/Src/Peserta/CreateEditPeserta";
-import DetailPeserta from "./Src/Peserta/DetailPeserta";
-import Home from "./Home";
-import ListTanding from "./Src/Tanding/ListTanding";
+import DetailPeserta from "@/Pages/Src/Peserta/DetailPeserta";
+import Home from "@/Pages/Home";
+import ListTanding from "@/Pages/Src/Tanding/ListTanding";
+import DetailTanding from "@/Pages/Src/Tanding/DetailTanding";
 
 // Mapping string ke komponen
 
@@ -22,6 +23,8 @@ export default function Dashboard({ auth, child }) {
                 return <Home userData={auth} />;
             case "Tanding/ListTanding":
                 return <ListTanding />;
+            case "Tanding/DetailTanding":
+                return <DetailTanding />;
             default:
                 return null;
         }

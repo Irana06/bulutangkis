@@ -72,7 +72,12 @@ class TandingController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $tanding = Tanding::findOrFail($id);
+
+        return Inertia::render('Dashboard', [
+            'child' => 'Tanding/DetailTanding',
+            'tanding' => $tanding,
+        ]);
     }
 
     /**
