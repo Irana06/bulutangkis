@@ -47,14 +47,6 @@ export default function ListTanding() {
                     >
                         Edit
                     </Link>
-                    <Link
-                        onClick={() => handleDelete(item.id)}
-                        className={`py-2 leading-none mt-2 px-3 font-medium text-red-600 bg-red-500/20 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg ${
-                            dropdownOpenIndex === index ? "" : "ml-2"
-                        } `}
-                    >
-                        Delete
-                    </Link>
                 </div>
             ),
             hidden: true,

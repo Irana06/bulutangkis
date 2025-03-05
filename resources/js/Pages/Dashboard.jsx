@@ -7,6 +7,7 @@ import DetailPeserta from "@/Pages/Src/Peserta/DetailPeserta";
 import Home from "@/Pages/Home";
 import ListTanding from "@/Pages/Src/Tanding/ListTanding";
 import DetailTanding from "@/Pages/Src/Tanding/DetailTanding";
+import CreateEditTanding from "@/Pages/Src/Tanding/CreateEditTanding";
 
 // Mapping string ke komponen
 
@@ -25,6 +26,8 @@ export default function Dashboard({ auth, child }) {
                 return <ListTanding />;
             case "Tanding/DetailTanding":
                 return <DetailTanding />;
+            case "Tanding/CreateEditTanding":
+                return <CreateEditTanding />;
             default:
                 return null;
         }

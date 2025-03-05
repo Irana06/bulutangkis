@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KategoriTanding;
 use App\Models\Tanding;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -56,7 +57,12 @@ class TandingController extends Controller
      */
     public function create()
     {
-        //
+        $kategoriTanding = KategoriTanding::all();
+
+        return Inertia::render('Dashboard', [
+            'child' => 'Tanding/CreateEditTanding',
+            'kategoriTanding' => $kategoriTanding,
+        ]);
     }
 
     /**
