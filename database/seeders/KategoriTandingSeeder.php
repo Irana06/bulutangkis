@@ -23,10 +23,14 @@ class KategoriTandingSeeder extends Seeder
             ['jenis' => 'TUNGGAL_PUTRI', 'tingkat' => 'SD', 'kelompok_umur' => 'Usia Dini', 'min_umur' => 10, 'max_umur' => 12],
 
             // SMP
+            ['jenis' => 'TUNGGAL_PUTRA', 'tingkat' => 'SMP', 'kelompok_umur' => 'Pra Remaja', 'min_umur' => 13, 'max_umur' => 15],
+            ['jenis' => 'TUNGGAL_PUTRI', 'tingkat' => 'SMP', 'kelompok_umur' => 'Pra Remaja', 'min_umur' => 13, 'max_umur' => 15],
             ['jenis' => 'GANDA_PUTRA', 'tingkat' => 'SMP', 'kelompok_umur' => 'Pra Remaja', 'min_umur' => 13, 'max_umur' => 15],
             ['jenis' => 'GANDA_PUTRI', 'tingkat' => 'SMP', 'kelompok_umur' => 'Pra Remaja', 'min_umur' => 13, 'max_umur' => 15],
 
             // SMA/SMK
+            ['jenis' => 'TUNGGAL_PUTRA', 'tingkat' => 'SMA/SMK', 'kelompok_umur' => 'Remaja', 'min_umur' => 16, 'max_umur' => 18],
+            ['jenis' => 'TUNGGAL_PUTRI', 'tingkat' => 'SMA/SMK', 'kelompok_umur' => 'Remaja', 'min_umur' => 16, 'max_umur' => 18],
             ['jenis' => 'GANDA_PUTRA', 'tingkat' => 'SMA/SMK', 'kelompok_umur' => 'Remaja', 'min_umur' => 16, 'max_umur' => 18],
             ['jenis' => 'GANDA_PUTRI', 'tingkat' => 'SMA/SMK', 'kelompok_umur' => 'Remaja', 'min_umur' => 16, 'max_umur' => 18],
 
