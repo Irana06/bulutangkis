@@ -1,7 +1,7 @@
 import * as Select from "@radix-ui/react-select";
 import React from "react";
 
-const SelectField = ({ value, label, img, isRequired, options = [], onChange }) => {
+const SelectField = ({ value, label, isRequired, options = [], onChange }) => {
   const selectedOption = options.find(option => option.value === value);
 
   return (
@@ -15,7 +15,7 @@ const SelectField = ({ value, label, img, isRequired, options = [], onChange }) 
         <Select.Trigger className="w-full inline-flex items-center justify-between px-3 py-2 text-sm text-gray-600 bg-white border rounded-lg shadow-sm outline-none focus:ring-offset-2 focus:ring-indigo-600 focus:ring-2">
           <Select.Value placeholder="Pilih opsi">
             <div className="flex items-center gap-2">
-              {img && <img src={img} className="w-5 h-5 rounded-full" alt="Avatar" />}
+              {selectedOption?.img && <img src={selectedOption.img} className="w-5 h-5 rounded-full" alt="Avatar" />}
               <span>{selectedOption ? selectedOption.label : "Pilih opsi"}</span>
             </div>
           </Select.Value>
@@ -46,7 +46,7 @@ const SelectItem = React.forwardRef(({ children, value, img, ...props }, ref) =>
     <Select.Item className="flex items-center justify-between px-3 py-2 cursor-pointer text-gray-600 hover:bg-indigo-50 outline-none" value={value} ref={ref} {...props}>
       <Select.ItemText>
         <div className="flex items-center gap-2">
-          {img && <img src={img} className="w-5 h-5 rounded-full" alt="" />}
+          {img && <img src={img} className="w-5 h-5 rounded-full" alt="Avatar" />}
           {children}
         </div>
       </Select.ItemText>

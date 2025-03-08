@@ -9,4 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 class Tim extends Model
 {
     use HasFactory, HasUuid;
+
+    protected $table = 'tim';
+
+    protected $keyType = 'string';
 }

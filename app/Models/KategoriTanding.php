@@ -11,4 +11,6 @@ class KategoriTanding extends Model
     use HasFactory, HasUuid;
 
     protected $table = 'kategori_tanding';
+
+    protected $keyType = 'string';
 }
