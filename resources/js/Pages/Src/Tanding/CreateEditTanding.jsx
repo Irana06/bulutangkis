@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { FormContainer } from "@/Components/Forms/FormContainer";
 import { Section } from "@/Components/Forms/Section";
 import SelectField from "@/Components/Forms/SelectField";
@@ -7,6 +8,7 @@ import Swal from "sweetalert2";
 
 export default function CreateEditTanding() {
     const { kategoriTanding, atlet, tim } = usePage().props;
+    const [filteredKategoriTanding, setFilteredKategoriTanding] = useState([]);
 
     const { data, setData, post, processing, errors } = useForm({
         atlet_id: "",
@@ -14,26 +16,58 @@ export default function CreateEditTanding() {
         kategori_tanding_id: "",
     });
 
-    const options = kategoriTanding.map((kategori) => ({
-        value: kategori.id,
-        label: `${kategori.tingkat} - ${FormatCapital(kategori.jenis)} (${
-            kategori.min_umur
-        } - ${kategori.max_umur} Tahun)`,
-    }));
-
+    // Opsi Atlet
     const atletOptions = atlet.map((atlet) => ({
         value: atlet.id,
-        label: `${atlet.name} - ${FormatCapital(atlet.jenis_kelamin)} (${
-            atlet.umur
-        } Tahun)`,
+        label: `${atlet.name} - ${FormatCapital(atlet.jenis_kelamin)} (${atlet.umur} Tahun)`,
+        umur: atlet.umur,
+        jenis_kelamin: atlet.jenis_kelamin,
         img: atlet.foto_profile_url,
     }));
 
+    // Opsi Tim
     const timOptions = tim.map((tim) => ({
         value: tim.id,
         label: `${tim.nama_tim}`,
     }));
 
+    // **Filter kategori tanding berdasarkan atlet yang dipilih**
+    useEffect(() => {
+        if (!data.atlet_id) {
+            setFilteredKategoriTanding([]);
+            return;
+        }
+
+        const selectedAtlet = atlet.find((a) => a.id === data.atlet_id);
+        if (!selectedAtlet) return;
+
+        const atletUmur = selectedAtlet.umur;
+        const atletGender = selectedAtlet.jenis_kelamin;
+
+        // Mapping jenis kelamin ke kategori tanding
+        const genderMapping = {
+            "LAKI_LAKI": "PUTRA",
+            "PEREMPUAN": "PUTRI",
+        };
+
+        const kategoriFiltered = kategoriTanding.filter((kategori) => {
+            return (
+                atletUmur >= kategori.min_umur &&
+                atletUmur <= kategori.max_umur &&
+                kategori.jenis.includes(genderMapping[atletGender])
+            );
+        });
+
+        setFilteredKategoriTanding(kategoriFiltered);
+    }, [data.atlet_id]);
+
+    // Opsi Kategori Tanding setelah difilter
+    const kategoriTandingOptions = filteredKategoriTanding.map((kategori) => ({
+        value: kategori.id,
+        label: `${kategori.tingkat} - ${FormatCapital(kategori.jenis)} (${kategori.min_umur} - ${kategori.max_umur} Tahun)`,
+    }));
+
+    // Handle Submit
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -81,27 +115,32 @@ export default function CreateEditTanding() {
         <Section title="Daftar Tanding">
             <FormContainer onSubmit={handleSubmit} className="p-4">
                 <div className="grid grid-cols-1 gap-4">
+                    {/* Pilihan Atlet */}
                     <SelectField
                         value={data.atlet_id}
                         label="Atlet"
                         options={atletOptions}
                         onChange={(val) => setData("atlet_id", val)}
-                        disabled={!!data.tim_id} // Atlet dinonaktifkan jika tim dipilih
+                        disabled={!!data.tim_id}
                     />
+
+                    {/* Pilihan Tim */}
                     <SelectField
                         value={data.tim_id}
                         label="Tim"
                         options={timOptions}
                         onChange={(val) => setData("tim_id", val)}
-                        disabled={!!data.atlet_id} // Tim dinonaktifkan jika atlet dipilih
+                        disabled={!!data.atlet_id}
                     />
+
+                    {/* Pilihan Kategori Tanding */}
                     <SelectField
                         value={data.kategori_tanding_id}
                         label="Kategori Tanding"
                         isRequired
-                        options={options}
+                        options={kategoriTandingOptions}
                         onChange={(val) => setData("kategori_tanding_id", val)}
-                        disabled={!data.atlet_id && !data.tim_id} // Kategori dinonaktifkan jika atlet dan tim belum dipilih
+                        disabled={!data.atlet_id && !data.tim_id}
                     />
                 </div>
                 <div className="mt-6 flex justify-between">
@@ -112,7 +151,6 @@ export default function CreateEditTanding() {
                     >
                         {processing ? "Menyimpan..." : "Simpan"}
                     </button>
-                    {/* <BackButton /> */}
                 </div>
             </FormContainer>
         </Section>
