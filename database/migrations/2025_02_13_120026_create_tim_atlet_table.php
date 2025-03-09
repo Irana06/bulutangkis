@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('tim_atlet', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('tim_id')->constrained('tim')->onDelete('cascade');
-            $table->foreignUuid('atlet_id')->constrained('atlet')->onDelete('cascade');
-            $table->unique(['tim_id', 'atlet_id']); // Mencegah duplikasi atlet dalam tim
+            $table->foreignUuid('atlet_id_1')->constrained('atlet')->onDelete('cascade');
+            $table->foreignUuid('atlet_id_2')->constrained('atlet')->onDelete('cascade');
+            $table->unique(['tim_id', 'atlet_id_1', 'atlet_id_2']); // Mencegah duplikasi atlet dalam tim
             $table->softDeletes();
             $table->timestamps();
         });
