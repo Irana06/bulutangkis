@@ -1,4 +1,5 @@
 import { FormContainer } from "@/Components/Forms/FormContainer";
+import { Section } from "@/Components/Forms/Section";
 import SelectField from "@/Components/Forms/SelectField";
 import FormatCapital from "@/Components/Utils/FormatCapital";
 import { usePage, useForm } from "@inertiajs/react";
@@ -77,36 +78,43 @@ export default function CreateEditTanding() {
     };
 
     return (
-        <FormContainer onSubmit={handleSubmit} className="p-4">
-            <SelectField
-                value={data.kategori_tanding_id}
-                label="Kategori Tanding"
-                isRequired
-                options={options}
-                onChange={(val) => setData("kategori_tanding_id", val)}
-            />
-            <SelectField
-                value={data.atlet_id}
-                label="Atlet"
-                options={atletOptions}
-                onChange={(val) => setData("atlet_id", val)}
-            />
-            <SelectField
-                value={data.tim_id}
-                label="Tim"
-                options={timOptions}
-                onChange={(val) => setData("tim_id", val)}
-            />
-            <div className="mt-6 flex justify-between">
-                <button
-                    type="submit"
-                    className="px-4 py-2 text-white font-semibold bg-green-500/60 hover:bg-green-500 duration-200 rounded-md"
-                    disabled={processing}
-                >
-                    {processing ? "Menyimpan..." : "Simpan"}
-                </button>
-                {/* <BackButton /> */}
-            </div>
-        </FormContainer>
+        <Section title="Daftar Tanding">
+            <FormContainer onSubmit={handleSubmit} className="p-4">
+                <div className="grid grid-cols-1 gap-4">
+                    <SelectField
+                        value={data.atlet_id}
+                        label="Atlet"
+                        options={atletOptions}
+                        onChange={(val) => setData("atlet_id", val)}
+                        disabled={!!data.tim_id} // Atlet dinonaktifkan jika tim dipilih
+                    />
+                    <SelectField
+                        value={data.tim_id}
+                        label="Tim"
+                        options={timOptions}
+                        onChange={(val) => setData("tim_id", val)}
+                        disabled={!!data.atlet_id} // Tim dinonaktifkan jika atlet dipilih
+                    />
+                    <SelectField
+                        value={data.kategori_tanding_id}
+                        label="Kategori Tanding"
+                        isRequired
+                        options={options}
+                        onChange={(val) => setData("kategori_tanding_id", val)}
+                        disabled={!data.atlet_id && !data.tim_id} // Kategori dinonaktifkan jika atlet dan tim belum dipilih
+                    />
+                </div>
+                <div className="mt-6 flex justify-between">
+                    <button
+                        type="submit"
+                        className="px-4 py-2 text-white font-semibold bg-green-500/60 hover:bg-green-500 duration-200 rounded-md"
+                        disabled={processing}
+                    >
+                        {processing ? "Menyimpan..." : "Simpan"}
+                    </button>
+                    {/* <BackButton /> */}
+                </div>
+            </FormContainer>
+        </Section>
     );
 }
