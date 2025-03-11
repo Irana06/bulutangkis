@@ -15,6 +15,9 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('nama_tim');
             $table->enum('jenis', ['GANDA', 'CAMPURAN', 'TARUNA']);
+            $table->foreignUuid('atlet_id_1')->constrained('atlet')->onDelete('cascade');
+            $table->foreignUuid('atlet_id_2')->constrained('atlet')->onDelete('cascade');
+            $table->unique(['atlet_id_1', 'atlet_id_2']); // Mencegah duplikasi atlet dalam tim
             $table->foreignUuid('event_id')->constrained('events')->onDelete('cascade');
             $table->foreignUuid('kontingen_id')->constrained('kontingen')->onDelete('cascade');
             $table->softDeletes();
