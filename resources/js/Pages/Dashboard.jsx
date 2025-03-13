@@ -1,5 +1,5 @@
 import Sidebar, { SidebarItem } from "@/Pages/Layouts/SidebarItem";
-import { Dot, LayoutDashboard, Users } from "lucide-react";
+import { Dot, LayoutDashboard, UserRoundCog, Users } from "lucide-react";
 import { Link } from "@inertiajs/react";
 import ListPeserta from "@/Pages/Src/Peserta/ListPeserta";
 import CreateEditPeserta from "@/Pages/Src/Peserta/CreateEditPeserta";
@@ -8,6 +8,7 @@ import Home from "@/Pages/Home";
 import ListTanding from "@/Pages/Src/Tanding/ListTanding";
 import DetailTanding from "@/Pages/Src/Tanding/DetailTanding";
 import CreateEditTanding from "@/Pages/Src/Tanding/CreateEditTanding";
+import ListTim from "@/Pages/Src/Tim/ListTim";
 
 // Mapping string ke komponen
 
@@ -22,6 +23,8 @@ export default function Dashboard({ auth, child }) {
                 return <DetailPeserta />;
             case "Home":
                 return <Home userData={auth} />;
+            case "Tim/ListTim":
+                return <ListTim />;
             case "Tanding/ListTanding":
                 return <ListTanding />;
             case "Tanding/DetailTanding":
@@ -38,6 +41,9 @@ export default function Dashboard({ auth, child }) {
                 <hr className="my-3 py-1" />
                 <Link href="/peserta">
                     <SidebarItem icon={<Users size={20} />} text="Peserta" />
+                </Link>
+                <Link href="/tim">
+                    <SidebarItem icon={<UserRoundCog size={20} />} text="Tim" />
                 </Link>
                 <SidebarItem
                     icon={<LayoutDashboard size={20} />}

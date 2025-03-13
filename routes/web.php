@@ -3,6 +3,7 @@
 use App\Http\Controllers\AtletController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TandingController;
+use App\Http\Controllers\TimController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -37,6 +38,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('peserta', AtletController::class)->except(['show', 'update']);
     Route::get('/peserta/{id}/detail', [AtletController::class, 'show'])->name('peserta.show');
     Route::post('/peserta/{id}', [AtletController::class, 'update'])->name('peserta.update');
+
+    // Tim
+    Route::resource('tim', TimController::class)->except(['show', 'update']);
 
     // Tanding
     Route::resource('tanding', TandingController::class)->except(['show']);
