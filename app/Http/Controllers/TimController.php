@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Tim\StoreRequest;
+use App\Models\Atlet;
 use App\Models\Tim;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -29,15 +31,52 @@ class TimController extends Controller
      */
     public function create()
     {
-        //
+        $user = auth()->user();
+        $kontingenId = $user->id;
+
+        // Ambil atlet yang belum terdaftar di tabel Tim berdasarkan atlet_id_1 dan atlet_id_2
+        $atlet = Atlet::where('kontingen_id', $kontingenId)
+            ->whereNotIn('id', function ($query) {
+                $query->select('atlet_id_1')->from('tim')->whereNotNull('atlet_id_1');
+            })
+            ->whereNotIn('id', function ($query) {
+                $query->select('atlet_id_2')->from('tim')->whereNotNull('atlet_id_2');
+            })
+            ->get(); // Pilih hanya kolom yang diperlukan
+
+        return Inertia::render('Dashboard', [
+            'child' => 'Tim/CreateEditTim',
+            'atlet' => $atlet,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+
+        $user = auth()->user();
+        $kontingenId = $user->id;
+
+        $eventController = new EventController();
+        $eventId = $eventController->getOpenEvent();
+
+        if (!$eventId || !preg_match('/^[a-f0-9\-]{36}$/', $eventId)) {
+            return back()->withErrors(['event_id' => 'Event tidak valid atau tidak ditemukan.']);
+        }
+
+        Tim::create([
+            'nama_tim' => $validatedData['nama_tim'],
+            'kontingen_id' => $kontingenId,
+            'jenis' => $validatedData['jenis'],
+            'event_id' => $eventId,
+            'atlet_id_1' => $validatedData['atlet_id_1'],
+            'atlet_id_2' => $validatedData['atlet_id_2'],
+        ]);
+
+        return redirect()->route('tim.index')->with(['success' => 'Tim berhasil disimpan.']);
     }
 
     /**

@@ -15,6 +15,8 @@ class Tim extends Model
     protected $fillable = [
         'nama_tim',
         'jenis',
+        'kontingen_id',
+        'event_id',
         'atlet_id_1',
         'atlet_id_2',
     ];

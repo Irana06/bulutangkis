@@ -9,6 +9,7 @@ import ListTanding from "@/Pages/Src/Tanding/ListTanding";
 import DetailTanding from "@/Pages/Src/Tanding/DetailTanding";
 import CreateEditTanding from "@/Pages/Src/Tanding/CreateEditTanding";
 import ListTim from "@/Pages/Src/Tim/ListTim";
+import CreateEditTim from "@/Pages/Src/Tim/CreateEditTim";
 
 // Mapping string ke komponen
 
@@ -25,6 +26,8 @@ export default function Dashboard({ auth, child }) {
                 return <Home userData={auth} />;
             case "Tim/ListTim":
                 return <ListTim />;
+            case "Tim/CreateEditTim":
+                return <CreateEditTim />;
             case "Tanding/ListTanding":
                 return <ListTanding />;
             case "Tanding/DetailTanding":

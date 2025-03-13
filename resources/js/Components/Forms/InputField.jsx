@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { CloudUpload } from "lucide-react";
 
-const FormInput = ({
+const InputField = ({
     label,
     type = "text",
     name,
@@ -119,4 +119,4 @@ const FormInput = ({
     );
 };
 
-export default FormInput;
+export default InputField;
