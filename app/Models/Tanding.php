@@ -46,4 +46,8 @@ class Tanding extends Model
         return $this->belongsTo(KategoriTanding::class);
     }
 
+    public function tim()
+    {
+        return $this->belongsTo(Tim::class);
+    }
 }

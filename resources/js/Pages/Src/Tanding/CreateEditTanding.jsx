@@ -26,51 +26,79 @@ export default function CreateEditTanding() {
     }));
 
     // Opsi Tim
-    const timOptions = tim.map((tim) => ({
-        value: tim.id,
-        label: `${tim.nama_tim}`,
-    }));
-
-    // **Filter kategori tanding berdasarkan atlet yang dipilih**
-    useEffect(() => {
-        if (!data.atlet_id) {
-            setFilteredKategoriTanding([]);
-            return;
+    const timOptions = tim.map((tim) => {
+        // Menentukan jenis kelamin tim
+        let jenisKelaminTim = "Campuran";
+        if (tim.atlet_1?.jenis_kelamin === tim.atlet_2?.jenis_kelamin) {
+            jenisKelaminTim = tim.atlet_1?.jenis_kelamin || "Campuran";
         }
 
-        const selectedAtlet = atlet.find((a) => a.id === data.atlet_id);
-        if (!selectedAtlet) return;
-
-        const atletUmur = selectedAtlet.umur;
-        const atletGender = selectedAtlet.jenis_kelamin;
-
-        // Mapping jenis kelamin ke kategori tanding
-        const genderMapping = {
-            "LAKI_LAKI": "PUTRA",
-            "PEREMPUAN": "PUTRI",
+        return {
+            value: tim.id,
+            label: `${tim.nama_tim} - ${FormatCapital(jenisKelaminTim)}`,
+            umur: tim.atlet_1?.umur || 0,
+            jenis_kelamin: jenisKelaminTim,
         };
+    });
 
-        const kategoriFiltered = kategoriTanding.filter((kategori) => {
-            return (
-                atletUmur >= kategori.min_umur &&
-                atletUmur <= kategori.max_umur &&
-                kategori.jenis.includes(genderMapping[atletGender])
+    // Filter Kategori Tanding berdasarkan atlet/tim
+    useEffect(() => {
+        let selectedUmur = null;
+        let selectedJenisKelamin = null;
+        let kategoriFiltered = [];
+
+        if (data.atlet_id) {
+            const selectedAtlet = atlet.find((a) => a.id === data.atlet_id);
+            if (!selectedAtlet) return;
+            selectedUmur = selectedAtlet.umur;
+            selectedJenisKelamin = selectedAtlet.jenis_kelamin;
+
+            const genderMapping = {
+                "LAKI_LAKI": "PUTRA",
+                "PEREMPUAN": "PUTRI",
+            };
+
+            kategoriFiltered = kategoriTanding.filter((kategori) =>
+                selectedUmur >= kategori.min_umur &&
+                selectedUmur <= kategori.max_umur &&
+                kategori.jenis.includes(genderMapping[selectedJenisKelamin])
             );
-        });
+        } else if (data.tim_id) {
+            const selectedTim = tim.find((t) => t.id === data.tim_id);
+            if (!selectedTim || !selectedTim.atlet_1) return;
+            selectedUmur = selectedTim.atlet_1.umur;
+            selectedJenisKelamin = timOptions.find((t) => t.value === data.tim_id)?.jenis_kelamin;
+
+            if (selectedJenisKelamin === "Campuran") {
+                kategoriFiltered = kategoriTanding.filter((kategori) =>
+                    selectedUmur >= kategori.min_umur &&
+                    selectedUmur <= kategori.max_umur &&
+                    kategori.jenis === "CAMPURAN"
+                );
+            } else {
+                const genderMapping = {
+                    "LAKI_LAKI": "GANDA_PUTRA",
+                    "PEREMPUAN": "GANDA_PUTRI",
+                };
+
+                kategoriFiltered = kategoriTanding.filter((kategori) =>
+                    selectedUmur >= kategori.min_umur &&
+                    selectedUmur <= kategori.max_umur &&
+                    ["CAMPURAN", genderMapping[selectedJenisKelamin]].includes(kategori.jenis)
+                );
+            }
+        }
 
         setFilteredKategoriTanding(kategoriFiltered);
-    }, [data.atlet_id]);
+    }, [data.atlet_id, data.tim_id]);
 
-    // Opsi Kategori Tanding setelah difilter
     const kategoriTandingOptions = filteredKategoriTanding.map((kategori) => ({
         value: kategori.id,
         label: `${kategori.tingkat} - ${FormatCapital(kategori.jenis)} (${kategori.min_umur} - ${kategori.max_umur} Tahun)`,
     }));
 
-    // Handle Submit
     const handleSubmit = (e) => {
         e.preventDefault();
-
         if (!data.kategori_tanding_id || (!data.atlet_id && !data.tim_id)) {
             Swal.fire({
                 icon: "error",
@@ -79,7 +107,6 @@ export default function CreateEditTanding() {
             });
             return;
         }
-
         Swal.fire({
             title: "Apakah Anda yakin?",
             text: "Anda akan menyimpan data pertandingan ini.",

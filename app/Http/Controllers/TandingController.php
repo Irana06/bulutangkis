@@ -28,6 +28,8 @@ class TandingController extends Controller
         // Query dasar dengan filter berdasarkan kontingen
         $tanding = Tanding::whereHas('atlet', function ($query) use ($kontingenId) {
             $query->where('kontingen_id', $kontingenId);
+        })->orWhereHas('tim', function ($query) use ($kontingenId) {
+            $query->where('kontingen_id', $kontingenId);
         });
 
         // Filter berdasarkan jenis kategori tanding
