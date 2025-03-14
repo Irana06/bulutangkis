@@ -6,6 +6,7 @@ import {
     LayoutDashboard,
     UserRoundCog,
     Users,
+    Wallet,
 } from "lucide-react";
 import { Link } from "@inertiajs/react";
 import ListPeserta from "@/Pages/Src/Peserta/ListPeserta";
@@ -17,6 +18,7 @@ import DetailTanding from "@/Pages/Src/Tanding/DetailTanding";
 import CreateEditTanding from "@/Pages/Src/Tanding/CreateEditTanding";
 import ListTim from "@/Pages/Src/Tim/ListTim";
 import CreateEditTim from "@/Pages/Src/Tim/CreateEditTim";
+import ListPembayaran from "@/Pages/Src/Pembayaran/ListPembayaran";
 
 // Mapping string ke komponen
 
@@ -41,6 +43,8 @@ export default function Dashboard({ auth, child, childText }) {
                 return <DetailTanding />;
             case "Tanding/CreateEditTanding":
                 return <CreateEditTanding />;
+            case "Pembayaran/ListPembayaran":
+                return <ListPembayaran />;
             default:
                 return null;
         }
@@ -76,6 +80,12 @@ export default function Dashboard({ auth, child, childText }) {
                         },
                     ]}
                 />
+                <Link href="/pembayaran">
+                    <SidebarItem
+                        icon={<Wallet size={20} />}
+                        text="Pembayaran"
+                    />
+                </Link>
                 <Link href="/jadwal">
                     <SidebarItem
                         icon={<CalendarCheck size={20} />}

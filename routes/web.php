@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\AtletController;
+use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TandingController;
 use App\Http\Controllers\TimController;
@@ -50,6 +51,9 @@ Route::middleware('auth')->group(function () {
     // Tanding
     Route::resource('tanding', TandingController::class)->except(['show']);
     Route::get('/tanding/{id}/detail', [TandingController::class, 'show'])->name('tanding.show');
+
+    // Pembayaran
+    Route::get('/pembayaran', [PembayaranController::class, 'index']);
 });
 
 Route::middleware('auth')->group(function () {
