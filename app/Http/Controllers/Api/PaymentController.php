@@ -42,18 +42,29 @@ class PaymentController extends Controller
 
     public function notification(Request $request)
     {
-        $result = $this->apiInstance->getInvoices(null, $request->external_id);
+        // Log request (opsional untuk debugging)
+        \Log::info('Xendit Callback:', $request->all());
 
-        // Get Data
-        $payment = Payment::where('external_id', $request->external_id)->findOrFails();
+        // Ambil data pembayaran dari database berdasarkan external_id
+        $payment = Payment::where('external_id', $request->external_id)->firstOrFail();
 
-        if($payment->status == 'settled') {
+        // Cegah update jika pembayaran sudah diproses
+        if ($payment->status === 'settled') {
             return response()->json('Pembayaran telah diproses');
         }
 
-        // Update status
-        $payment->status = strtolower($result[0]['status']);
+        // Ambil status terbaru dari Xendit
+        $result = $this->apiInstance->getInvoices(null, $request->external_id);
+        $newStatus = strtolower($result[0]['status']); // Convert status ke huruf kecil
+
+        // Update status pembayaran
+        $payment->status = $newStatus;
         $payment->save();
+
+        // Jika pembayaran berhasil, update kolom `dibayar` di tabel `tanding`
+        if ($newStatus === 'paid') {
+            \App\Models\Tanding::where('id', $request->external_id)->update(['dibayar' => true]);
+        }
 
         return response()->json('Success');
     }
