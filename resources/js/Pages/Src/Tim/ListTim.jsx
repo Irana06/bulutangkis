@@ -1,13 +1,39 @@
 import FormatCapital from "@/Components/Utils/FormatCapital";
 import TableItems from "@/Pages/Layouts/Table";
 import { Link } from "@inertiajs/inertia-react";
-import { usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 export default function ListTim() {
     const { tim } = usePage().props;
-    console.log(tim);
     const [dropdownOpenIndex, setDropdownOpenIndex] = useState(null);
+
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: "Apakah Anda yakin?",
+            text: "Data ini akan dihapus secara permanen!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Ya, hapus!",
+            cancelButtonText: "Batal",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.delete(route("tim.destroy", id), {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        Swal.fire(
+                            "Terhapus!",
+                            "Data tim telah dihapus.",
+                            "success"
+                        );
+                    },
+                });
+            }
+        });
+    };
 
     const columns = [
         { key: "nama", label: "Nama Tim" },
@@ -39,6 +65,18 @@ export default function ListTim() {
                     >
                         Edit
                     </Link>
+                    <Link
+                        href="#"
+                        onClick={(e) => {
+                            e.preventDefault(); // Mencegah fetch otomatis
+                            handleDelete(item.id);
+                        }}
+                        className={`py-2 leading-none mt-2 px-3 font-medium text-red-600 bg-red-500/20 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg ${
+                            dropdownOpenIndex === index ? "" : "ml-2"
+                        } `}
+                    >
+                        Delete
+                    </Link>
                 </div>
             ),
             hidden: true,
@@ -52,7 +90,6 @@ export default function ListTim() {
         jenis: FormatCapital(item.jenis),
         atlet1: item.atlet_1?.name,
         atlet2: item.atlet_2?.name,
-
     }));
 
     return (

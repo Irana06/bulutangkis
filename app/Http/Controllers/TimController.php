@@ -106,8 +106,11 @@ class TimController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $tim = Tim::findOrFail($id);
+        $tim->delete();
+
+        return redirect()->route('tim.index')->with('success', 'Tim berhasil dihapus');
     }
 }
