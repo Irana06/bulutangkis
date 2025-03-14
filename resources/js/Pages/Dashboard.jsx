@@ -1,5 +1,5 @@
 import Sidebar, { SidebarItem } from "@/Pages/Layouts/SidebarItem";
-import { Dot, LayoutDashboard, Users } from "lucide-react";
+import { Dot, LayoutDashboard, UserRoundCog, Users } from "lucide-react";
 import { Link } from "@inertiajs/react";
 import ListPeserta from "@/Pages/Src/Peserta/ListPeserta";
 import CreateEditPeserta from "@/Pages/Src/Peserta/CreateEditPeserta";
@@ -7,10 +7,13 @@ import DetailPeserta from "@/Pages/Src/Peserta/DetailPeserta";
 import Home from "@/Pages/Home";
 import ListTanding from "@/Pages/Src/Tanding/ListTanding";
 import DetailTanding from "@/Pages/Src/Tanding/DetailTanding";
+import CreateEditTanding from "@/Pages/Src/Tanding/CreateEditTanding";
+import ListTim from "@/Pages/Src/Tim/ListTim";
+import CreateEditTim from "@/Pages/Src/Tim/CreateEditTim";
 
 // Mapping string ke komponen
 
-export default function Dashboard({ auth, child }) {
+export default function Dashboard({ auth, child, childText }) {
     const getChildComponent = (child) => {
         switch (child) {
             case "Peserta/ListPeserta":
@@ -21,10 +24,16 @@ export default function Dashboard({ auth, child }) {
                 return <DetailPeserta />;
             case "Home":
                 return <Home userData={auth} />;
+            case "Tim/ListTim":
+                return <ListTim />;
+            case "Tim/CreateEditTim":
+                return <CreateEditTim />;
             case "Tanding/ListTanding":
-                return <ListTanding />;
+                return <ListTanding childText={childText} />;
             case "Tanding/DetailTanding":
                 return <DetailTanding />;
+            case "Tanding/CreateEditTanding":
+                return <CreateEditTanding />;
             default:
                 return null;
         }
@@ -36,10 +45,18 @@ export default function Dashboard({ auth, child }) {
                 <Link href="/peserta">
                     <SidebarItem icon={<Users size={20} />} text="Peserta" />
                 </Link>
+                <Link href="/tim">
+                    <SidebarItem icon={<UserRoundCog size={20} />} text="Tim" />
+                </Link>
                 <SidebarItem
                     icon={<LayoutDashboard size={20} />}
                     text="Tanding"
                     child={[
+                        {
+                            icon: <Dot size={20} />,
+                            text: "Tanding",
+                            link: "/tanding",
+                        },
                         {
                             icon: <Dot size={20} />,
                             text: "Tunggal",
@@ -49,11 +66,6 @@ export default function Dashboard({ auth, child }) {
                             icon: <Dot size={20} />,
                             text: "Ganda",
                             link: "/tanding?ganda=true",
-                        },
-                        {
-                            icon: <Dot size={20} />,
-                            text: "Campuran",
-                            link: "/tanding?campuran=true",
                         },
                     ]}
                 />

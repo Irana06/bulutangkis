@@ -1,6 +1,6 @@
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
 import { useContext, createContext, useState, useEffect } from "react";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import avatar from "@/Storage/Img/avatardefault.png";
 import logo from "@/Storage/Img/logo.png";
 
@@ -226,6 +226,13 @@ export default function Sidebar({ children, userData }) {
 export function SidebarItem({ icon, text, active, alert, child }) {
     const { expanded } = useContext(SidebarContext);
     const [isOpen, setIsOpen] = useState(false);
+    const { url } = usePage();
+
+    useEffect(() => {
+        if (child && child.some((item) => url.includes(item.link))) {
+            setIsOpen(true);
+        }
+    }, [url, child]);
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);

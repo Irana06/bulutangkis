@@ -10,7 +10,7 @@ class Tanding extends Model
 {
     use HasFactory, HasUuid;
 
-    protected $appends = ['atlet', 'kontingen', 'kategori_tanding'];
+    protected $appends = ['atlet', 'kontingen', 'kategori_tanding', 'tim'];
 
     protected $table = 'tanding';
 
@@ -27,14 +27,25 @@ class Tanding extends Model
     {
         return $this->atlet()->first();
     }
+
     public function getKontingenAttribute(): ?Kontingen
     {
-        return $this->atlet ? $this->atlet->kontingen()->first() : null;
+        if ($this->atlet) {
+            return $this->atlet->kontingen()->first();
+        } elseif ($this->tim) {
+            return $this->tim->atlet1->kontingen()->first();
+        }
+        return null;
     }
 
     public function getKategoriTandingAttribute(): ?KategoriTanding
     {
         return $this->kategoriTanding()->first();
+    }
+
+    public function getTimAttribute():?Tim
+    {
+        return $this->tim()->first();
     }
 
     public function atlet()
@@ -46,4 +57,8 @@ class Tanding extends Model
         return $this->belongsTo(KategoriTanding::class);
     }
 
+    public function tim()
+    {
+        return $this->belongsTo(Tim::class);
+    }
 }
