@@ -53,6 +53,7 @@ class TandingController extends Controller
 
         return Inertia::render('Dashboard', [
             'child' => 'Tanding/ListTanding',
+            'childText' => $request->query('tunggal') ? 'Tunggal' : ($request->query('ganda') ? 'Ganda' : 'Campuran'),
             'tanding' => $tanding->get(),
         ]);
     }

@@ -5,7 +5,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 
 export default function ListTanding() {
-    const { tanding } = usePage().props;
+    const { tanding, childText } = usePage().props;
     const [dropdownOpenIndex, setDropdownOpenIndex] = useState(null);
 
     const handleDelete = (id) => {
@@ -119,7 +119,7 @@ export default function ListTanding() {
 
     return (
         <TableItems
-            title="Tanding"
+            title={`Tanding ${childText}`}
             data={tableData}
             columns={columns}
             dropdownOpenIndex={dropdownOpenIndex}
