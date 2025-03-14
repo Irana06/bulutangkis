@@ -1,12 +1,38 @@
 import TableItems from "@/Pages/Layouts/Table";
 import { Link } from "@inertiajs/inertia-react";
-import { usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 export default function ListTanding() {
     const { tanding } = usePage().props;
-    console.log(tanding)
     const [dropdownOpenIndex, setDropdownOpenIndex] = useState(null);
+
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: "Apakah Anda yakin?",
+            text: "Data ini akan dihapus secara permanen!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Ya, hapus!",
+            cancelButtonText: "Batal",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.delete(route("tanding.destroy", id), {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        Swal.fire(
+                            "Terhapus!",
+                            "Data tanding telah dihapus.",
+                            "success"
+                        );
+                    },
+                });
+            }
+        });
+    };
 
     const columns = [
         {
@@ -48,6 +74,18 @@ export default function ListTanding() {
                     >
                         Edit
                     </Link>
+                    <Link
+                        href="#"
+                        onClick={(e) => {
+                            e.preventDefault(); // Mencegah fetch otomatis
+                            handleDelete(item.id);
+                        }}
+                        className={`py-2 leading-none mt-2 px-3 font-medium text-red-600 bg-red-500/20 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg ${
+                            dropdownOpenIndex === index ? "" : "ml-2"
+                        } `}
+                    >
+                        Delete
+                    </Link>
                 </div>
             ),
             hidden: true,
@@ -71,7 +109,9 @@ export default function ListTanding() {
         kategori_tanding_tingkat: item.kategori_tanding.tingkat,
         jenis_tanding: formatJenisTanding(item.kategori_tanding.jenis),
         kelompok_tanding: item.kategori_tanding.kelompok_umur,
-        umur: item.atlet?.umur ?? `(${item.kategori_tanding?.min_umur} - ${item.kategori_tanding?.max_umur})`,
+        umur:
+            item.atlet?.umur ??
+            `(${item.kategori_tanding?.min_umur} - ${item.kategori_tanding?.max_umur})`,
         foto_profile:
             item.atlet?.foto_profile_url ??
             `https://ui-avatars.com/api/?name=${item.atlet?.name}`,
