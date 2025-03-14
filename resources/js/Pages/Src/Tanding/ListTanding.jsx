@@ -5,6 +5,7 @@ import { useState } from "react";
 
 export default function ListTanding() {
     const { tanding } = usePage().props;
+    console.log(tanding)
     const [dropdownOpenIndex, setDropdownOpenIndex] = useState(null);
 
     const columns = [
@@ -15,7 +16,7 @@ export default function ListTanding() {
                 <img src={item} className="w-10 h-10 rounded-full" />
             ),
         },
-        { key: "atlet_nama", label: "Nama Peserta" },
+        { key: "atlet_nama", label: "Nama Peserta/Tim" },
         { key: "kontingen_nama", label: "Kontingen", hidden: true },
         { key: "kategori_tanding_tingkat", label: "Tingkat", hidden: true },
         { key: "jenis_tanding", label: "Jenis Tanding", hidden: true },
@@ -65,12 +66,12 @@ export default function ListTanding() {
     // Transformasi data agar sesuai dengan format tabel
     const tableData = tanding.map((item) => ({
         id: item.id,
-        atlet_nama: item.atlet?.name,
+        atlet_nama: item.atlet?.name ?? item.tim?.nama_tim,
         kontingen_nama: item.kontingen?.name,
         kategori_tanding_tingkat: item.kategori_tanding.tingkat,
         jenis_tanding: formatJenisTanding(item.kategori_tanding.jenis),
         kelompok_tanding: item.kategori_tanding.kelompok_umur,
-        umur: item.atlet?.umur,
+        umur: item.atlet?.umur ?? `(${item.kategori_tanding?.min_umur} - ${item.kategori_tanding?.max_umur})`,
         foto_profile:
             item.atlet?.foto_profile_url ??
             `https://ui-avatars.com/api/?name=${item.atlet?.name}`,
