@@ -24,7 +24,6 @@ class TandingController extends Controller
         // Ambil query parameters dari frontend
         $filterTunggal = $request->query('tunggal');
         $filterGanda = $request->query('ganda');
-        $filterCampuran = $request->query('campuran');
 
         // Query dasar dengan filter berdasarkan kontingen
         $tanding = Tanding::where(function ($query) use ($kontingenId) {
@@ -39,19 +38,17 @@ class TandingController extends Controller
         });
 
         // Filter berdasarkan jenis kategori tanding
-        $tanding->whereHas('kategoriTanding', function ($query) use ($filterTunggal, $filterGanda, $filterCampuran) {
+        $tanding->whereHas('kategoriTanding', function ($query) use ($filterTunggal, $filterGanda) {
             if ($filterTunggal) {
                 $query->whereIn('jenis', ['TUNGGAL_PUTRA', 'TUNGGAL_PUTRI']);
             } elseif ($filterGanda) {
                 $query->whereIn('jenis', ['GANDA_PUTRA', 'GANDA_PUTRI']);
-            } elseif ($filterCampuran) {
-                $query->where('jenis', 'CAMPURAN');
             }
         });
 
         return Inertia::render('Dashboard', [
             'child' => 'Tanding/ListTanding',
-            'childText' => $filterTunggal ? 'Tunggal' : ($filterGanda ? 'Ganda' : 'Campuran'),
+            'childText' => $filterTunggal ? 'Tunggal' : ($filterGanda ? 'Ganda' : ''),
             'tanding' => $tanding->get(),
         ]);
     }

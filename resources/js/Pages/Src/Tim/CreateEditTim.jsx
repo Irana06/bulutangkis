@@ -64,7 +64,6 @@ export default function CreateEditTim() {
 
     const jenisTimOptions = [
         { value: "GANDA", label: "Ganda" },
-        { value: "CAMPURAN", label: "Campuran" },
     ];
 
     const handleSubmit = (e) => {

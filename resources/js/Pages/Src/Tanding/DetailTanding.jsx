@@ -71,10 +71,6 @@ export default function DetailTanding() {
                             )}
                         />
                         <Field
-                            label="Tingkat Tanding"
-                            value={tanding.kategori_tanding?.tingkat}
-                        />
-                        <Field
                             label="Kelompok Tanding"
                             value={tanding.kategori_tanding?.kelompok_umur}
                         />
@@ -93,6 +89,7 @@ export default function DetailTanding() {
                 </div>
             ) : (
                 <>
+                    <h1 className="font-semibold text-xl mb-5">Tim:</h1>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <Field label="Nama Tim" value={tanding.tim?.nama_tim} />
                         <Field
@@ -104,10 +101,6 @@ export default function DetailTanding() {
                             value={formatJenisTanding(
                                 tanding.kategori_tanding?.jenis
                             )}
-                        />
-                        <Field
-                            label="Tingkat Tanding"
-                            value={tanding.kategori_tanding?.tingkat}
                         />
                         <Field
                             label="Kelompok Tanding"

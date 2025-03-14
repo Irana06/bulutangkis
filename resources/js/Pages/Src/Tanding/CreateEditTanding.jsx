@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 
 export default function CreateEditTanding() {
     const { kategoriTanding, atlet, tim } = usePage().props;
-    console.log(tim)
+    console.log(kategoriTanding)
     const [filteredKategoriTanding, setFilteredKategoriTanding] = useState([]);
 
     const { data, setData, post, processing, errors } = useForm({
@@ -36,7 +36,7 @@ export default function CreateEditTanding() {
 
         return {
             value: tim.id,
-            label: `${tim.nama_tim} - ${FormatCapital(jenisKelaminTim)}`,
+            label: `${tim.nama_tim} - ${FormatCapital(jenisKelaminTim)} (${tim.atlet_1?.name} & ${tim.atlet_2?.name})`,
             umur: tim.atlet_1?.umur || 0,
             jenis_kelamin: jenisKelaminTim,
         };
@@ -61,34 +61,26 @@ export default function CreateEditTanding() {
 
             kategoriFiltered = kategoriTanding.filter((kategori) =>
                 selectedUmur >= kategori.min_umur &&
-                selectedUmur <= kategori.max_umur &&
+                (kategori.max_umur === null || selectedUmur <= kategori.max_umur) &&
                 kategori.jenis === genderMapping[selectedJenisKelamin] // Pastikan hanya tunggal
             );
         } else if (data.tim_id) {
-            // Jika tim dipilih, hanya kategori ganda/campuran yang boleh muncul
+            // Jika tim dipilih, hanya kategori ganda yang boleh muncul
             const selectedTim = tim.find((t) => t.id === data.tim_id);
             if (!selectedTim || !selectedTim.atlet_1) return;
             selectedUmur = selectedTim.atlet_1.umur;
             selectedJenisKelamin = timOptions.find((t) => t.value === data.tim_id)?.jenis_kelamin;
 
-            if (selectedJenisKelamin === "Campuran") {
-                kategoriFiltered = kategoriTanding.filter((kategori) =>
-                    selectedUmur >= kategori.min_umur &&
-                    selectedUmur <= kategori.max_umur &&
-                    kategori.jenis === "CAMPURAN"
-                );
-            } else {
-                const genderMapping = {
-                    "LAKI_LAKI": "GANDA_PUTRA",
-                    "PEREMPUAN": "GANDA_PUTRI",
-                };
+            const genderMapping = {
+                "LAKI_LAKI": "GANDA_PUTRA",
+                "PEREMPUAN": "GANDA_PUTRI",
+            };
 
-                kategoriFiltered = kategoriTanding.filter((kategori) =>
-                    selectedUmur >= kategori.min_umur &&
-                    selectedUmur <= kategori.max_umur &&
-                    kategori.jenis === genderMapping[selectedJenisKelamin] // Pastikan hanya ganda
-                );
-            }
+            kategoriFiltered = kategoriTanding.filter((kategori) =>
+                selectedUmur >= kategori.min_umur &&
+                (kategori.max_umur === null || selectedUmur <= kategori.max_umur) &&
+                kategori.jenis === genderMapping[selectedJenisKelamin] // Pastikan hanya ganda
+            );
         }
 
         setFilteredKategoriTanding(kategoriFiltered);
@@ -96,7 +88,7 @@ export default function CreateEditTanding() {
 
     const kategoriTandingOptions = filteredKategoriTanding.map((kategori) => ({
         value: kategori.id,
-        label: `${kategori.tingkat} - ${FormatCapital(kategori.jenis)} (${kategori.min_umur} - ${kategori.max_umur} Tahun)`,
+        label: `${FormatCapital(kategori.jenis)} - ${kategori.kelompok_umur} (${kategori.min_umur} - ${kategori.max_umur || '∞'} Tahun)`,
     }));
 
     const handleSubmit = (e) => {

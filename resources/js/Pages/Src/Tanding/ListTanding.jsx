@@ -44,7 +44,6 @@ export default function ListTanding() {
         },
         { key: "atlet_nama", label: "Nama Peserta/Tim" },
         { key: "kontingen_nama", label: "Kontingen", hidden: true },
-        { key: "kategori_tanding_tingkat", label: "Tingkat", hidden: true },
         { key: "jenis_tanding", label: "Jenis Tanding", hidden: true },
         { key: "kelompok_tanding", label: "Kelompok Tanding", hidden: true },
         { key: "umur", label: "Umur (Tahun)", hidden: true },
@@ -106,7 +105,6 @@ export default function ListTanding() {
         id: item.id,
         atlet_nama: item.atlet?.name ?? item.tim?.nama_tim,
         kontingen_nama: item.kontingen?.name,
-        kategori_tanding_tingkat: item.kategori_tanding.tingkat,
         jenis_tanding: formatJenisTanding(item.kategori_tanding.jenis),
         kelompok_tanding: item.kategori_tanding.kelompok_umur,
         umur:

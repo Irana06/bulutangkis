@@ -20,6 +20,8 @@ return new class extends Migration
             $table->foreignUuid('atlet_id')->nullable()->constrained('atlet')->onDelete('cascade');
             $table->foreignUuid('tim_id')->nullable()->constrained('tim')->onDelete('cascade');
 
+            $table->boolean('dibayar')->nullable();
+
             $table->softDeletes();
             $table->timestamps();
         });
