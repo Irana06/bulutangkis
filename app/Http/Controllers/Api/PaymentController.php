@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
+use App\Models\Tanding;
 use Illuminate\Http\Request;
 use Xendit\Configuration;
 use Xendit\Invoice\CreateInvoiceRequest;
@@ -46,7 +47,7 @@ class PaymentController extends Controller
         $payment = Payment::where('external_id', $request->external_id)->firstOrFail();
 
         // Cegah update jika pembayaran sudah diproses
-        if ($payment->status === 'settled') {
+        if ($payment->status === 'pending') {
             return response()->json('Pembayaran telah diproses');
         }
 
@@ -60,7 +61,7 @@ class PaymentController extends Controller
 
         // Jika pembayaran berhasil, update kolom `dibayar` di tabel `tanding`
         if ($newStatus === 'paid') {
-            \App\Models\Tanding::where('id', $request->external_id)->update(['dibayar' => true]);
+            Tanding::where('id', $request->external_id)->update(['dibayar' => true]);
         }
 
         return response()->json('Success');
