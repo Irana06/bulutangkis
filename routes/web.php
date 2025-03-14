@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\AtletController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TandingController;
@@ -23,6 +24,9 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 });
 
+// Payment
+Route::post('/payment', [PaymentController::class, 'store']);
+
 Route::fallback(function () {
     return Inertia::render('Services/NotFound');
 });
@@ -33,6 +37,7 @@ Route::middleware('auth')->group(function () {
             'child' => 'Home'
         ]);
     })->name('home');
+
 
     // Peserta
     Route::resource('peserta', AtletController::class)->except(['show', 'update']);
