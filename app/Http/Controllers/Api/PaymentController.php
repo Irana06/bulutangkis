@@ -12,12 +12,14 @@ use Xendit\Invoice\InvoiceApi;
 class PaymentController extends Controller
 {
     var $apiInstance = null;
-    public function __construct() {
+    public function __construct()
+    {
         Configuration::setXenditKey("xnd_development_Eh3fZG9pnQfhNTStdR3rSjapYaTWwl2stq1HZadX8TzMwfeHpKwIh6desk4mbp");
         $this->apiInstance = new InvoiceApi();
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
 
         $create_invoice_request = new CreateInvoiceRequest([
             "external_id" => $request->external_id,
@@ -36,5 +38,23 @@ class PaymentController extends Controller
         $payment->save();
 
         return response()->json($payment);
+    }
+
+    public function notification(Request $request)
+    {
+        $result = $this->apiInstance->getInvoices(null, $request->external_id);
+
+        // Get Data
+        $payment = Payment::where('external_id', $request->external_id)->findOrFails();
+
+        if($payment->status == 'settled') {
+            return response()->json('Pembayaran telah diproses');
+        }
+
+        // Update status
+        $payment->status = strtolower($result[0]['status']);
+        $payment->save();
+
+        return response()->json('Success');
     }
 }
