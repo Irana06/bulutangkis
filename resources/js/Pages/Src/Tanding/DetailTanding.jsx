@@ -75,6 +75,21 @@ export default function DetailTanding() {
                             value={tanding.kategori_tanding?.kelompok_umur}
                         />
                         <Field
+                            label="Biaya IWP"
+                            value={
+                                <span
+                                    className={
+                                        tanding.dibayar
+                                            ? "text-green-500"
+                                            : "text-orange-500 italic"
+                                    }
+                                >
+                                    {tanding.dibayar ? "Sudah" : "Belum"}
+                                </span>
+                            }
+                        />
+
+                        <Field
                             label="Juara Ke"
                             value={
                                 tanding.juara
@@ -105,6 +120,20 @@ export default function DetailTanding() {
                         <Field
                             label="Kelompok Tanding"
                             value={tanding.kategori_tanding?.kelompok_umur}
+                        />
+                        <Field
+                            label="Biaya IWP"
+                            value={
+                                <span
+                                    className={
+                                        tanding.dibayar
+                                            ? "text-green-500"
+                                            : "text-orange-500 italic"
+                                    }
+                                >
+                                    {tanding.dibayar ? "Sudah" : "Belum"}
+                                </span>
+                            }
                         />
                         <Field
                             label="Juara Ke"
