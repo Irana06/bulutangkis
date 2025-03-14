@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 
 export default function CreateEditTanding() {
     const { kategoriTanding, atlet, tim } = usePage().props;
+    console.log(tim)
     const [filteredKategoriTanding, setFilteredKategoriTanding] = useState([]);
 
     const { data, setData, post, processing, errors } = useForm({
@@ -41,29 +42,30 @@ export default function CreateEditTanding() {
         };
     });
 
-    // Filter Kategori Tanding berdasarkan atlet/tim
     useEffect(() => {
         let selectedUmur = null;
         let selectedJenisKelamin = null;
         let kategoriFiltered = [];
 
         if (data.atlet_id) {
+            // Jika atlet dipilih, hanya kategori tunggal yang boleh muncul
             const selectedAtlet = atlet.find((a) => a.id === data.atlet_id);
             if (!selectedAtlet) return;
             selectedUmur = selectedAtlet.umur;
             selectedJenisKelamin = selectedAtlet.jenis_kelamin;
 
             const genderMapping = {
-                "LAKI_LAKI": "PUTRA",
-                "PEREMPUAN": "PUTRI",
+                "LAKI_LAKI": "TUNGGAL_PUTRA",
+                "PEREMPUAN": "TUNGGAL_PUTRI",
             };
 
             kategoriFiltered = kategoriTanding.filter((kategori) =>
                 selectedUmur >= kategori.min_umur &&
                 selectedUmur <= kategori.max_umur &&
-                kategori.jenis.includes(genderMapping[selectedJenisKelamin])
+                kategori.jenis === genderMapping[selectedJenisKelamin] // Pastikan hanya tunggal
             );
         } else if (data.tim_id) {
+            // Jika tim dipilih, hanya kategori ganda/campuran yang boleh muncul
             const selectedTim = tim.find((t) => t.id === data.tim_id);
             if (!selectedTim || !selectedTim.atlet_1) return;
             selectedUmur = selectedTim.atlet_1.umur;
@@ -84,7 +86,7 @@ export default function CreateEditTanding() {
                 kategoriFiltered = kategoriTanding.filter((kategori) =>
                     selectedUmur >= kategori.min_umur &&
                     selectedUmur <= kategori.max_umur &&
-                    ["CAMPURAN", genderMapping[selectedJenisKelamin]].includes(kategori.jenis)
+                    kategori.jenis === genderMapping[selectedJenisKelamin] // Pastikan hanya ganda
                 );
             }
         }

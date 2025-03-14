@@ -8,6 +8,7 @@ use App\Models\KategoriTanding;
 use App\Models\Tanding;
 use App\Models\Tim;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class TandingController extends Controller
@@ -26,34 +27,31 @@ class TandingController extends Controller
         $filterCampuran = $request->query('campuran');
 
         // Query dasar dengan filter berdasarkan kontingen
-        $tanding = Tanding::whereHas('atlet', function ($query) use ($kontingenId) {
-            $query->where('kontingen_id', $kontingenId);
-        })->orWhereHas('tim', function ($query) use ($kontingenId) {
-            $query->where('kontingen_id', $kontingenId);
+        $tanding = Tanding::where(function ($query) use ($kontingenId) {
+            // Hanya menampilkan atlet jika kategori adalah tunggal
+            $query->whereHas('atlet', function ($subQuery) use ($kontingenId) {
+                $subQuery->where('kontingen_id', $kontingenId);
+            })
+            // Hanya menampilkan tim jika kategori adalah ganda/campuran
+            ->orWhereHas('tim', function ($subQuery) use ($kontingenId) {
+                $subQuery->where('kontingen_id', $kontingenId);
+            });
         });
 
         // Filter berdasarkan jenis kategori tanding
-        if ($filterTunggal) {
-            $tanding->whereHas('kategoriTanding', function ($query) {
+        $tanding->whereHas('kategoriTanding', function ($query) use ($filterTunggal, $filterGanda, $filterCampuran) {
+            if ($filterTunggal) {
                 $query->whereIn('jenis', ['TUNGGAL_PUTRA', 'TUNGGAL_PUTRI']);
-            });
-        }
-
-        if ($filterGanda) {
-            $tanding->whereHas('kategoriTanding', function ($query) {
+            } elseif ($filterGanda) {
                 $query->whereIn('jenis', ['GANDA_PUTRA', 'GANDA_PUTRI']);
-            });
-        }
-
-        if ($filterCampuran) {
-            $tanding->whereHas('kategoriTanding', function ($query) {
+            } elseif ($filterCampuran) {
                 $query->where('jenis', 'CAMPURAN');
-            });
-        }
+            }
+        });
 
         return Inertia::render('Dashboard', [
             'child' => 'Tanding/ListTanding',
-            'childText' => $request->query('tunggal') ? 'Tunggal' : ($request->query('ganda') ? 'Ganda' : 'Campuran'),
+            'childText' => $filterTunggal ? 'Tunggal' : ($filterGanda ? 'Ganda' : 'Campuran'),
             'tanding' => $tanding->get(),
         ]);
     }
@@ -70,15 +68,19 @@ class TandingController extends Controller
 
         // Ambil atlet yang belum terdaftar di tabel Tanding
         $atlet = Atlet::where('kontingen_id', $kontingenId)
-            ->whereNotIn('id', function ($query) {
-                $query->select('atlet_id')->from('tanding');
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('tanding')
+                    ->whereColumn('tanding.atlet_id', 'atlet.id');
             })
             ->get();
 
         // Ambil tim yang belum terdaftar di tabel Tanding
         $tim = Tim::where('kontingen_id', $kontingenId)
-            ->whereNotIn('id', function ($query) {
-                $query->select('tim_id')->from('tanding');
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('tanding')
+                    ->whereColumn('tanding.tim_id', 'tim.id');
             })
             ->get();
 

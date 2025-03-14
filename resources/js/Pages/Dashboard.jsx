@@ -13,7 +13,7 @@ import CreateEditTim from "@/Pages/Src/Tim/CreateEditTim";
 
 // Mapping string ke komponen
 
-export default function Dashboard({ auth, child }) {
+export default function Dashboard({ auth, child, childText }) {
     const getChildComponent = (child) => {
         switch (child) {
             case "Peserta/ListPeserta":
@@ -29,7 +29,7 @@ export default function Dashboard({ auth, child }) {
             case "Tim/CreateEditTim":
                 return <CreateEditTim />;
             case "Tanding/ListTanding":
-                return <ListTanding />;
+                return <ListTanding childText={childText} />;
             case "Tanding/DetailTanding":
                 return <DetailTanding />;
             case "Tanding/CreateEditTanding":
@@ -61,11 +61,6 @@ export default function Dashboard({ auth, child }) {
                             icon: <Dot size={20} />,
                             text: "Ganda",
                             link: "/tanding?ganda=true",
-                        },
-                        {
-                            icon: <Dot size={20} />,
-                            text: "Campuran",
-                            link: "/tanding?campuran=true",
                         },
                     ]}
                 />
