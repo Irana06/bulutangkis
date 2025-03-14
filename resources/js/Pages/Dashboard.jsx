@@ -54,6 +54,11 @@ export default function Dashboard({ auth, child, childText }) {
                     child={[
                         {
                             icon: <Dot size={20} />,
+                            text: "Tanding",
+                            link: "/tanding",
+                        },
+                        {
+                            icon: <Dot size={20} />,
                             text: "Tunggal",
                             link: "/tanding?tunggal=true",
                         },
