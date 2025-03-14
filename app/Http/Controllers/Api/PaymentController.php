@@ -42,9 +42,6 @@ class PaymentController extends Controller
 
     public function notification(Request $request)
     {
-        // Log request (opsional untuk debugging)
-        \Log::info('Xendit Callback:', $request->all());
-
         // Ambil data pembayaran dari database berdasarkan external_id
         $payment = Payment::where('external_id', $request->external_id)->firstOrFail();
 
