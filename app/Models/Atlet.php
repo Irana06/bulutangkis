@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
- * @property-read string|null $foto_profile_url
+ * @property-read string|null $foto_profile_url, $kk_proto_url
  */
 class Atlet extends Model implements HasMedia
 {
@@ -33,11 +33,16 @@ class Atlet extends Model implements HasMedia
         'kontingen_id',
     ];
 
-    protected $appends = ['foto_profile_url', 'umur_update', 'kontingen'];
+    protected $appends = ['foto_profile_url', 'umur_update', 'kontingen', 'kk_photo_url'];
 
     public function getFotoProfileUrlAttribute(): ?string
     {
         return $this->getFirstMediaUrl('foto_profile') ?: null;
+    }
+
+    public function getKkPhotoUrlAttribute(): ?string
+    {
+        return $this->getFirstMediaUrl('kk_photo') ?: null;
     }
 
     public function getUmurUpdateAttribute(): int

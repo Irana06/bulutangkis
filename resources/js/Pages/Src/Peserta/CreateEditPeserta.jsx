@@ -73,6 +73,9 @@ export default function CreateEditPeserta() {
                 if (data.foto_profile) {
                     formDataObject.append("foto_profile", data.foto_profile);
                 }
+                if (data.kk_photo) {
+                    formDataObject.append("kk_photo", data.kk_photo);
+                }
 
                 const submitAction = post;
                 const routeName = atlet ? "peserta.update" : "peserta.store";
@@ -90,7 +93,9 @@ export default function CreateEditPeserta() {
                         });
                     },
                     onError: (errors) => {
-                        const errorMessages = Object.values(errors).flat().join('<br>');
+                        const errorMessages = Object.values(errors)
+                            .flat()
+                            .join("<br>");
                         Swal.fire({
                             icon: "error",
                             title: "Kesalahan Validasi",
@@ -135,7 +140,9 @@ export default function CreateEditPeserta() {
                             { value: "PEREMPUAN", label: "Perempuan" },
                         ]}
                         value={data.jenis_kelamin}
-                        onChange={(e) => setData("jenis_kelamin", e.target.value)}
+                        onChange={(e) =>
+                            setData("jenis_kelamin", e.target.value)
+                        }
                         error={errors.jenis_kelamin}
                         required
                     />
@@ -162,7 +169,9 @@ export default function CreateEditPeserta() {
                         name="tanggal_lahir"
                         type="date"
                         value={data.tanggal_lahir}
-                        onChange={(e) => setData("tanggal_lahir", e.target.value)}
+                        onChange={(e) =>
+                            setData("tanggal_lahir", e.target.value)
+                        }
                         error={errors.tanggal_lahir}
                         required
                     />
@@ -171,7 +180,9 @@ export default function CreateEditPeserta() {
                         name="tempat_lahir"
                         placeholder="Tempat Lahir"
                         value={data.tempat_lahir}
-                        onChange={(e) => setData("tempat_lahir", e.target.value)}
+                        onChange={(e) =>
+                            setData("tempat_lahir", e.target.value)
+                        }
                         error={errors.tempat_lahir}
                         required
                     />
@@ -192,15 +203,27 @@ export default function CreateEditPeserta() {
                         step="0.1"
                         placeholder="Tinggi Badan"
                         value={data.tinggi_badan}
-                        onChange={(e) => setData("tinggi_badan", e.target.value)}
+                        onChange={(e) =>
+                            setData("tinggi_badan", e.target.value)
+                        }
                         error={errors.tinggi_badan}
                     />
                     <InputField
                         label="Foto Profile"
                         name="foto_profile"
                         type="file"
-                        onChange={(e) => setData("foto_profile", e.target.files[0])}
+                        onChange={(e) =>
+                            setData("foto_profile", e.target.files[0])
+                        }
                         error={errors.foto_profile}
+                    />
+                    <InputField
+                        label="Foto KK"
+                        name="kk_photo"
+                        type="file"
+                        onChange={(e) => setData("kk_photo", e.target.files[0])}
+                        error={errors.kk_photo}
+                        required
                     />
                 </div>
                 {/* Tombol submit di bawah form */}

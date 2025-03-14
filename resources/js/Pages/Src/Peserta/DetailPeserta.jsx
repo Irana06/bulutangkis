@@ -63,6 +63,24 @@ export default function DetailPeserta() {
                         atlet.tinggi_badan ? "" : "text-yellow-600 italic"
                     }`}
                 />
+                <div className="flex flex-col">
+                    <span className="text-sm font-semibold text-gray-500">
+                        Foto KK
+                    </span>
+                    <span
+                        className={`text-lg font-medium text-gray-800`}
+                    >
+                        {atlet.kk_photo_url? (
+                            <img
+                                src={atlet.kk_photo_url}
+                                alt="Foto KK"
+                                className="w-full h-auto object-contain"
+                            />
+                        ) : (
+                            <span className="text-yellow-600 italic">data tidak ada</span>
+                        )}
+                    </span>
+                </div>
             </div>
 
             {/* Button Kembali */}

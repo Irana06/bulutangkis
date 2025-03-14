@@ -50,9 +50,12 @@ class AtletController extends Controller
 
         $atlet = Atlet::create($validatedData);
 
-        // Simpan avatar jika ada
+        // Simpan avatar & kk jika ada
         if ($request->hasFile('foto_profile')) {
             $atlet->addMediaFromRequest('foto_profile')->toMediaCollection('foto_profile');
+        }
+        if ($request->hasFile('kk_photo')) {
+            $atlet->addMediaFromRequest('kk_photo')->toMediaCollection('kk_photo');
         }
 
         return redirect()->route('peserta.index')->with('success', 'Atlet berhasil ditambahkan');
@@ -99,6 +102,10 @@ class AtletController extends Controller
         if ($request->hasFile('foto_profile')) {
             $atlet->clearMediaCollection('foto_profile');
             $atlet->addMediaFromRequest('foto_profile')->toMediaCollection('foto_profile');
+        }
+        if ($request->hasFile('kk_photo')) {
+            $atlet->clearMediaCollection('kk_photo');
+            $atlet->addMediaFromRequest('kk_photo')->toMediaCollection('kk_photo');
         }
 
         return redirect()->route('peserta.index')->with('success', 'Atlet berhasil diperbarui');
