@@ -1,5 +1,6 @@
 import Sidebar, { SidebarItem } from "@/Pages/Layouts/SidebarItem";
 import {
+    CalendarCheck,
     Dot,
     Headset,
     LayoutDashboard,
@@ -75,7 +76,12 @@ export default function Dashboard({ auth, child, childText }) {
                         },
                     ]}
                 />
-                <SidebarItem icon={<Users size={20} />} text="Live Jadwal" />
+                <Link href="/jadwal">
+                    <SidebarItem
+                        icon={<CalendarCheck size={20} />}
+                        text="Live Jadwal"
+                    />
+                </Link>
             </Sidebar>
             <div className="flex-grow overflow-auto">
                 <div className="sticky top-0 bg-white z-10">
