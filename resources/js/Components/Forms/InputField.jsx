@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { CloudUpload } from "lucide-react";
+import Swal from "sweetalert2";
 
 const InputField = ({
     label,
@@ -17,6 +18,17 @@ const InputField = ({
 
     const handleFileChange = (e) => {
         const uploadedFile = e.target.files[0];
+        const maxSize = name === "foto_profile" ? 2 * 1024 * 1024 : 4 * 1024 * 1024; // 2MB for foto_profile, 4MB for kk_photo
+
+        if (uploadedFile.size > maxSize) {
+            Swal.fire({
+                icon: "error",
+                title: "Ukuran File Terlalu Besar",
+                text: `Ukuran file ${name === "foto_profile" ? "Foto Profile" : "Foto KK"} tidak boleh lebih dari ${name === "foto_profile" ? "2MB" : "4MB"}.`,
+            });
+            return;
+        }
+
         setFile(uploadedFile);
         onChange && onChange(e);
 
@@ -77,7 +89,7 @@ const InputField = ({
                                 {file ? file.name : "Upload a file"}
                             </span>
                             <span className="mt-0.5 block text-sm text-gray-500">
-                                Max 2 MB
+                                Max {name === "foto_profile" ? "2 MB" : "4 MB"}
                             </span>
                         </div>
                     </label>

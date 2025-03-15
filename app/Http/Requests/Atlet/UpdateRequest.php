@@ -29,6 +29,7 @@ class UpdateRequest extends FormRequest
             'berat_badan' => 'sometimes|nullable|numeric|min:1|max:999.99',
             'tinggi_badan' => 'sometimes|nullable|numeric|min:1|max:999.99',
             'foto_profile' => 'sometimes|nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'kk_photo' => 'sometimes|nullable|image|mimes:jpeg,png,jpg|max:4096',
         ];
     }
 
@@ -60,6 +61,9 @@ class UpdateRequest extends FormRequest
             'foto_profile.image' => 'Foto Profile harus berupa gambar.',
             'foto_profile.mimes' => 'Foto Profile harus berupa file dengan tipe: jpeg, png, jpg, gif, svg.',
             'foto_profile.max' => 'Foto Profile maksimal berukuran 2MB.',
+            'kk_photo.image' => 'Foto KK harus berupa gambar.',
+            'kk_photo.mimes' => 'Foto KK harus berupa file dengan tipe: jpeg, png, jpg.',
+            'kk_photo.max' => 'Foto KK maksimal berukuran 4MB.',
         ];
     }
 }
