@@ -21,3 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/payment/callback', [PaymentController::class, 'notification']);
+Route::get('/check-payment-status/{externalId}', [PaymentController::class, 'checkStatus']);
+

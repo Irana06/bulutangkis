@@ -29,7 +29,7 @@ class PaymentController extends Controller
             'given_names' => 'required|string',
             'email' => 'required|email',
             'mobile_number' => 'nullable|string',
-            'address' => 'nullable|string',
+            'address' => 'nullable|array',
         ]);
 
         $user = auth()->user();
@@ -45,7 +45,7 @@ class PaymentController extends Controller
                 "given_names" => $request->given_names,
                 "email" => $request->email,
                 "mobile_number" => $request->mobile_number,
-                "addresses" => $request->address ? json_decode($request->address, true) : [],
+                "addresses" => is_array($request->address) ? $request->address : [],
             ),
         ]);
 
@@ -85,6 +85,24 @@ class PaymentController extends Controller
             Tanding::where('id', $request->external_id)->update(['dibayar' => true]);
         }
 
-        return response()->json('Success');
+        return response()->json([
+            'success' => true,
+            'status' => $newStatus,
+            'message' => 'Status pembayaran diperbarui'
+        ]);
+    }
+
+    public function checkStatus($externalId)
+    {
+        $payment = Payment::where('external_id', $externalId)->first();
+
+        if (!$payment) {
+            return response()->json(['success' => false, 'message' => 'Pembayaran tidak ditemukan'], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'status' => $payment->status
+        ]);
     }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { usePage, useForm } from "@inertiajs/react";
 import BackButton from "@/Components/Buttons/BackButton";
 import FormatCapital from "@/Components/Utils/FormatCapital";
@@ -13,6 +13,8 @@ export default function CheckoutPembayaran() {
     const { tanding } = usePage().props;
     const currentDate = moment().format("dddd, MMMM YYYY");
     const [copied, setCopied] = useState(false);
+    const [isRedirecting, setIsRedirecting] = useState(false);
+    const intervalRef = useRef(null);
 
     const { data, setData, post, processing } = useForm({
         external_id: tanding.id,
@@ -77,7 +79,7 @@ export default function CheckoutPembayaran() {
                 post(route("payment.store"), {
                     onSuccess: (page) => {
                         if (page.props.success) {
-                            window.location.href = page.props.checkout_link;
+                            window.open(page.props.checkout_link, "_blank");
                         }
                     },
                     onError: (errors) => {
@@ -94,6 +96,42 @@ export default function CheckoutPembayaran() {
                 });
             }
         });
+    };
+
+    useEffect(() => {
+        intervalRef.current = setInterval(() => {
+            checkPaymentStatus();
+        }, 5000); // Cek setiap 5 detik
+
+        return () => clearInterval(intervalRef.current);
+    }, []);
+
+    const checkPaymentStatus = async () => {
+        if (isRedirecting) return; // Cegah pengecekan jika redirect sedang berlangsung
+
+        try {
+            const response = await fetch(
+                `/api/check-payment-status/${tanding.id}`
+            );
+            const result = await response.json();
+
+            if (result.status === "paid") {
+                clearInterval(intervalRef.current); // Hentikan interval agar tidak mengecek status lagi
+                setIsRedirecting(true); // Tandai bahwa redirect sedang berlangsung
+
+                Swal.fire({
+                    title: "Pembayaran Berhasil!",
+                    text: "Anda akan dialihkan ke halaman daftar pembayaran.",
+                    icon: "success",
+                    showConfirmButton: false,
+                });
+
+                // Redirect langsung tanpa menunggu timer
+                window.location.href = route("pembayaran.index");
+            }
+        } catch (error) {
+            console.error("Gagal mengecek status pembayaran:", error);
+        }
     };
 
     return (
@@ -116,7 +154,7 @@ export default function CheckoutPembayaran() {
                         {/* Potong ID */}
                         <button
                             onClick={handleCopy}
-                            className="text-gray-600 hover:text-gray-800 transition flex items-center gap-2"
+                            className="text-gray-600 hover:text-cyan-600 transition flex items-center gap-2"
                         >
                             <span>Invoice ID: {tanding.id.slice(0, 9)}...</span>{" "}
                             <Copy size={16} />

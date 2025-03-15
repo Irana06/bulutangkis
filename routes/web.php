@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/tanding/{id}/detail', [TandingController::class, 'show'])->name('tanding.show');
 
     // Pembayaran
-    Route::get('/pembayaran', [PembayaranController::class, 'index']);
+    Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran.index');
     Route::get('/pembayaran/{id}/detail', [PembayaranController::class, 'show']);
     Route::get('/pembayaran/{id}/checkout', [PembayaranController::class, 'checkout']);
 });
