@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('no_hp_penanggung_jawab');
             $table->enum('asal_kontingen', ['LUAR_NEGERI', 'DALAM_NEGERI']);
             $table->text('alamat_lengkap');
+            $table->boolean('dibayar')->default(false);
 
             $table->foreignUuid('event_id')->nullable()->constrained('events')->onDelete('cascade');
 
