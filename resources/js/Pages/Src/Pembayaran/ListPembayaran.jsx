@@ -77,6 +77,7 @@ export default function ListPembayaran() {
             title="Pembayaran"
             data={tableData}
             columns={columns}
+            hideAddButton
             dropdownOpenIndex={dropdownOpenIndex}
             setDropdownOpenIndex={setDropdownOpenIndex}
         />

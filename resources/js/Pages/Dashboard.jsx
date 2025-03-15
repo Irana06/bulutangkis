@@ -19,6 +19,7 @@ import CreateEditTanding from "@/Pages/Src/Tanding/CreateEditTanding";
 import ListTim from "@/Pages/Src/Tim/ListTim";
 import CreateEditTim from "@/Pages/Src/Tim/CreateEditTim";
 import ListPembayaran from "@/Pages/Src/Pembayaran/ListPembayaran";
+import DetailPembayaran from "@/Pages/Src/Pembayaran/DetailPembayaran";
 
 // Mapping string ke komponen
 
@@ -45,6 +46,8 @@ export default function Dashboard({ auth, child, childText }) {
                 return <CreateEditTanding />;
             case "Pembayaran/ListPembayaran":
                 return <ListPembayaran />;
+            case "Pembayaran/DetailPembayaran":
+                return <DetailPembayaran />;
             default:
                 return null;
         }
