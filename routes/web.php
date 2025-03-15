@@ -25,8 +25,6 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 });
 
-// Payment
-Route::post('/payment', [PaymentController::class, 'store']);
 
 Route::fallback(function () {
     return Inertia::render('Services/NotFound');
@@ -39,6 +37,8 @@ Route::middleware('auth')->group(function () {
         ]);
     })->name('home');
 
+    // Payment
+    Route::post('/payment', [PaymentController::class, 'store'])->name('payment.store');
 
     // Peserta
     Route::resource('peserta', AtletController::class)->except(['show', 'update']);

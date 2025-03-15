@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePage } from "@inertiajs/react";
+import { usePage, useForm } from "@inertiajs/react";
 import BackButton from "@/Components/Buttons/BackButton";
 import FormatCapital from "@/Components/Utils/FormatCapital";
 import logo from "@/Storage/Img/logo.png";
@@ -7,11 +7,31 @@ import wa from "@/Storage/Img/wa_logo.png";
 import moment from "moment";
 import "moment/locale/id";
 import { Copy } from "lucide-react";
+import Swal from "sweetalert2";
 
 export default function CheckoutPembayaran() {
     const { tanding } = usePage().props;
     const currentDate = moment().format("dddd, MMMM YYYY");
     const [copied, setCopied] = useState(false);
+
+    const { data, setData, post, processing } = useForm({
+        external_id: tanding.id,
+        amount: tanding.kategori_tanding?.biaya,
+        description: `Pembayaran untuk ${FormatCapital(
+            tanding.kategori_tanding?.jenis
+        )} ${tanding.kategori_tanding?.kelompok_umur}`,
+        given_names: tanding.kontingen?.name,
+        email: tanding.kontingen?.email,
+        mobile_number: tanding.kontingen?.no_hp_penanggung_jawab,
+        address: tanding.kontingen?.alamat_lengkap
+            ? [
+                  {
+                      country: "ID", // Pastikan menyertakan country
+                      street_line1: tanding.kontingen?.alamat_lengkap,
+                  },
+              ]
+            : null,
+    });
 
     // Fungsi untuk menyalin ID
     const handleCopy = () => {
@@ -39,6 +59,41 @@ export default function CheckoutPembayaran() {
             }
             document.body.removeChild(textArea);
         }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        Swal.fire({
+            title: "Konfirmasi Pembayaran",
+            text: "Apakah Anda yakin ingin melakukan pembayaran?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, bayar sekarang!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                post(route("payment.store"), {
+                    onSuccess: (page) => {
+                        if (page.props.success) {
+                            window.location.href = page.props.checkout_link;
+                        }
+                    },
+                    onError: (errors) => {
+                        console.error(
+                            "Error saat mengirim pembayaran:",
+                            errors
+                        );
+                        Swal.fire(
+                            "Error",
+                            "Terjadi kesalahan dalam proses pembayaran",
+                            "error"
+                        );
+                    },
+                });
+            }
+        });
     };
 
     return (
@@ -123,22 +178,14 @@ export default function CheckoutPembayaran() {
                     </tr>
                 </tbody>
             </table>
-            {/* <div className="flex justify-end mb-8">
-                <div className="text-gray-700 mr-2">Subtotal:</div>
-                <div className="text-gray-700">$425.00</div>
-            </div>
-            <div className="text-right mb-8">
-                <div className="text-gray-700 mr-2">Tax:</div>
-                <div className="text-gray-700">$25.50</div>
-            </div> */}
             <div className="flex justify-end mb-8">
-                <div className="text-gray-700 mr-2">Total:</div>
-                <div className="text-gray-700 font-semibold text-lg">
-                    {new Intl.NumberFormat("id-ID", {
-                        style: "currency",
-                        currency: "IDR",
-                    }).format(tanding.kategori_tanding?.biaya)}
-                </div>
+                <button
+                    onClick={handleSubmit}
+                    className="text-green-400 font-semibold border border-green-400 hover:text-white px-4 py-2 rounded-lg hover:bg-green-500 transition duration-150"
+                    disabled={processing}
+                >
+                    {processing ? "Memproses..." : "Bayar"}
+                </button>
             </div>
             <div className="border-t-2 border-gray-300 pt-8 mb-8">
                 <div className="text-gray-700 mb-6">

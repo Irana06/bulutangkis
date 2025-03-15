@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Models\Tanding;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Xendit\Configuration;
 use Xendit\Invoice\CreateInvoiceRequest;
 use Xendit\Invoice\InvoiceApi;
@@ -21,18 +22,30 @@ class PaymentController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'external_id' => 'required|string',
+            'amount' => 'required|numeric',
+            'description' => 'required|string',
+            'given_names' => 'required|string',
+            'email' => 'required|email',
+            'mobile_number' => 'nullable|string',
+            'address' => 'nullable|string',
+        ]);
+
+        $user = auth()->user();
+        $payer_email = $user->email;
 
         $create_invoice_request = new CreateInvoiceRequest([
             "external_id" => $request->external_id,
             "amount" => $request->amount,
             "description" => $request->description,
-            "payer_email" => $request->payer_email,
+            "payer_email" => $payer_email,
             "currency" => 'IDR',
             "customer" => array(
                 "given_names" => $request->given_names,
                 "email" => $request->email,
                 "mobile_number" => $request->mobile_number,
-                "addresses" => $request->address,
+                "addresses" => $request->address ? json_decode($request->address, true) : [],
             ),
         ]);
 
@@ -45,7 +58,8 @@ class PaymentController extends Controller
         $payment->status = 'pending';
         $payment->save();
 
-        return response()->json($payment);
+        // **Redirect ke halaman checkout Xendit**
+        return Inertia::location($payment->checkout_link);
     }
 
     public function notification(Request $request)
