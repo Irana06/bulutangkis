@@ -1,5 +1,11 @@
 import Sidebar, { SidebarItem } from "@/Pages/Layouts/SidebarItem";
-import { Dot, LayoutDashboard, UserRoundCog, Users } from "lucide-react";
+import {
+    Dot,
+    Headset,
+    LayoutDashboard,
+    UserRoundCog,
+    Users,
+} from "lucide-react";
 import { Link } from "@inertiajs/react";
 import ListPeserta from "@/Pages/Src/Peserta/ListPeserta";
 import CreateEditPeserta from "@/Pages/Src/Peserta/CreateEditPeserta";
@@ -85,8 +91,26 @@ export default function Dashboard({ auth, child, childText }) {
                     </div>
                 </div>
                 {/* Content */}
-                <div className="mt-4 p-4">
+                <div className="mt-4 p-4 relative">
                     {getChildComponent(child) || <p>Loading...</p>}
+
+                    {/* Customer Service Button */}
+                    <div className="fixed bottom-4 right-4 flex items-center space-x-2">
+                        {/* Chat bubble */}
+                        <span className="bg-indigo-800/80 text-white text-sm px-3 py-2 rounded-lg shadow-lg">
+                            Butuh bantuan?
+                        </span>
+
+                        {/* Customer Service Icon */}
+                        <a
+                            href="https://wa.me/6285725841667"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-blue-500 text-white p-3 rounded-full shadow-lg hover:bg-blue-600 transition duration-200 flex items-center justify-center"
+                        >
+                            <Headset size={24} />
+                        </a>
+                    </div>
                 </div>
             </div>
         </main>
