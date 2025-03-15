@@ -55,6 +55,7 @@ Route::middleware('auth')->group(function () {
     // Pembayaran
     Route::get('/pembayaran', [PembayaranController::class, 'index']);
     Route::get('/pembayaran/{id}/detail', [PembayaranController::class, 'show']);
+    Route::get('/pembayaran/{id}/checkout', [PembayaranController::class, 'checkout']);
 });
 
 Route::middleware('auth')->group(function () {

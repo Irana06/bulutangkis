@@ -1,6 +1,5 @@
 import React from "react";
 import { usePage } from "@inertiajs/react";
-import moment from "moment";
 import Field from "@/Components/Forms/Field";
 import BackButton from "@/Components/Buttons/BackButton";
 import FormatCapital from "@/Components/Utils/FormatCapital";

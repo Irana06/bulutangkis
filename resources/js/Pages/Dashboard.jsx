@@ -20,6 +20,7 @@ import ListTim from "@/Pages/Src/Tim/ListTim";
 import CreateEditTim from "@/Pages/Src/Tim/CreateEditTim";
 import ListPembayaran from "@/Pages/Src/Pembayaran/ListPembayaran";
 import DetailPembayaran from "@/Pages/Src/Pembayaran/DetailPembayaran";
+import CheckoutPembayaran from "@/Pages/Src/Pembayaran/CheckoutPembayaran";
 
 // Mapping string ke komponen
 
@@ -48,8 +49,10 @@ export default function Dashboard({ auth, child, childText }) {
                 return <ListPembayaran />;
             case "Pembayaran/DetailPembayaran":
                 return <DetailPembayaran />;
+            case "Pembayaran/CheckoutPembayaran":
+                return <CheckoutPembayaran />;
             default:
-                return null;
+                return <Home userData={auth} />;
         }
     };
     return (

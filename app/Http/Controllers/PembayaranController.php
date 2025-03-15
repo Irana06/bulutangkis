@@ -38,4 +38,14 @@ class PembayaranController extends Controller
             'tanding' => $tanding,
         ]);
     }
+
+    public function checkout($id)
+    {
+        $tanding = Tanding::findOrFail($id);
+
+        return Inertia::render('Dashboard', [
+            'child' => 'Pembayaran/CheckoutPembayaran',
+            'tanding' => $tanding,
+        ]);
+    }
 }
