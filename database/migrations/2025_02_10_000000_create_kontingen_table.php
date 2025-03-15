@@ -23,7 +23,9 @@ return new class extends Migration
 
             $table->foreignUuid('event_id')->nullable()->constrained('events')->onDelete('cascade');
 
-            $table->rememberToken();
+            $table->boolean('dibayar')->default(false)->nullable();
+            $table->enum('role', ['admin', 'default'])->default('default');
+
             $table->softDeletes();
             $table->timestamps();
         });

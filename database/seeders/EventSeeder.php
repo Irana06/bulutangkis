@@ -22,7 +22,7 @@ class EventSeeder extends Seeder
                 'tahun' => 2025,
                 'sesi' => 1,
                 'kuota_peserta' => 1200,
-                'lokasi' => 'Sleman City Hall',
+                'lokasi' => 'GOR Donokerto Turi',
                 'dibuka' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),

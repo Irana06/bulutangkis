@@ -1,11 +1,10 @@
 import React from "react";
 import { usePage } from "@inertiajs/react";
-import moment from "moment";
 import Field from "@/Components/Forms/Field";
 import BackButton from "@/Components/Buttons/BackButton";
 import FormatCapital from "@/Components/Utils/FormatCapital";
 
-export default function DetailTanding() {
+export default function DetailPembayaran() {
     const { tanding } = usePage().props;
 
     return (
@@ -38,24 +37,6 @@ export default function DetailTanding() {
                             }
                         />
                         <Field
-                            label="Umur"
-                            value={`${tanding.atlet?.umur} Tahun`}
-                        />
-                        <Field
-                            label="Kontingen"
-                            value={tanding.kontingen?.name}
-                        />
-                        <Field
-                            label="Tanggal Lahir"
-                            value={moment(tanding.atlet?.tanggal_lahir).format(
-                                "D MMM YYYY"
-                            )}
-                        />
-                        <Field
-                            label="Tempat Lahir"
-                            value={tanding.atlet?.tempat_lahir}
-                        />
-                        <Field
                             label="Jenis Tanding"
                             value={FormatCapital(
                                 tanding.kategori_tanding?.jenis
@@ -68,28 +49,27 @@ export default function DetailTanding() {
                         <Field
                             label="Biaya IWP"
                             value={
-                                <span
-                                    className={
-                                        tanding.dibayar
-                                            ? "bg-green-500/20 text-green-600"
-                                            : "bg-yellow-500/20 text-yellow-600"
-                                    }
-                                >
-                                    {tanding.dibayar ? "Sudah" : "Belum"}
+                                <span className="text-green-600 font-semibold">
+                                    {new Intl.NumberFormat("id-ID", {
+                                        style: "currency",
+                                        currency: "IDR",
+                                    }).format(tanding.kategori_tanding?.biaya)}
                                 </span>
                             }
                         />
-
                         <Field
-                            label="Juara Ke"
+                            label="Status Pembayaran"
                             value={
-                                tanding.juara
-                                    ? `Juara ${tanding.juara}`
-                                    : "Belum ada rekaman"
+                                <span
+                                    className={
+                                        tanding.dibayar
+                                            ? "text-green-600"
+                                            : "italic text-yellow-500"
+                                    }
+                                >
+                                    {tanding.dibayar ? "Lunas" : "menunggu"}
+                                </span>
                             }
-                            className={`${
-                                tanding.juara ? "" : "text-yellow-600 italic"
-                            }`}
                         />
                     </>
                 </div>
@@ -115,27 +95,27 @@ export default function DetailTanding() {
                         <Field
                             label="Biaya IWP"
                             value={
-                                <span
-                                    className={
-                                        tanding.dibayar
-                                            ? "text-green-500"
-                                            : "text-orange-500 italic"
-                                    }
-                                >
-                                    {tanding.dibayar ? "Sudah" : "Belum"}
+                                <span className="text-green-600 font-semibold">
+                                    {new Intl.NumberFormat("id-ID", {
+                                        style: "currency",
+                                        currency: "IDR",
+                                    }).format(tanding.kategori_tanding?.biaya)}
                                 </span>
                             }
                         />
                         <Field
-                            label="Juara Ke"
+                            label="Status Pembayaran"
                             value={
-                                tanding.juara
-                                    ? `Juara ${tanding.juara}`
-                                    : "Belum ada rekaman"
+                                <span
+                                    className={
+                                        tanding.dibayar
+                                            ? "text-green-600"
+                                            : "italic text-yellow-500"
+                                    }
+                                >
+                                    {tanding.dibayar ? "Lunas" : "menunggu"}
+                                </span>
                             }
-                            className={`${
-                                tanding.juara ? "" : "text-yellow-600 italic"
-                            }`}
                         />
                     </div>
 
@@ -153,20 +133,6 @@ export default function DetailTanding() {
                                     : "Perempuan"
                             }
                         />
-                        <Field
-                            label="Umur"
-                            value={`${tanding.tim?.atlet_1.umur} Tahun`}
-                        />
-                        <Field
-                            label="Tanggal Lahir"
-                            value={moment(
-                                tanding.tim?.atlet_1.tanggal_lahir
-                            ).format("D MMM YYYY")}
-                        />
-                        <Field
-                            label="Tempat Lahir"
-                            value={tanding.tim?.atlet_1.tempat_lahir}
-                        />
                     </div>
 
                     <hr className="my-3 mt-5 mb-10" />
@@ -182,20 +148,6 @@ export default function DetailTanding() {
                                     ? "Laki-Laki"
                                     : "Perempuan"
                             }
-                        />
-                        <Field
-                            label="Umur"
-                            value={`${tanding.tim?.atlet_2.umur} Tahun`}
-                        />
-                        <Field
-                            label="Tanggal Lahir"
-                            value={moment(
-                                tanding.tim?.atlet_2.tanggal_lahir
-                            ).format("D MMM YYYY")}
-                        />
-                        <Field
-                            label="Tempat Lahir"
-                            value={tanding.tim?.atlet_2.tempat_lahir}
                         />
                     </div>
                 </>

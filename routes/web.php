@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\AtletController;
+use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TandingController;
 use App\Http\Controllers\TimController;
@@ -23,6 +25,7 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 });
 
+
 Route::fallback(function () {
     return Inertia::render('Services/NotFound');
 });
@@ -33,6 +36,9 @@ Route::middleware('auth')->group(function () {
             'child' => 'Home'
         ]);
     })->name('home');
+
+    // Payment
+    Route::post('/payment', [PaymentController::class, 'store'])->name('payment.store');
 
     // Peserta
     Route::resource('peserta', AtletController::class)->except(['show', 'update']);
@@ -45,6 +51,11 @@ Route::middleware('auth')->group(function () {
     // Tanding
     Route::resource('tanding', TandingController::class)->except(['show']);
     Route::get('/tanding/{id}/detail', [TandingController::class, 'show'])->name('tanding.show');
+
+    // Pembayaran
+    Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran.index');
+    Route::get('/pembayaran/{id}/detail', [PembayaranController::class, 'show']);
+    Route::get('/pembayaran/{id}/checkout', [PembayaranController::class, 'checkout']);
 });
 
 Route::middleware('auth')->group(function () {

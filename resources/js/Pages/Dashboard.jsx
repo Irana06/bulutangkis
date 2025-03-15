@@ -6,6 +6,7 @@ import {
     LayoutDashboard,
     UserRoundCog,
     Users,
+    Wallet,
 } from "lucide-react";
 import { Link } from "@inertiajs/react";
 import ListPeserta from "@/Pages/Src/Peserta/ListPeserta";
@@ -17,10 +18,16 @@ import DetailTanding from "@/Pages/Src/Tanding/DetailTanding";
 import CreateEditTanding from "@/Pages/Src/Tanding/CreateEditTanding";
 import ListTim from "@/Pages/Src/Tim/ListTim";
 import CreateEditTim from "@/Pages/Src/Tim/CreateEditTim";
+import ListPembayaran from "@/Pages/Src/Pembayaran/ListPembayaran";
+import DetailPembayaran from "@/Pages/Src/Pembayaran/DetailPembayaran";
+import CheckoutPembayaran from "@/Pages/Src/Pembayaran/CheckoutPembayaran";
+import NotFound from "@/Pages/Services/NotFound";
 
 // Mapping string ke komponen
 
 export default function Dashboard({ auth, child, childText }) {
+    const isAdmin = auth?.user?.role === "admin";
+
     const getChildComponent = (child) => {
         switch (child) {
             case "Peserta/ListPeserta":
@@ -41,8 +48,19 @@ export default function Dashboard({ auth, child, childText }) {
                 return <DetailTanding />;
             case "Tanding/CreateEditTanding":
                 return <CreateEditTanding />;
+            // Hanya admin yang bisa mengakses halaman Pembayaran
+            case "Pembayaran/ListPembayaran":
+            case "Pembayaran/DetailPembayaran":
+            case "Pembayaran/CheckoutPembayaran":
+                return isAdmin ? (
+                    child === "Pembayaran/ListPembayaran" ? <ListPembayaran /> :
+                    child === "Pembayaran/DetailPembayaran" ? <DetailPembayaran /> :
+                    <CheckoutPembayaran />
+                ) : (
+                    <NotFound />
+                );
             default:
-                return null;
+                return <Home userData={auth} />;
         }
     };
     return (
@@ -76,6 +94,12 @@ export default function Dashboard({ auth, child, childText }) {
                         },
                     ]}
                 />
+                <Link href="/pembayaran">
+                    <SidebarItem
+                        icon={<Wallet size={20} />}
+                        text="Pembayaran"
+                    />
+                </Link>
                 <Link href="/jadwal">
                     <SidebarItem
                         icon={<CalendarCheck size={20} />}
