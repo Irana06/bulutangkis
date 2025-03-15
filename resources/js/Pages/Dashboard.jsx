@@ -21,10 +21,13 @@ import CreateEditTim from "@/Pages/Src/Tim/CreateEditTim";
 import ListPembayaran from "@/Pages/Src/Pembayaran/ListPembayaran";
 import DetailPembayaran from "@/Pages/Src/Pembayaran/DetailPembayaran";
 import CheckoutPembayaran from "@/Pages/Src/Pembayaran/CheckoutPembayaran";
+import NotFound from "@/Pages/Services/NotFound";
 
 // Mapping string ke komponen
 
 export default function Dashboard({ auth, child, childText }) {
+    const isAdmin = auth?.user?.role === "admin";
+
     const getChildComponent = (child) => {
         switch (child) {
             case "Peserta/ListPeserta":
@@ -45,12 +48,17 @@ export default function Dashboard({ auth, child, childText }) {
                 return <DetailTanding />;
             case "Tanding/CreateEditTanding":
                 return <CreateEditTanding />;
+            // Hanya admin yang bisa mengakses halaman Pembayaran
             case "Pembayaran/ListPembayaran":
-                return <ListPembayaran />;
             case "Pembayaran/DetailPembayaran":
-                return <DetailPembayaran />;
             case "Pembayaran/CheckoutPembayaran":
-                return <CheckoutPembayaran />;
+                return isAdmin ? (
+                    child === "Pembayaran/ListPembayaran" ? <ListPembayaran /> :
+                    child === "Pembayaran/DetailPembayaran" ? <DetailPembayaran /> :
+                    <CheckoutPembayaran />
+                ) : (
+                    <NotFound />
+                );
             default:
                 return <Home userData={auth} />;
         }
