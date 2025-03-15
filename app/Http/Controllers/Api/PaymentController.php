@@ -27,6 +27,13 @@ class PaymentController extends Controller
             "amount" => $request->amount,
             "description" => $request->description,
             "payer_email" => $request->payer_email,
+            "currency" => 'IDR',
+            "customer" => array(
+                "given_names" => $request->given_names,
+                "email" => $request->email,
+                "mobile_number" => $request->mobile_number,
+                "addresses" => $request->address,
+            ),
         ]);
 
         $result = $this->apiInstance->createInvoice($create_invoice_request);
