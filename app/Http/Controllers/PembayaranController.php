@@ -85,4 +85,47 @@ class PembayaranController extends Controller
 
         return redirect()->route('pembayaran.listConfirmations');
     }
+
+    public function searchQuery(Request $request)
+    {
+        $queryTanding = Tanding::query();
+        $queryKontingen = Kontingen::query();
+
+        // Filter berdasarkan tanding_id jika ada
+        if ($request->has('tanding_id') && !empty($request->tanding_id)) {
+            $queryTanding->where('id', $request->tanding_id);
+        }
+
+        // Filter berdasarkan kontingen_id jika ada
+        if ($request->has('kontingen_id') && !empty($request->kontingen_id)) {
+            $queryKontingen->where('id', $request->kontingen_id);
+        }
+
+        // Ambil hasil filter
+        $tanding = $queryTanding->where(function ($query) {
+            $query->where('dibayar', false)
+                ->orWhereNull('dibayar');
+        })->get();
+
+        $kontingen = $queryKontingen->where(function ($query) {
+            $query->where('dibayar', false)
+                ->orWhereNull('dibayar');
+        })->get();
+
+        // Jika ID tidak ditemukan, kirim flash message
+        if ($request->has('tanding_id') && $tanding->isEmpty()) {
+            return redirect()->back()->with('error', 'ID Tanding tidak ditemukan.');
+        }
+
+        if ($request->has('kontingen_id') && $kontingen->isEmpty()) {
+            return redirect()->back()->with('error', 'ID Kontingen tidak ditemukan.');
+        }
+
+        return Inertia::render('Dashboard', [
+            'child' => 'Pembayaran/ListKonfirmasiPembayaran',
+            'tanding' => $tanding,
+            'kontingen' => $kontingen,
+            'flash' => session('error'),
+        ]);
+    }
 }

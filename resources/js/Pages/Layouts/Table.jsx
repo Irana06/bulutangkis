@@ -1,5 +1,5 @@
-import { Menu, X } from "lucide-react";
-import { Link } from "@inertiajs/react";
+import { Menu, Search, SearchX, X } from "lucide-react";
+import { Link, router } from "@inertiajs/react";
 import { useState } from "react";
 
 export default function TableItems({
@@ -10,6 +10,8 @@ export default function TableItems({
     dropdownOpenIndex,
     setDropdownOpenIndex,
     itemsPerPage = 10, // Jumlah item per halaman
+    searchQuery = [],
+    url = "Data",
 }) {
     const [currentPage, setCurrentPage] = useState(1);
     const totalPages = Math.ceil(data.length / itemsPerPage);
@@ -26,6 +28,23 @@ export default function TableItems({
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
     );
+
+    const handleSearch = (event) => {
+        event.preventDefault();
+        // Ambil nilai input dari event
+        const value = event.target.elements[searchQuery.key].value;
+
+        // Buat query parameter yang benar
+        const params = new URLSearchParams({
+            [searchQuery.key]: value,
+        }).toString();
+
+        router.get(`/${url}/search?${params}`);
+    };
+
+    const handleReset = () => {
+        router.get(`/${url}`);
+    };
 
     return (
         <div className="max-w-screen mx-auto px-4 md:px-8">
@@ -48,6 +67,31 @@ export default function TableItems({
                     </div>
                 ) : null}
             </div>
+
+            {/* Form Pencarian */}
+            <form onSubmit={handleSearch} className="mt-4 flex space-x-2">
+                <div className="relative">
+                    <input
+                        type="text"
+                        name={searchQuery.key}
+                        className="w-full border h-12 shadow p-4 pr-10 rounded-full text-gray-800 border-gray-700 bg-white"
+                        placeholder={searchQuery.placeholder}
+                    />
+                    <button
+                        type="submit"
+                        className="absolute top-1/2 right-3 -translate-y-1/2 bg-white p-2 rounded-full shadow"
+                    >
+                        <Search size={20} />
+                    </button>
+                    <button
+                        type="button"
+                        onClick={handleReset}
+                        className="absolute top-1/2 -translate-y-1/2 bg-gray-200 hover:bg-gray-300 p-3 rounded-full shadow"
+                    >
+                        <SearchX size={20} />
+                    </button>
+                </div>
+            </form>
 
             {/* Jika data kosong, tampilkan pesan */}
             {data.length === 0 ? (

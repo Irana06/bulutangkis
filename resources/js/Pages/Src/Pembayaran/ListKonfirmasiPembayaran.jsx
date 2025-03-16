@@ -1,13 +1,22 @@
 import FormatCapital from "@/Components/Utils/FormatCapital";
 import TableItems from "@/Pages/Layouts/Table";
 import { Link, usePage } from "@inertiajs/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 
 export default function ListKonfirmasiPembayaran() {
-    const { tanding, kontingen } = usePage().props;
+    const { tanding, kontingen, flash } = usePage().props;
     const [dropdownOpenIndex, setDropdownOpenIndex] = useState(null);
+    const [visible, setVisible] = useState(true);
+
+    useEffect(() => {
+        if (flash?.error) {
+            setVisible(true); // Munculkan flash message
+            const timer = setTimeout(() => setVisible(false), 5000); // Hilangkan setelah 5 detik
+            return () => clearTimeout(timer); // Bersihkan timer jika komponen di-unmount
+        }
+    }, [flash?.error]);
 
     const confirmSubmit = (id, type) => {
         Swal.fire({
@@ -70,6 +79,7 @@ export default function ListKonfirmasiPembayaran() {
                     {value}
                 </span>
             ),
+            hidden: true,
         },
         {
             key: "aksi",
@@ -122,6 +132,7 @@ export default function ListKonfirmasiPembayaran() {
                     {value}
                 </span>
             ),
+            hidden: true,
         },
         {
             key: "aksi",
@@ -179,23 +190,39 @@ export default function ListKonfirmasiPembayaran() {
 
     return (
         <>
+            {/* Flash Error dengan Timer */}
+            {flash?.error && visible && (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded relative mb-4">
+                    {flash.error}
+                </div>
+            )}
             <TableItems
+                url="konfirmasi-pembayaran"
                 title="Konfirmasi Pembayaran Tanding"
                 data={tandingData}
                 columns={TandingColumns}
                 hideAddButton
                 dropdownOpenIndex={dropdownOpenIndex}
                 setDropdownOpenIndex={setDropdownOpenIndex}
+                searchQuery={{
+                    key: "tanding_id",
+                    placeholder: "Cari ID Tanding",
+                }}
             />
 
             <hr className="my-10" />
             <TableItems
+                url="konfirmasi-pembayaran"
                 title="Konfirmasi Pembayaran Kontingen"
                 data={kontingenData}
                 columns={kontingenColumns}
                 hideAddButton
                 dropdownOpenIndex={dropdownOpenIndex}
                 setDropdownOpenIndex={setDropdownOpenIndex}
+                searchQuery={{
+                    key: "kontingen_id",
+                    placeholder: "Cari ID Kontingen",
+                }}
             />
         </>
     );
