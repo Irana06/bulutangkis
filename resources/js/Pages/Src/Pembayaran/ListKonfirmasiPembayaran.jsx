@@ -2,12 +2,46 @@ import FormatCapital from "@/Components/Utils/FormatCapital";
 import TableItems from "@/Pages/Layouts/Table";
 import { Link, usePage } from "@inertiajs/react";
 import { useState } from "react";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 export default function ListKonfirmasiPembayaran() {
     const { tanding } = usePage().props;
     const [dropdownOpenIndex, setDropdownOpenIndex] = useState(null);
 
-    const confirmSubmit = console.log;
+    const confirmSubmit = (id, type) => {
+        Swal.fire({
+            title: "Konfirmasi Pembayaran",
+            text: "Apakah Anda yakin ingin mengkonfirmasi pembayaran ini?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, konfirmasi!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const payload = type === 'tanding' ? { tanding_id: id } : { kontingen_id: id };
+                axios.post(route('pembayaran.confirmPayment'), payload)
+                    .then(() => {
+                        Swal.fire(
+                            "Berhasil!",
+                            "Pembayaran telah dikonfirmasi.",
+                            "success"
+                        ).then(() => {
+                            window.location.reload();
+                        });
+                    })
+                    .catch((error) => {
+                        console.error("Error saat mengkonfirmasi pembayaran:", error);
+                        Swal.fire(
+                            "Error",
+                            "Terjadi kesalahan dalam mengkonfirmasi pembayaran.",
+                            "error"
+                        );
+                    });
+            }
+        });
+    };
 
     const columns = [
         { key: "nama", label: "Nama" },
@@ -40,21 +74,21 @@ export default function ListKonfirmasiPembayaran() {
                     } text-left whitespace-nowrap`}
                 >
                     <Link
-                        href={`/pembayaran/${item.id}/detail`}
+                        href={`/pembayaran/${item.tanding_id}/detail`}
                         className={`py-2 leading-none px-3 font-medium text-green-600 bg-green-500/20 hover:text-green-500 duration-150 hover:bg-gray-50 rounded-lg ${
                             dropdownOpenIndex === index ? "" : "ml-2"
                         }`}
                     >
                         Detail
                     </Link>
-                    <Link
-                        onClick={confirmSubmit}
+                    <button
+                        onClick={() => confirmSubmit(item.tanding_id, 'tanding')}
                         className={`py-2 leading-none mt-2 px-3 font-medium text-blue-600 bg-blue-500/20 hover:text-blue-500 duration-150 hover:bg-gray-50 rounded-lg ${
                             dropdownOpenIndex === index ? "" : "ml-2"
                         }`}
                     >
                         Konfirmasi
-                    </Link>
+                    </button>
                 </div>
             ),
             hidden: true,
@@ -63,7 +97,7 @@ export default function ListKonfirmasiPembayaran() {
 
     // Transformasi data agar sesuai dengan format tabel
     const tandingData = tanding.map((item) => ({
-        id: item.id,
+        tanding_id: item.id,
         nama: item.atlet?.name ?? item.tim?.nama_tim,
         kontingen_nama: item.kontingen?.name,
         jenis_tanding: FormatCapital(item.kategori_tanding.jenis),

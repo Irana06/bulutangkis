@@ -68,4 +68,21 @@ class PembayaranController extends Controller
             'kontingen' => $kontingen,
         ]);
     }
+
+    public function confirmPayment(Request $request)
+    {
+        if ($request->has('tanding_id')) {
+            $tanding = Tanding::findOrFail($request->tanding_id);
+            $tanding->dibayar = true;
+            $tanding->save();
+        }
+
+        if ($request->has('kontingen_id')) {
+            $kontingen = Kontingen::findOrFail($request->kontingen_id);
+            $kontingen->dibayar = true;
+            $kontingen->save();
+        }
+
+        return redirect()->route('pembayaran.listConfirmations');
+    }
 }
