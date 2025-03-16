@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 
 export default function ListKonfirmasiPembayaran() {
-    const { tanding } = usePage().props;
+    const { tanding, kontingen } = usePage().props;
     const [dropdownOpenIndex, setDropdownOpenIndex] = useState(null);
 
     const confirmSubmit = (id, type) => {
@@ -20,8 +20,12 @@ export default function ListKonfirmasiPembayaran() {
             confirmButtonText: "Ya, konfirmasi!",
         }).then((result) => {
             if (result.isConfirmed) {
-                const payload = type === 'tanding' ? { tanding_id: id } : { kontingen_id: id };
-                axios.post(route('pembayaran.confirmPayment'), payload)
+                const payload =
+                    type === "tanding"
+                        ? { tanding_id: id }
+                        : { kontingen_id: id };
+                axios
+                    .post(route("pembayaran.confirmPayment"), payload)
                     .then(() => {
                         Swal.fire(
                             "Berhasil!",
@@ -32,7 +36,10 @@ export default function ListKonfirmasiPembayaran() {
                         });
                     })
                     .catch((error) => {
-                        console.error("Error saat mengkonfirmasi pembayaran:", error);
+                        console.error(
+                            "Error saat mengkonfirmasi pembayaran:",
+                            error
+                        );
                         Swal.fire(
                             "Error",
                             "Terjadi kesalahan dalam mengkonfirmasi pembayaran.",
@@ -43,7 +50,7 @@ export default function ListKonfirmasiPembayaran() {
         });
     };
 
-    const columns = [
+    const TandingColumns = [
         { key: "nama", label: "Nama" },
         { key: "kontingen_nama", label: "Kontingen", hidden: true },
         { key: "jenis_tanding", label: "Jenis Tanding", hidden: true },
@@ -82,7 +89,61 @@ export default function ListKonfirmasiPembayaran() {
                         Detail
                     </Link>
                     <button
-                        onClick={() => confirmSubmit(item.tanding_id, 'tanding')}
+                        onClick={() =>
+                            confirmSubmit(item.tanding_id, "tanding")
+                        }
+                        className={`py-2 leading-none mt-2 px-3 font-medium text-blue-600 bg-blue-500/20 hover:text-blue-500 duration-150 hover:bg-gray-50 rounded-lg ${
+                            dropdownOpenIndex === index ? "" : "ml-2"
+                        }`}
+                    >
+                        Konfirmasi
+                    </button>
+                </div>
+            ),
+            hidden: true,
+        },
+    ];
+
+    const kontingenColumns = [
+        { key: "nama", label: "Nama Kontingen" },
+        { key: "penanggung", label: "Penanggung Jawab", hidden: true },
+        { key: "no_hp", label: "Nomor HP", hidden: true },
+        {
+            key: "status_pembayaran",
+            label: "Status Pembayaran",
+            render: (value) => (
+                <span
+                    className={`px-3 py-1 rounded-lg text-sm font-medium ${
+                        value === "Lunas"
+                            ? "bg-green-500/20 text-green-600"
+                            : "bg-yellow-500/20 text-yellow-600"
+                    }`}
+                >
+                    {value}
+                </span>
+            ),
+        },
+        {
+            key: "aksi",
+            label: "Aksi",
+            render: (value, item, index) => (
+                <div
+                    className={`${
+                        dropdownOpenIndex === index ? "flex flex-col" : ""
+                    } text-left whitespace-nowrap`}
+                >
+                    <Link
+                        href={`/pembayaran/${item.kontingen_id}/detail`}
+                        className={`py-2 leading-none px-3 font-medium text-green-600 bg-green-500/20 hover:text-green-500 duration-150 hover:bg-gray-50 rounded-lg ${
+                            dropdownOpenIndex === index ? "" : "ml-2"
+                        }`}
+                    >
+                        Detail
+                    </Link>
+                    <button
+                        onClick={() =>
+                            confirmSubmit(item.kontingen_id, "kontingen")
+                        }
                         className={`py-2 leading-none mt-2 px-3 font-medium text-blue-600 bg-blue-500/20 hover:text-blue-500 duration-150 hover:bg-gray-50 rounded-lg ${
                             dropdownOpenIndex === index ? "" : "ml-2"
                         }`}
@@ -108,14 +169,34 @@ export default function ListKonfirmasiPembayaran() {
         status_pembayaran: item.dibayar ? "Lunas" : "Menunggu",
     }));
 
+    const kontingenData = kontingen.map((item) => ({
+        kontingen_id: item.id,
+        nama: item.name,
+        penanggung: item.penanggung_jawab,
+        no_hp: item.no_hp_penanggung_jawab,
+        status_pembayaran: item.dibayar ? "Lunas" : "Menunggu",
+    }));
+
     return (
-        <TableItems
-            title="Pembayaran"
-            data={tandingData}
-            columns={columns}
-            hideAddButton
-            dropdownOpenIndex={dropdownOpenIndex}
-            setDropdownOpenIndex={setDropdownOpenIndex}
-        />
+        <>
+            <TableItems
+                title="Konfirmasi Pembayaran Tanding"
+                data={tandingData}
+                columns={TandingColumns}
+                hideAddButton
+                dropdownOpenIndex={dropdownOpenIndex}
+                setDropdownOpenIndex={setDropdownOpenIndex}
+            />
+
+            <hr className="my-10" />
+            <TableItems
+                title="Konfirmasi Pembayaran Kontingen"
+                data={kontingenData}
+                columns={kontingenColumns}
+                hideAddButton
+                dropdownOpenIndex={dropdownOpenIndex}
+                setDropdownOpenIndex={setDropdownOpenIndex}
+            />
+        </>
     );
 }
