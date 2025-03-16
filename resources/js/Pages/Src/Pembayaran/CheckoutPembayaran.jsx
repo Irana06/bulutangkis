@@ -4,6 +4,7 @@ import BackButton from "@/Components/Buttons/BackButton";
 import FormatCapital from "@/Components/Utils/FormatCapital";
 import logo from "@/Storage/Img/logo.png";
 import wa from "@/Storage/Img/wa_logo.png";
+import qrCode from "@/Storage/Img/qris.png";
 import moment from "moment";
 import "moment/locale/id";
 import { Copy } from "lucide-react";
@@ -98,13 +99,13 @@ export default function CheckoutPembayaran() {
         });
     };
 
-    useEffect(() => {
-        intervalRef.current = setInterval(() => {
-            checkPaymentStatus();
-        }, 5000); // Cek setiap 5 detik
+    // useEffect(() => {
+    //     intervalRef.current = setInterval(() => {
+    //         checkPaymentStatus();
+    //     }, 5000); // Cek setiap 5 detik
 
-        return () => clearInterval(intervalRef.current);
-    }, []);
+    //     return () => clearInterval(intervalRef.current);
+    // }, []);
 
     const checkPaymentStatus = async () => {
         if (isRedirecting) return; // Cegah pengecekan jika redirect sedang berlangsung
@@ -216,7 +217,7 @@ export default function CheckoutPembayaran() {
                     </tr>
                 </tbody>
             </table>
-            <div className="flex justify-end mb-8">
+            {/* <div className="flex justify-end mb-8">
                 <button
                     onClick={handleSubmit}
                     className="text-green-400 font-semibold border border-green-400 hover:text-white px-4 py-2 rounded-lg hover:bg-green-500 transition duration-150"
@@ -224,15 +225,26 @@ export default function CheckoutPembayaran() {
                 >
                     {processing ? "Memproses..." : "Bayar"}
                 </button>
-            </div>
+            </div> */}
             <div className="border-t-2 border-gray-300 pt-8 mb-8">
+                <div className="font-semibold mb-6">
+                    Bank BRI an. ROMADLON  3074-01016525-53
+                </div>
+                <div className="ftext-gray-700 mb-6">
+                    Atau bisa menggunakan QRIS:
+                    <img
+                        src={qrCode}
+                        alt="QR code"
+                        className="h-full w-full rounded-lg"
+                    />
+                </div>
                 <div className="text-gray-700 mb-6">
                     Pembayaran paling lambat tanggal 26 April 2025. Pembayaran
                     tidak diproses setelah batas lambat maka peserta/tim tidak
                     berhak untuk mengikuti perlombaan.
                 </div>
                 <div className="text-gray-700 mb-2">
-                    Mohon konfirmasi pembayaran ke:
+                    Mohon konfirmasi pembayaran dan berikan Invoice ID yang ada di atas ke:
                 </div>
                 <div className="text-gray-700">
                     <a
