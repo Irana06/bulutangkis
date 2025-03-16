@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\BabakPertandinganEnum;
+use App\Enums\StatusPertandinganEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,8 +22,8 @@ return new class extends Migration
             $table->foreignUuid('kontingen_1')->constrained('kontingen')->onDelete('cascade');
             $table->foreignUuid('kontingen_2')->constrained('kontingen')->onDelete('cascade');
             $table->timestamp('waktu_pertandingan');
-            $table->enum('status', ['TERJADWAL', 'SELESAI', 'DIBATALKAN']);
-            $table->enum('babak', ['AWAL', 'KEDUA', 'AKHIR'])->default('AWAL');
+            $table->enum('status', StatusPertandinganEnum::values())->nullable();
+            $table->enum('babak', BabakPertandinganEnum::values())->default('AWAL')->nullable();
             $table->foreignUuid('pemenang_id')->nullable()->constrained('tanding')->onDelete('set null');
             $table->softDeletes();
             $table->timestamps();

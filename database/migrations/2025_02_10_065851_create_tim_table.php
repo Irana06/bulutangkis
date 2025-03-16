@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\JenisTimEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +15,7 @@ return new class extends Migration
         Schema::create('tim', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('nama_tim');
-            $table->enum('jenis', ['GANDA']);
+            $table->enum('jenis', JenisTimEnum::values())->nullable();
             $table->foreignUuid('atlet_id_1')->constrained('atlet')->onDelete('cascade');
             $table->foreignUuid('atlet_id_2')->constrained('atlet')->onDelete('cascade');
             $table->unique(['atlet_id_1', 'atlet_id_2']); // Mencegah duplikasi atlet dalam tim
