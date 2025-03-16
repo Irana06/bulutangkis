@@ -48,17 +48,12 @@ export default function Dashboard({ auth, child, childText }) {
                 return <DetailTanding />;
             case "Tanding/CreateEditTanding":
                 return <CreateEditTanding />;
-            // Hanya admin yang bisa mengakses halaman Pembayaran
             case "Pembayaran/ListPembayaran":
+                return <ListPembayaran />;
             case "Pembayaran/DetailPembayaran":
+                return <DetailPembayaran />;
             case "Pembayaran/CheckoutPembayaran":
-                return isAdmin ? (
-                    child === "Pembayaran/ListPembayaran" ? <ListPembayaran /> :
-                    child === "Pembayaran/DetailPembayaran" ? <DetailPembayaran /> :
-                    <CheckoutPembayaran />
-                ) : (
-                    <NotFound />
-                );
+                return <CheckoutPembayaran />;
             default:
                 return <Home userData={auth} />;
         }
