@@ -25,6 +25,7 @@ return new class extends Migration
 
             $table->boolean('dibayar')->default(false)->nullable();
             $table->enum('role', ['admin', 'default'])->default('default');
+            $table->integer('biaya')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

@@ -18,12 +18,13 @@ return new class extends Migration
                 'TUNGGAL_PUTRI',
                 'GANDA_PUTRA',
                 'GANDA_PUTRI',
+                'GANDA_CAMPURAN',
             ]);
             $table->string('tingkat')->nullable();
             $table->string('kelompok_umur'); // Misal: '8-9', '9-10'
-            $table->integer('min_umur');
+            $table->integer('min_umur')->nullable();
             $table->integer('max_umur')->nullable();
-            $table->integer('biaya');
+            $table->integer('biaya')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -62,6 +62,9 @@ class KategoriTandingSeeder extends Seeder
             // DEWASA
             ['jenis' => 'GANDA_PUTRA', 'tingkat' => 'DEWASA', 'kelompok_umur' => 'Dewasa', 'min_umur' => 19, 'max_umur' => null, 'biaya' => '200000'],
             ['jenis' => 'GANDA_PUTRI', 'tingkat' => 'DEWASA', 'kelompok_umur' => 'Dewasa', 'min_umur' => 19, 'max_umur' => null, 'biaya' => '200000'],
+
+            // Campuran
+            ['jenis' => 'GANDA_CAMPURAN', 'tingkat' => 'Campuran', 'kelompok_umur' => 'Campuran', 'min_umur' => null, 'max_umur' => null, 'biaya' => '200000'],
         ];
 
         foreach ($kategoriTanding as $kategori) {
