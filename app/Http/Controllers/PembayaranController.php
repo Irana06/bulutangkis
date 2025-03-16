@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kontingen;
 use App\Models\Tanding;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -46,6 +47,25 @@ class PembayaranController extends Controller
         return Inertia::render('Dashboard', [
             'child' => 'Pembayaran/CheckoutPembayaran',
             'tanding' => $tanding,
+        ]);
+    }
+
+    public function listConfirmations()
+    {
+        $tanding = Tanding::where(function ($query) {
+            $query->where('dibayar', false)
+                ->orWhereNull('dibayar');
+        })->get();
+
+        $kontingen = Kontingen::where(function ($query) {
+            $query->where('dibayar', false)
+                ->orWhereNull('dibayar');
+        })->get();
+
+        return Inertia::render('Dashboard', [
+            'child' => 'Pembayaran/ListKonfirmasiPembayaran',
+            'tanding' => $tanding,
+            'kontingen' => $kontingen,
         ]);
     }
 }

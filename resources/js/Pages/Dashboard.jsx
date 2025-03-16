@@ -21,7 +21,7 @@ import CreateEditTim from "@/Pages/Src/Tim/CreateEditTim";
 import ListPembayaran from "@/Pages/Src/Pembayaran/ListPembayaran";
 import DetailPembayaran from "@/Pages/Src/Pembayaran/DetailPembayaran";
 import CheckoutPembayaran from "@/Pages/Src/Pembayaran/CheckoutPembayaran";
-import NotFound from "@/Pages/Services/NotFound";
+import ListKonfirmasiPembayaran from "@/Pages/Src/Pembayaran/ListKonfirmasiPembayaran";
 
 // Mapping string ke komponen
 
@@ -54,6 +54,8 @@ export default function Dashboard({ auth, child, childText }) {
                 return <DetailPembayaran />;
             case "Pembayaran/CheckoutPembayaran":
                 return <CheckoutPembayaran />;
+            case "Pembayaran/ListKonfirmasiPembayaran":
+                return <ListKonfirmasiPembayaran />;
             default:
                 return <Home userData={auth} />;
         }
@@ -62,6 +64,9 @@ export default function Dashboard({ auth, child, childText }) {
         <main className="app flex h-screen overflow-hidden">
             <Sidebar userData={auth} className="w-64 fixed h-full">
                 <hr className="my-3 py-1" />
+                <span className="text-gray-400 text-sm font-semibold">
+                    Menu
+                </span>
                 <Link href="/peserta">
                     <SidebarItem icon={<Users size={20} />} text="Peserta" />
                 </Link>
@@ -101,6 +106,23 @@ export default function Dashboard({ auth, child, childText }) {
                         text="Live Jadwal"
                     />
                 </Link>
+
+                {isAdmin && (
+                    <>
+                        <hr className="my-10" />
+                        {/* Admin Only */}
+                        <span className="text-gray-400 text-sm font-semibold">
+                            Admin
+                        </span>
+
+                        <Link href="/konfirmasi-pembayaran">
+                            <SidebarItem
+                                icon={<Wallet size={20} />}
+                                text="Konfirmasi Pembayaran"
+                            />
+                        </Link>
+                    </>
+                )}
             </Sidebar>
             <div className="flex-grow overflow-auto">
                 <div className="sticky top-0 bg-white z-10">
