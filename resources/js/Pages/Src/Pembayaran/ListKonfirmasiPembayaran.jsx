@@ -204,6 +204,7 @@ export default function ListKonfirmasiPembayaran() {
                 hideAddButton
                 dropdownOpenIndex={dropdownOpenIndex}
                 setDropdownOpenIndex={setDropdownOpenIndex}
+                showFilter
                 searchQuery={{
                     key: "tanding_id",
                     placeholder: "Cari ID Tanding",
@@ -219,6 +220,7 @@ export default function ListKonfirmasiPembayaran() {
                 hideAddButton
                 dropdownOpenIndex={dropdownOpenIndex}
                 setDropdownOpenIndex={setDropdownOpenIndex}
+                showFilter
                 searchQuery={{
                     key: "kontingen_id",
                     placeholder: "Cari ID Kontingen",

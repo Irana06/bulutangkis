@@ -7,6 +7,7 @@ export default function TableItems({
     data = [],
     columns = [],
     hideAddButton = false,
+    showFilter = false,
     dropdownOpenIndex,
     setDropdownOpenIndex,
     itemsPerPage = 10, // Jumlah item per halaman
@@ -69,29 +70,31 @@ export default function TableItems({
             </div>
 
             {/* Form Pencarian */}
-            <form onSubmit={handleSearch} className="mt-4 flex space-x-2">
-                <div className="relative">
-                    <input
-                        type="text"
-                        name={searchQuery.key}
-                        className="w-full border h-12 shadow p-4 pr-10 rounded-full text-gray-800 border-gray-700 bg-white"
-                        placeholder={searchQuery.placeholder}
-                    />
-                    <button
-                        type="submit"
-                        className="absolute top-1/2 right-3 -translate-y-1/2 bg-white p-2 rounded-full shadow"
-                    >
-                        <Search size={20} />
-                    </button>
-                    <button
-                        type="button"
-                        onClick={handleReset}
-                        className="absolute top-1/2 -translate-y-1/2 bg-gray-200 hover:bg-gray-300 p-3 rounded-full shadow"
-                    >
-                        <SearchX size={20} />
-                    </button>
-                </div>
-            </form>
+            {showFilter ? (
+                <form onSubmit={handleSearch} className="mt-4 flex space-x-2">
+                    <div className="relative">
+                        <input
+                            type="text"
+                            name={searchQuery.key}
+                            className="w-full border h-12 shadow p-4 pr-10 rounded-full text-gray-800 border-gray-700 bg-white"
+                            placeholder={searchQuery.placeholder}
+                        />
+                        <button
+                            type="submit"
+                            className="absolute top-1/2 right-3 -translate-y-1/2 bg-white p-2 rounded-full shadow"
+                        >
+                            <Search size={20} />
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleReset}
+                            className="absolute top-1/2 -translate-y-1/2 bg-gray-200 hover:bg-gray-300 p-3 rounded-full shadow"
+                        >
+                            <SearchX size={20} />
+                        </button>
+                    </div>
+                </form>
+            ) : null}
 
             {/* Jika data kosong, tampilkan pesan */}
             {data.length === 0 ? (
