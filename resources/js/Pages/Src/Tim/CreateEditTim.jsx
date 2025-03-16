@@ -8,7 +8,7 @@ import { usePage, useForm } from "@inertiajs/react";
 import Swal from "sweetalert2";
 
 export default function CreateEditTim() {
-    const { atlet } = usePage().props;
+    const { atlet, kategoriTanding } = usePage().props;
 
     const { data, setData, post, processing } = useForm({
         atlet_id_1: "",
@@ -33,29 +33,35 @@ export default function CreateEditTim() {
         const selectedAtlet = atletOptions.find(a => a.value === data.atlet_id_1);
         if (!selectedAtlet) return true; // Jika belum memilih Atlet 1, semua tetap tersedia
 
-        const isSameGender = option.jenis_kelamin === selectedAtlet.jenis_kelamin;
-        const isDifferentGender = option.jenis_kelamin !== selectedAtlet.jenis_kelamin;
-        const isSameAgeCategory = option.umur >= selectedAtlet.umur - 1 && option.umur <= selectedAtlet.umur + 1; // Toleransi umur
-
-        switch (data.jenis) {
-            case "GANDA":
-                return isSameGender && isSameAgeCategory;
-            case "CAMPURAN":
-                return isDifferentGender && isSameAgeCategory;
-            default:
-                return true;
+        // Jika jenis tim adalah "CAMPURAN", tidak ada batasan
+        if (data.jenis === "CAMPURAN") {
+            return true;
         }
+
+        // Pastikan kategoriTanding tersedia dan memiliki data sebelum find()
+        if (!Array.isArray(kategoriTanding) || kategoriTanding.length === 0) {
+            return false; // Jika kategoriTanding tidak ada, tidak bisa memilih atlet 2
+        }
+
+        // Cari kategori berdasarkan umur atlet 1
+        const kategori = kategoriTanding.find(k =>
+            selectedAtlet.umur >= k.min_umur && selectedAtlet.umur <= k.max_umur
+        );
+
+        if (!kategori) return false; // Jika tidak ada kategori yang cocok, tidak bisa memilih atlet 2
+
+        // Atlet 2 harus dalam rentang umur kategori dan memiliki jenis kelamin yang sama
+        return option.jenis_kelamin === selectedAtlet.jenis_kelamin &&
+               option.umur >= kategori.min_umur &&
+               option.umur <= kategori.max_umur;
     });
 
-    // Reset Atlet 2 jika tidak valid setelah perubahan Atlet 1
+    // Reset Atlet 2 jika tidak valid setelah perubahan Atlet 1 atau Jenis
     useEffect(() => {
         if (data.atlet_id_1) {
-            const selectedAtlet = atletOptions.find(a => a.value === data.atlet_id_1);
-            if (selectedAtlet) {
-                const isAtlet2Valid = atletOptionsForAtlet2.some(a => a.value === data.atlet_id_2);
-                if (!isAtlet2Valid) {
-                    setData("atlet_id_2", ""); // Reset Atlet 2 jika tidak valid
-                }
+            const isAtlet2Valid = atletOptionsForAtlet2.some(a => a.value === data.atlet_id_2);
+            if (!isAtlet2Valid) {
+                setData("atlet_id_2", ""); // Reset Atlet 2 jika tidak valid
             }
         } else {
             setData("atlet_id_2", ""); // Reset jika Atlet 1 dikosongkan
@@ -64,6 +70,7 @@ export default function CreateEditTim() {
 
     const jenisTimOptions = [
         { value: "GANDA", label: "Ganda" },
+        { value: "CAMPURAN", label: "Campuran" },
     ];
 
     const handleSubmit = (e) => {
