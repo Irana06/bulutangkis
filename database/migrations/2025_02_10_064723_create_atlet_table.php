@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\JenisKelaminEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +15,7 @@ return new class extends Migration
         Schema::create('atlet', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->enum('jenis_kelamin', ['LAKI_LAKI', 'PEREMPUAN']);
+            $table->enum('jenis_kelamin', JenisKelaminEnum::values())->nullable();
             $table->unsignedBigInteger('nik')->unique();
             $table->unsignedBigInteger('no_kk');
             $table->date('tanggal_lahir');
