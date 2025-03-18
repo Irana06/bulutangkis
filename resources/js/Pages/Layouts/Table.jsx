@@ -8,6 +8,7 @@ export default function TableItems({
     columns = [],
     hideAddButton = false,
     showFilter = false,
+    showCheckbox = false,
     dropdownOpenIndex,
     setDropdownOpenIndex,
     itemsPerPage = 10, // Jumlah item per halaman
@@ -15,6 +16,7 @@ export default function TableItems({
     url = "Data",
 }) {
     const [currentPage, setCurrentPage] = useState(1);
+    const [selectedIds, setSelectedIds] = useState([]);
     const totalPages = Math.ceil(data.length / itemsPerPage);
 
     const toggleDropdown = (index) => {
@@ -45,6 +47,14 @@ export default function TableItems({
 
     const handleReset = () => {
         router.get(`/${url}`);
+    };
+
+    const handleCheckboxChange = (id) => {
+        setSelectedIds((prevSelectedIds) =>
+            prevSelectedIds.includes(id)
+                ? prevSelectedIds.filter((selectedId) => selectedId !== id)
+                : [...prevSelectedIds, id]
+        );
     };
 
     return (
@@ -106,6 +116,28 @@ export default function TableItems({
                     <table className="w-full min-w-full table-auto text-sm text-left relative">
                         <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                             <tr>
+                                {showCheckbox && (
+                                    <th className="py-3 px-6">
+                                        <input
+                                            type="checkbox"
+                                            onChange={(e) => {
+                                                if (e.target.checked) {
+                                                    setSelectedIds(
+                                                        paginatedData.map(
+                                                            (item) => item.id
+                                                        )
+                                                    );
+                                                } else {
+                                                    setSelectedIds([]);
+                                                }
+                                            }}
+                                            checked={
+                                                selectedIds.length ===
+                                                paginatedData.length
+                                            }
+                                        />
+                                    </th>
+                                )}
                                 {columns.map((col, index) => (
                                     <th
                                         key={index}
@@ -125,6 +157,21 @@ export default function TableItems({
                         <tbody className="text-gray-600 divide-y">
                             {paginatedData.map((item, idx) => (
                                 <tr key={idx}>
+                                    {showCheckbox && (
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedIds.includes(
+                                                    item.id
+                                                )}
+                                                onChange={() =>
+                                                    handleCheckboxChange(
+                                                        item.id
+                                                    )
+                                                }
+                                            />
+                                        </td>
+                                    )}
                                     {columns.map((col, index) => (
                                         <td
                                             key={index}

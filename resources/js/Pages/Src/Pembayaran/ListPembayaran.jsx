@@ -78,6 +78,7 @@ export default function ListPembayaran() {
             data={tableData}
             columns={columns}
             hideAddButton
+            showCheckbox
             dropdownOpenIndex={dropdownOpenIndex}
             setDropdownOpenIndex={setDropdownOpenIndex}
         />
