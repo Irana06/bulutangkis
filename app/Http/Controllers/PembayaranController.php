@@ -135,7 +135,7 @@ class PembayaranController extends Controller
         $tanding = Tanding::whereIn('id', $ids)->get();
 
         return Inertia::render('Dashboard', [
-            'child' => 'Pembayaran/DetailPembayaran',
+            'child' => 'Pembayaran/DetailBulkPembayaran',
             'tanding' => $tanding,
         ]);
     }

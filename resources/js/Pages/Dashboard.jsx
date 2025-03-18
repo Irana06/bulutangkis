@@ -22,6 +22,7 @@ import ListPembayaran from "@/Pages/Src/Pembayaran/ListPembayaran";
 import DetailPembayaran from "@/Pages/Src/Pembayaran/DetailPembayaran";
 import CheckoutPembayaran from "@/Pages/Src/Pembayaran/CheckoutPembayaran";
 import ListKonfirmasiPembayaran from "@/Pages/Src/Pembayaran/ListKonfirmasiPembayaran";
+import DetailBulkPembayaran from "@/Pages/Src/Pembayaran/DetailBulkPembayaran";
 
 // Mapping string ke komponen
 
@@ -52,6 +53,8 @@ export default function Dashboard({ auth, child, childText }) {
                 return <ListPembayaran />;
             case "Pembayaran/DetailPembayaran":
                 return <DetailPembayaran />;
+            case "Pembayaran/DetailBulkPembayaran":
+                return <DetailBulkPembayaran />;
             case "Pembayaran/CheckoutPembayaran":
                 return <CheckoutPembayaran />;
             case "Pembayaran/ListKonfirmasiPembayaran":
