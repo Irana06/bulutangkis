@@ -14,6 +14,12 @@ class PembayaranController extends Controller
         $user = auth()->user();
         $kontingenId = $user->id;
 
+        $kontingen = Kontingen::where('id', $kontingenId)
+            ->where(function ($query) {
+                $query->where('dibayar', false)
+                    ->orWhereNull('dibayar');
+            })->get();
+
         $tanding = Tanding::where(function ($query) {
             $query->where('dibayar', false)
                 ->orWhereNull('dibayar');
@@ -27,6 +33,7 @@ class PembayaranController extends Controller
         return Inertia::render('Dashboard', [
             'child' => 'Pembayaran/ListPembayaran',
             'tanding' => $tanding,
+            'kontingen' => $kontingen,
         ]);
     }
 
@@ -42,7 +49,17 @@ class PembayaranController extends Controller
 
     public function checkout($id)
     {
-        $tanding = Tanding::findOrFail($id);
+        // Cari di tabel Tanding
+        $tanding = Tanding::where('id', $id)->first();
+
+        // Jika tidak ditemukan di Tanding, cari di Kontingen
+        if (!$tanding) {
+            $kontingen = Kontingen::where('id', $id)->firstOrFail();
+            return Inertia::render('Dashboard', [
+                'child' => 'Pembayaran/CheckoutPembayaran',
+                'kontingen' => $kontingen,
+            ]);
+        }
 
         return Inertia::render('Dashboard', [
             'child' => 'Pembayaran/CheckoutPembayaran',
@@ -126,6 +143,17 @@ class PembayaranController extends Controller
             'tanding' => $tanding,
             'kontingen' => $kontingen,
             'flash' => session('error'),
+        ]);
+    }
+
+    public function showBulk(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        $tanding = Tanding::whereIn('id', $ids)->get();
+
+        return Inertia::render('Dashboard', [
+            'child' => 'Pembayaran/DetailBulkPembayaran',
+            'tanding' => $tanding,
         ]);
     }
 }

@@ -171,7 +171,7 @@ export default function DetailTanding() {
 
                     <hr className="my-3 mt-5 mb-10" />
 
-                    <h1 className="font-semibold text-xl mb-5">Peserta 1:</h1>
+                    <h1 className="font-semibold text-xl mb-5">Peserta 2:</h1>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <Field label="Nama" value={tanding.tim?.atlet_2.name} />
                         <Field

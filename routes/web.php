@@ -56,10 +56,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran.index');
     Route::get('/pembayaran/{id}/detail', [PembayaranController::class, 'show']);
     Route::get('/pembayaran/{id}/checkout', [PembayaranController::class, 'checkout']);
+    Route::post('/pembayaran/show-bulk', [PembayaranController::class, 'showBulk'])->name('pembayaran.showBulk');
+});
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    // admin
     Route::get('/konfirmasi-pembayaran', [PembayaranController::class, 'listConfirmations'])->name('pembayaran.listConfirmations');
     Route::post('/konfirmasi-pembayaran', [PembayaranController::class, 'confirmPayment'])->name('pembayaran.confirmPayment');
     Route::get('/konfirmasi-pembayaran/search', [PembayaranController::class, 'searchQuery'])->name('pembayaran.searchQuery');
-
 });
 
 Route::middleware('auth')->group(function () {

@@ -63,6 +63,7 @@ class TimController extends Controller
 
         $user = auth()->user();
         $kontingenId = $user->id;
+        $kontingenName = $user->name;
 
         $eventController = new EventController();
         $eventId = $eventController->getOpenEvent();
@@ -72,7 +73,7 @@ class TimController extends Controller
         }
 
         Tim::create([
-            'nama_tim' => $validatedData['nama_tim'],
+            'nama_tim' => $kontingenName,
             'kontingen_id' => $kontingenId,
             'jenis' => $validatedData['jenis'],
             'event_id' => $eventId,

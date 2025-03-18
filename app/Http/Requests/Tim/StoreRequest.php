@@ -22,7 +22,6 @@ class StoreRequest extends FormRequest
         return [
             'atlet_id_1' => 'required|exists:atlet,id',
             'atlet_id_2' => 'required|exists:atlet,id',
-            'nama_tim' => 'required|string',
             'jenis' => 'required|in:CAMPURAN,GANDA,TUNGGAL',
         ];
     }
@@ -37,8 +36,6 @@ class StoreRequest extends FormRequest
             'atlet_id_1.exists' => 'Peserta 1 tidak ditemukan atau sudah terdaftar.',
             'atlet_id_2.required' => 'Peserta 2 wajib diisi.',
             'atlet_id_2.exists' => 'Peserta 2 tidak ditemukan atau sudah terdaftar.',
-            'nama_tim.required' => 'Nama tim wajib diisi.',
-            'nama_tim.string' => 'Nama tim harus berupa string.',
             'jenis.required' => 'Jenis wajib diisi.',
             'jenis.in' => 'Jenis harus salah satu dari: Campuran, Ganda, Tunggal.',
         ];

@@ -8,13 +8,16 @@ export default function TableItems({
     columns = [],
     hideAddButton = false,
     showFilter = false,
+    showCheckbox = false,
     dropdownOpenIndex,
     setDropdownOpenIndex,
     itemsPerPage = 10, // Jumlah item per halaman
     searchQuery = [],
     url = "Data",
+    CustomButton = null, // Tambahkan props CustomButton
 }) {
     const [currentPage, setCurrentPage] = useState(1);
+    const [selectedIds, setSelectedIds] = useState([]);
     const totalPages = Math.ceil(data.length / itemsPerPage);
 
     const toggleDropdown = (index) => {
@@ -47,6 +50,14 @@ export default function TableItems({
         router.get(`/${url}`);
     };
 
+    const handleCheckboxChange = (id) => {
+        setSelectedIds((prevSelectedIds) =>
+            prevSelectedIds.includes(id)
+                ? prevSelectedIds.filter((selectedId) => selectedId !== id)
+                : [...prevSelectedIds, id]
+        );
+    };
+
     return (
         <div className="max-w-screen mx-auto px-4 md:px-8">
             <div className="items-start justify-between md:flex">
@@ -55,8 +66,8 @@ export default function TableItems({
                         Daftar {title}
                     </h3>
                 </div>
-                {!hideAddButton ? (
-                    <div className="mt-3 md:mt-0">
+                <div className="mt-3 md:mt-0 flex space-x-2">
+                    {!hideAddButton && (
                         <Link
                             href={`/${
                                 title.toLowerCase().split(" ")[0]
@@ -65,8 +76,9 @@ export default function TableItems({
                         >
                             Tambah {title}
                         </Link>
-                    </div>
-                ) : null}
+                    )}
+                    {CustomButton && <CustomButton selectedIds={selectedIds} />}
+                </div>
             </div>
 
             {/* Form Pencarian */}
@@ -106,6 +118,28 @@ export default function TableItems({
                     <table className="w-full min-w-full table-auto text-sm text-left relative">
                         <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                             <tr>
+                                {showCheckbox && (
+                                    <th className="py-3 px-6 ">
+                                        <input
+                                            type="checkbox"
+                                            onChange={(e) => {
+                                                if (e.target.checked) {
+                                                    setSelectedIds(
+                                                        paginatedData.map(
+                                                            (item) => item.id
+                                                        )
+                                                    );
+                                                } else {
+                                                    setSelectedIds([]);
+                                                }
+                                            }}
+                                            checked={
+                                                selectedIds.length ===
+                                                paginatedData.length
+                                            }
+                                        />
+                                    </th>
+                                )}
                                 {columns.map((col, index) => (
                                     <th
                                         key={index}
@@ -125,6 +159,21 @@ export default function TableItems({
                         <tbody className="text-gray-600 divide-y">
                             {paginatedData.map((item, idx) => (
                                 <tr key={idx}>
+                                    {showCheckbox && (
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedIds.includes(
+                                                    item.id
+                                                )}
+                                                onChange={() =>
+                                                    handleCheckboxChange(
+                                                        item.id
+                                                    )
+                                                }
+                                            />
+                                        </td>
+                                    )}
                                     {columns.map((col, index) => (
                                         <td
                                             key={index}

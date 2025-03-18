@@ -64,7 +64,6 @@ export default function ListPeserta() {
         { key: "nik", label: "NIK", hidden: true },
         { key: "no_kk", label: "KK", hidden: true },
         { key: "umur_update", label: "Umur (Tahun)", hidden: true },
-        { key: "tinggi_badan", label: "Tinggi Badan (cm)", hidden: true },
         {
             key: "aksi",
             label: "Aksi",

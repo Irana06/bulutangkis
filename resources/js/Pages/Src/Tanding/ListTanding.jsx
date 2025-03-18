@@ -43,10 +43,10 @@ export default function ListTanding() {
             ),
         },
         { key: "atlet_nama", label: "Nama Peserta/Tim" },
-        { key: "kontingen_nama", label: "Kontingen", hidden: true },
         { key: "jenis_tanding", label: "Jenis Tanding", hidden: true },
         { key: "kelompok_tanding", label: "Kelompok Tanding", hidden: true },
         { key: "umur", label: "Umur (Tahun)", hidden: true },
+        { key: "biaya", label: "Biaya", hidden: true },
         { key: "juara", label: "Juara ke", hidden: true },
         {
             key: "aksi",
@@ -104,7 +104,10 @@ export default function ListTanding() {
     const tableData = tanding.map((item) => ({
         id: item.id,
         atlet_nama: item.atlet?.name ?? item.tim?.nama_tim,
-        kontingen_nama: item.kontingen?.name,
+        biaya: new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+        }).format(item.kategori_tanding?.biaya || 0),
         jenis_tanding: formatJenisTanding(item.kategori_tanding.jenis),
         kelompok_tanding: item.kategori_tanding.kelompok_umur,
         umur:
