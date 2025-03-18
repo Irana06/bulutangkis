@@ -128,4 +128,15 @@ class PembayaranController extends Controller
             'flash' => session('error'),
         ]);
     }
+
+    public function showBulk(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        $tanding = Tanding::whereIn('id', $ids)->get();
+
+        return Inertia::render('Dashboard', [
+            'child' => 'Pembayaran/DetailPembayaran',
+            'tanding' => $tanding,
+        ]);
+    }
 }

@@ -1,7 +1,9 @@
 import FormatCapital from "@/Components/Utils/FormatCapital";
 import TableItems from "@/Pages/Layouts/Table";
-import { Link, usePage } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import { useState } from "react";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 export default function ListPembayaran() {
     const { tanding } = usePage().props;
@@ -26,7 +28,7 @@ export default function ListPembayaran() {
                 >
                     {value}
                 </span>
-            )
+            ),
         },
         {
             key: "aksi",
@@ -72,6 +74,41 @@ export default function ListPembayaran() {
         status_pembayaran: item.dibayar ? "Lunas" : "Menunggu",
     }));
 
+    const handleBulkPayment = (selectedIds) => {
+        if (selectedIds.length === 0) {
+            Swal.fire({
+                icon: "warning",
+                title: "Tidak ada item terpilih",
+                text: "Silakan pilih item yang ingin dibayar.",
+            });
+            return;
+        }
+
+        Swal.fire({
+            title: "Konfirmasi Pembayaran",
+            text: `Apakah Anda yakin ingin membayar ${selectedIds.length} item?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, bayar sekarang!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.post(route("pembayaran.showBulk"), { ids: selectedIds });
+            }
+        });
+    };
+
+    const CustomButton = ({ selectedIds }) => (
+        <button
+            type="submit"
+            onClick={() => handleBulkPayment(selectedIds)}
+            className="inline-block px-4 py-2 font-medium text-blue-600 bg-blue-500/20 hover:text-blue-500 duration-150 hover:bg-gray-50 md:text-sm rounded-lg"
+        >
+            Bayar Semua
+        </button>
+    );
+
     return (
         <TableItems
             title="Pembayaran"
@@ -81,6 +118,7 @@ export default function ListPembayaran() {
             showCheckbox
             dropdownOpenIndex={dropdownOpenIndex}
             setDropdownOpenIndex={setDropdownOpenIndex}
+            CustomButton={CustomButton}
         />
     );
 }

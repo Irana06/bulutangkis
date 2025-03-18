@@ -14,6 +14,7 @@ export default function TableItems({
     itemsPerPage = 10, // Jumlah item per halaman
     searchQuery = [],
     url = "Data",
+    CustomButton = null, // Tambahkan props CustomButton
 }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedIds, setSelectedIds] = useState([]);
@@ -65,8 +66,8 @@ export default function TableItems({
                         Daftar {title}
                     </h3>
                 </div>
-                {!hideAddButton ? (
-                    <div className="mt-3 md:mt-0">
+                <div className="mt-3 md:mt-0 flex space-x-2">
+                    {!hideAddButton && (
                         <Link
                             href={`/${
                                 title.toLowerCase().split(" ")[0]
@@ -75,8 +76,9 @@ export default function TableItems({
                         >
                             Tambah {title}
                         </Link>
-                    </div>
-                ) : null}
+                    )}
+                    {CustomButton && <CustomButton selectedIds={selectedIds} />}
+                </div>
             </div>
 
             {/* Form Pencarian */}
@@ -117,7 +119,7 @@ export default function TableItems({
                         <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                             <tr>
                                 {showCheckbox && (
-                                    <th className="py-3 px-6">
+                                    <th className="py-3 px-6 ">
                                         <input
                                             type="checkbox"
                                             onChange={(e) => {
