@@ -35,7 +35,7 @@ export default function DetailPeserta() {
                 <Field label="Umur" value={`${atlet.umur_update} Tahun`} />
                 <Field label="Kontingen" value={atlet.kontingen.name} />
                 <Field label="NIK" value={atlet.nik} />
-                <Field label="No KK" value={atlet.no_kk} />
+                <Field label="Nomor KK" value={atlet.no_kk} />
                 <Field
                     label="Tanggal Lahir"
                     value={moment(atlet.tanggal_lahir).format("D MMM YYYY")}

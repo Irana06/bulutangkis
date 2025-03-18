@@ -156,9 +156,9 @@ export default function CreateEditPeserta() {
                         required
                     />
                     <InputField
-                        label="No KK"
+                        label="Nomor KK"
                         name="no_kk"
-                        placeholder="16 digit No KK"
+                        placeholder="16 digit Nomor KK"
                         value={data.no_kk}
                         onChange={(e) => setData("no_kk", e.target.value)}
                         error={errors.no_kk}
