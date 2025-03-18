@@ -11,37 +11,17 @@ import { Copy } from "lucide-react";
 import Swal from "sweetalert2";
 
 export default function CheckoutPembayaran() {
-    const { tanding } = usePage().props;
+    const { tanding, kontingen } = usePage().props;
     const currentDate = moment().format("dddd, MMMM YYYY");
     const [copied, setCopied] = useState(false);
-    const [isRedirecting, setIsRedirecting] = useState(false);
-    const intervalRef = useRef(null);
-
-    const { data, setData, post, processing } = useForm({
-        external_id: tanding.id,
-        amount: tanding.kategori_tanding?.biaya,
-        description: `Pembayaran untuk ${FormatCapital(
-            tanding.kategori_tanding?.jenis
-        )} ${tanding.kategori_tanding?.kelompok_umur}`,
-        given_names: tanding.kontingen?.name,
-        email: tanding.kontingen?.email,
-        mobile_number: tanding.kontingen?.no_hp_penanggung_jawab,
-        address: tanding.kontingen?.alamat_lengkap
-            ? [
-                  {
-                      country: "ID", // Pastikan menyertakan country
-                      street_line1: tanding.kontingen?.alamat_lengkap,
-                  },
-              ]
-            : null,
-    });
 
     // Fungsi untuk menyalin ID
     const handleCopy = () => {
+        const invoiceId = tanding?.id ?? kontingen?.id;
         if (navigator.clipboard && navigator.clipboard.writeText) {
             // Menggunakan Clipboard API jika tersedia
             navigator.clipboard
-                .writeText(tanding.id)
+                .writeText(invoiceId)
                 .then(() => {
                     setCopied(true);
                     setTimeout(() => setCopied(false), 2000);
@@ -50,7 +30,7 @@ export default function CheckoutPembayaran() {
         } else {
             // Fallback untuk browser yang lebih lama
             const textArea = document.createElement("textarea");
-            textArea.value = tanding.id;
+            textArea.value = invoiceId;
             document.body.appendChild(textArea);
             textArea.select();
             try {
@@ -61,77 +41,6 @@ export default function CheckoutPembayaran() {
                 console.error("Gagal menyalin:", err);
             }
             document.body.removeChild(textArea);
-        }
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        Swal.fire({
-            title: "Konfirmasi Pembayaran",
-            text: "Apakah Anda yakin ingin melakukan pembayaran?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Ya, bayar sekarang!",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                post(route("payment.store"), {
-                    onSuccess: (page) => {
-                        if (page.props.success) {
-                            window.open(page.props.checkout_link, "_blank");
-                        }
-                    },
-                    onError: (errors) => {
-                        console.error(
-                            "Error saat mengirim pembayaran:",
-                            errors
-                        );
-                        Swal.fire(
-                            "Error",
-                            "Terjadi kesalahan dalam proses pembayaran",
-                            "error"
-                        );
-                    },
-                });
-            }
-        });
-    };
-
-    // useEffect(() => {
-    //     intervalRef.current = setInterval(() => {
-    //         checkPaymentStatus();
-    //     }, 5000); // Cek setiap 5 detik
-
-    //     return () => clearInterval(intervalRef.current);
-    // }, []);
-
-    const checkPaymentStatus = async () => {
-        if (isRedirecting) return; // Cegah pengecekan jika redirect sedang berlangsung
-
-        try {
-            const response = await fetch(
-                `/api/check-payment-status/${tanding.id}`
-            );
-            const result = await response.json();
-
-            if (result.status === "paid") {
-                clearInterval(intervalRef.current); // Hentikan interval agar tidak mengecek status lagi
-                setIsRedirecting(true); // Tandai bahwa redirect sedang berlangsung
-
-                Swal.fire({
-                    title: "Pembayaran Berhasil!",
-                    text: "Anda akan dialihkan ke halaman daftar pembayaran.",
-                    icon: "success",
-                    showConfirmButton: false,
-                });
-
-                // Redirect langsung tanpa menunggu timer
-                window.location.href = route("pembayaran.index");
-            }
-        } catch (error) {
-            console.error("Gagal mengecek status pembayaran:", error);
         }
     };
 
@@ -150,14 +59,19 @@ export default function CheckoutPembayaran() {
                     <div className="font-bold text-lg mb-2">INVOICE</div>
                     <div className="text-xs">Date: {currentDate}</div>
 
-                    {/* Invoice ID dengan efek potong & Copy */}
+                    {/* ID Invoice */}
                     <div className="text-xs flex items-center justify-end space-x-2">
                         {/* Potong ID */}
                         <button
                             onClick={handleCopy}
                             className="text-gray-600 hover:text-cyan-600 transition flex items-center gap-2"
                         >
-                            <span>Invoice ID: {tanding.id.slice(0, 9)}...</span>{" "}
+                            <span>
+                                Invoice ID:{" "}
+                                {tanding?.id?.slice(0, 9) ??
+                                    kontingen?.id?.slice(0, 9)}
+                                ...
+                            </span>
                             <Copy size={16} />
                         </button>
                     </div>
@@ -170,28 +84,58 @@ export default function CheckoutPembayaran() {
                     )}
                 </div>
             </div>
+
             <div className="border-b-2 border-gray-300 pb-8 mb-8">
                 <h2 className="text-2xl font-bold mb-4">Detail:</h2>
-                <div className="text-gray-700 mb-2">
-                    <span className="font-semibold">Jenis:</span>{" "}
-                    {FormatCapital(tanding.kategori_tanding?.jenis)}
-                </div>
-                <div className="text-gray-700 mb-2">
-                    <span className="font-semibold">Kelompok umur:</span>{" "}
-                    {`${tanding.kategori_tanding?.kelompok_umur} (${
-                        tanding.kategori_tanding?.min_umur
-                    }${
-                        tanding.kategori_tanding?.max_umur === null
-                            ? ">"
-                            : ` - ${tanding.kategori_tanding?.max_umur}`
-                    } Tahun)`}
-                </div>
-
-                <div className="text-gray-700 mb-2">
-                    <span className="font-semibold">Peserta/Tim:</span>{" "}
-                    {tanding.atlet?.name ?? tanding.tim?.nama_tim}
-                </div>
+                {tanding ? (
+                    <>
+                        <div className="text-gray-700 mb-2">
+                            <span className="font-semibold">Jenis:</span>{" "}
+                            {FormatCapital(tanding.kategori_tanding?.jenis)}
+                        </div>
+                        <div className="text-gray-700 mb-2">
+                            <span className="font-semibold">
+                                Kelompok umur:
+                            </span>{" "}
+                            {`${tanding.kategori_tanding?.kelompok_umur} (${
+                                tanding.kategori_tanding?.min_umur
+                            }${
+                                tanding.kategori_tanding?.max_umur === null
+                                    ? ">"
+                                    : ` - ${tanding.kategori_tanding?.max_umur}`
+                            } Tahun)`}
+                        </div>
+                        <div className="text-gray-700 mb-2">
+                            <span className="font-semibold">Peserta/Tim:</span>{" "}
+                            {tanding.atlet?.name ?? tanding.tim?.nama_tim}
+                        </div>
+                    </>
+                ) : kontingen ? (
+                    <>
+                        <div className="text-gray-700 mb-2">
+                            <span className="font-semibold">
+                                Nama Kontingen:
+                            </span>{" "}
+                            {kontingen.name}
+                        </div>
+                        <div className="text-gray-700 mb-2">
+                            <span className="font-semibold">
+                                Penanggung Jawab:
+                            </span>{" "}
+                            {kontingen.penanggung_jawab}
+                        </div>
+                        <div className="text-gray-700 mb-2">
+                            <span className="font-semibold">
+                                Alamat Lengkap:
+                            </span>{" "}
+                            {kontingen.alamat_lengkap}
+                        </div>
+                    </>
+                ) : (
+                    <div className="text-gray-700">Data tidak tersedia.</div>
+                )}
             </div>
+
             <table className="w-full text-left mb-12">
                 <thead>
                     <tr>
@@ -206,31 +150,34 @@ export default function CheckoutPembayaran() {
                 <tbody>
                     <tr>
                         <td className="py-4 text-gray-700">
-                            Biaya Infak Wajib Peserta
+                            {tanding ? (
+                                "Biaya Infak Wajib Peserta"
+                            ) : (
+                                "Biaya Infak Wajib Organisasi"
+                            )}
                         </td>
                         <td className="py-4 text-gray-700">
-                            {new Intl.NumberFormat("id-ID", {
-                                style: "currency",
-                                currency: "IDR",
-                            }).format(tanding.kategori_tanding?.biaya)}
+                            {tanding
+                                ? new Intl.NumberFormat("id-ID", {
+                                      style: "currency",
+                                      currency: "IDR",
+                                  }).format(tanding.kategori_tanding?.biaya)
+                                : kontingen
+                                ? new Intl.NumberFormat("id-ID", {
+                                      style: "currency",
+                                      currency: "IDR",
+                                  }).format(kontingen.biaya)
+                                : null}
                         </td>
                     </tr>
                 </tbody>
             </table>
-            {/* <div className="flex justify-end mb-8">
-                <button
-                    onClick={handleSubmit}
-                    className="text-green-400 font-semibold border border-green-400 hover:text-white px-4 py-2 rounded-lg hover:bg-green-500 transition duration-150"
-                    disabled={processing}
-                >
-                    {processing ? "Memproses..." : "Bayar"}
-                </button>
-            </div> */}
+
             <div className="border-t-2 border-gray-300 pt-8 mb-8">
                 <div className="font-semibold mb-6">
-                    Bank BRI an. ROMADLON  3074-01016525-53
+                    Bank BRI an. ROMADLON 3074-01016525-53
                 </div>
-                <div className="ftext-gray-700 mb-6">
+                <div className="text-gray-700 mb-6">
                     Atau bisa menggunakan QRIS:
                     <img
                         src={qrCode}
@@ -244,7 +191,8 @@ export default function CheckoutPembayaran() {
                     berhak untuk mengikuti perlombaan.
                 </div>
                 <div className="text-gray-700 mb-2">
-                    Mohon konfirmasi pembayaran dan berikan Invoice ID yang ada di atas ke:
+                    Mohon konfirmasi pembayaran dan berikan Invoice ID yang ada
+                    di atas ke:
                 </div>
                 <div className="text-gray-700">
                     <a
