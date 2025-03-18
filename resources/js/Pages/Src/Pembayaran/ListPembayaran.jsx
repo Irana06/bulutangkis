@@ -6,12 +6,10 @@ import Swal from "sweetalert2";
 
 export default function ListPembayaran() {
     const { tanding, kontingen } = usePage().props;
-    console.log(kontingen);
     const [dropdownOpenIndex, setDropdownOpenIndex] = useState(null);
 
     const tandingColumns = [
         { key: "nama", label: "Nama" },
-        { key: "kontingen_nama", label: "Kontingen", hidden: true },
         { key: "jenis_tanding", label: "Jenis Tanding", hidden: true },
         { key: "kelompok_tanding", label: "Kelompok Tanding", hidden: true },
         { key: "umur", label: "Umur (Tahun)", hidden: true },
