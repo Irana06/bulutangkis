@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Tim\StoreRequest;
 use App\Models\Atlet;
+use App\Models\KategoriTanding;
 use App\Models\Tim;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -44,9 +45,12 @@ class TimController extends Controller
             })
             ->get(); // Pilih hanya kolom yang diperlukan
 
+        $kategoriTanding = KategoriTanding::all();
+
         return Inertia::render('Dashboard', [
             'child' => 'Tim/CreateEditTim',
             'atlet' => $atlet,
+            'kategoriTanding' => $kategoriTanding,
         ]);
     }
 

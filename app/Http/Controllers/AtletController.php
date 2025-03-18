@@ -96,6 +96,9 @@ class AtletController extends Controller
 
         $validatedData = $request->validated();
 
+        // Hitung umur berdasarkan tanggal_lahir
+        $validatedData['umur'] = now()->diffInYears($validatedData['tanggal_lahir']);
+
         $atlet->update($validatedData);
 
         // Simpan avatar jika ada
