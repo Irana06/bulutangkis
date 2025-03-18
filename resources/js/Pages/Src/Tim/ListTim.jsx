@@ -94,7 +94,7 @@ export default function ListTim() {
 
     return (
         <TableItems
-            title="Tim"
+            title="Tim Ganda"
             data={tableData}
             columns={columns}
             dropdownOpenIndex={dropdownOpenIndex}

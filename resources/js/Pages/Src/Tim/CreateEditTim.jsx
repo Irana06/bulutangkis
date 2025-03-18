@@ -13,7 +13,6 @@ export default function CreateEditTim() {
     const { data, setData, post, processing } = useForm({
         atlet_id_1: "",
         atlet_id_2: "",
-        nama_tim: "",
         jenis: "",
     });
 
@@ -119,14 +118,6 @@ export default function CreateEditTim() {
     return (
         <Section title="Buat Tim">
             <FormContainer onSubmit={handleSubmit} className="p-4">
-                <InputField
-                    label="Nama Tim"
-                    name="nama_tim"
-                    placeholder="Nama Tim"
-                    value={data.nama_tim}
-                    onChange={(e) => setData("nama_tim", e.target.value)}
-                    required
-                />
                 <div className="grid grid-cols-1 gap-4">
                     {/* Pilihan Jenis Tim */}
                     <SelectField

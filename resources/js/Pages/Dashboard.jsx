@@ -74,7 +74,7 @@ export default function Dashboard({ auth, child, childText }) {
                     <SidebarItem icon={<Users size={20} />} text="Peserta" />
                 </Link>
                 <Link href="/tim">
-                    <SidebarItem icon={<UserRoundCog size={20} />} text="Tim" />
+                    <SidebarItem icon={<UserRoundCog size={20} />} text="Tim Ganda" />
                 </Link>
                 <SidebarItem
                     icon={<LayoutDashboard size={20} />}
