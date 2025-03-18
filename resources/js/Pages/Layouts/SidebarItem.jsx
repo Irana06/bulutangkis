@@ -58,25 +58,25 @@ export default function Sidebar({ children, userData }) {
         <aside className="h-screen">
             <nav className="h-full flex flex-col bg-white border-r shadow-sm">
                 <div className="p-4 pb-2 flex justify-between items-center">
-                    {/* Logo */}
-                    <img
-                        src={logo}
-                        className={`overflow-hidden transition-all py-4 ${
-                            expanded ? "w-12" : "w-0"
-                        }`}
-                        alt="logo"
-                    />
+                    <a href="/home" className="flex items-center gap-2">
+                        {/* Logo */}
+                        <img
+                            src={logo}
+                            className={`overflow-hidden transition-all py-4 ${
+                                expanded ? "w-12" : "w-0"
+                            }`}
+                            alt="logo"
+                        />
 
-                    {/* Judul Sidebar */}
-                    <div className="flex flex-col text-center">
+                        {/* Judul Sidebar */}
                         <span
                             className={`overflow-hidden transition-all text-lg font-extrabold text-green-400 tracking-wide drop-shadow-lg ${
-                                expanded ? "" : "w-0"
+                                expanded ? "block" : "hidden"
                             }`}
                         >
                             LPO PDM Sleman
                         </span>
-                    </div>
+                    </a>
 
                     {/* Tombol Toggle */}
                     <button

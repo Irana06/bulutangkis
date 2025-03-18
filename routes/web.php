@@ -37,6 +37,13 @@ Route::middleware('auth')->group(function () {
         ]);
     })->name('home');
 
+    // Tutorial
+    Route::get('/tutorial', function () {
+        return Inertia::render('Dashboard', [
+            'child' => 'Tutorial'
+        ]);
+    })->name('tutorial');
+
     // Payment
     Route::post('/payment', [PaymentController::class, 'store'])->name('payment.store');
 

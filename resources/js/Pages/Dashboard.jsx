@@ -1,10 +1,11 @@
 import Sidebar, { SidebarItem } from "@/Pages/Layouts/SidebarItem";
 import {
     CalendarCheck,
+    ClipboardList,
     Dot,
     Headset,
-    LayoutDashboard,
-    UserRoundCog,
+    NotebookText,
+    UserPlus,
     Users,
     Wallet,
 } from "lucide-react";
@@ -23,6 +24,7 @@ import DetailPembayaran from "@/Pages/Src/Pembayaran/DetailPembayaran";
 import CheckoutPembayaran from "@/Pages/Src/Pembayaran/CheckoutPembayaran";
 import ListKonfirmasiPembayaran from "@/Pages/Src/Pembayaran/ListKonfirmasiPembayaran";
 import DetailBulkPembayaran from "@/Pages/Src/Pembayaran/DetailBulkPembayaran";
+import Tutorial from "@/Pages/Tutorial";
 
 // Mapping string ke komponen
 
@@ -31,6 +33,12 @@ export default function Dashboard({ auth, child, childText }) {
 
     const getChildComponent = (child) => {
         switch (child) {
+            case "Tutorial":
+                return (
+                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 pb-16 text-center lg:pt-8">
+                        <Tutorial />;
+                    </div>
+                );
             case "Peserta/ListPeserta":
                 return <ListPeserta />;
             case "Peserta/CreateEditPeserta":
@@ -68,16 +76,26 @@ export default function Dashboard({ auth, child, childText }) {
             <Sidebar userData={auth} className="w-64 fixed h-full">
                 <hr className="my-3 py-1" />
                 <span className="text-gray-400 text-sm font-semibold">
+                    Panduan
+                </span>
+                <Link href="/tutorial">
+                    <SidebarItem
+                        icon={<NotebookText size={20} />}
+                        text="Tutorial"
+                    />
+                </Link>
+                <hr className="my-3 py-1" />
+                <span className="text-gray-400 text-sm font-semibold">
                     Menu
                 </span>
                 <Link href="/peserta">
-                    <SidebarItem icon={<Users size={20} />} text="Peserta" />
+                    <SidebarItem icon={<UserPlus size={20} />} text="Peserta" />
                 </Link>
                 <Link href="/tim">
-                    <SidebarItem icon={<UserRoundCog size={20} />} text="Tim Ganda" />
+                    <SidebarItem icon={<Users size={20} />} text="Tim Ganda" />
                 </Link>
                 <SidebarItem
-                    icon={<LayoutDashboard size={20} />}
+                    icon={<ClipboardList size={20} />}
                     text="Tanding"
                     child={[
                         {

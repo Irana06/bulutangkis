@@ -1,8 +1,9 @@
 import React from "react";
+import Tutorial from "@/Pages/Tutorial";
 
 export default function Home({ userData }) {
     return (
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center lg:pt-32">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 pb-16 text-center lg:pt-16">
             <p className="mx-auto -mt-4 max-w-2xl text-lg tracking-tight text-slate-700 sm:mt-6">
                 Selamat Datang
                 <span className="border-b border-dotted border-slate-300 text-blue-700 font-semibold">
@@ -29,7 +30,7 @@ export default function Home({ userData }) {
                 <span className="inline-block"> Tournament</span>
             </h1>
 
-            <p className="mx-auto mt-9 max-w-2xl text-lg tracking-tight text-slate-700 sm:mt-6">
+            <p className="mx-auto mt-9 max-w-2xl text-lg tracking-tight text-slate-700 sm:mt-6 mb-24">
                 <span className="inline-block">
                     Semangat, kecepatan, dan strategi adalah kunci kemenangan!
                 </span>
@@ -37,6 +38,7 @@ export default function Home({ userData }) {
                     Siapkah kamu menjadi yang terbaik di turnamen ini?
                 </span>
             </p>
+            <Tutorial />
         </div>
     );
 }
