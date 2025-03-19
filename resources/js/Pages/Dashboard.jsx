@@ -171,7 +171,7 @@ export default function Dashboard({ auth, child, childText }) {
 
                         {/* Customer Service Icon */}
                         <a
-                            href="https://wa.me/6285725841667"
+                            href="https://wa.me/6287839370573"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="bg-blue-500 text-white p-3 rounded-full shadow-lg hover:bg-blue-600 transition duration-200 flex items-center justify-center"
